@@ -1,0 +1,82 @@
+.contador {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* border-radius: 5px; */
+  gap: 10px;
+  padding: 20px 0px;
+  /* outline: 1px solid black; */
+  border: 1px solid #cccccc;
+  transition: border .5s ease;
+  background-color: white;
+  /* box-shadow:
+             .5px .5px 0px 0px #7b7b7b,
+             -.5px -.5px 0px 0px #7b7b7b */
+}
+
+.contador:focus-within {
+  border: 1px solid #767677;
+}
+
+.customSelect{
+  background-color: #eceff1;
+  border: 1px solid transparent;
+  padding: 1px 5px;
+  transition: border .5s ease;
+}
+
+.customSelect:focus-visible{
+  outline: none;
+}
+
+.customSelect:focus-within {
+  border: 1px solid #767677;
+}
+
+.contadorControl {
+  /* outline: 1px solid rgba(128, 128, 128, .5); */
+  display: flex;
+  /* width: 50%; */
+  gap: 20px;
+  /* padding: 0 20px; */
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  transition: border .5s ease;
+  background-color: #eceff1;
+  min-width: 200px;
+}
+
+.contadorControl:focus-within {
+  border: 1px solid #767677;
+}
+
+.contadorControl > button {
+  font-size: 1.5rem;
+  color: rgb(109, 108, 108);
+  background-color: transparent;
+  border: none;
+  width: 20%;
+  width: 45px;
+}
+
+.contadorControl, .addCart, .contadorControl > button:hover {
+  cursor: pointer;
+}
+
+.addCart {
+  background-color: #3483fa;
+  color: white;
+  border-radius: 3px;
+  border: none;
+  padding: 5px 25px;
+  font-size: 1.1rem;
+  font-weight: 300;
+  outline: 1px solid rgba(128, 128, 128, .5);
+}
+
+@media screen and (max-width: 767px) {
+  .contador {
+    gap: 5px;
+  }
+}

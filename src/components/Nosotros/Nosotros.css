@@ -1,0 +1,69 @@
+.Nosotros {
+    min-height: calc(100vh - var(--navHeight));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    padding: 20px;
+    width: 100%;
+    position: relative;
+    background-color: rgba(0, 0, 0, 0.779);
+}
+
+.nosotros-logoContainer {
+    width: 50%;
+}
+
+.nosotros-logo {
+    width: 100%;
+}
+
+.nosotros-text > p{
+    color: white;
+    font-size: 19px;
+    font-weight: 500;
+}
+
+.nosotros-title{
+    font-family: "harryp", 'Benne';
+    color: var(--colorSecondary);
+    margin-bottom: 10px;
+}
+
+.nosotros_img{
+    object-fit: cover;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: -1;
+}
+
+@media (max-width: 767px) {
+    .Nosotros {
+        flex-direction: column;
+        gap: 0px;
+    }
+
+    .nosotros-logoContainer {
+        width: 120px;
+    }
+
+    .nosotros-text > p{
+        color: white;
+        font-size: 17px;
+    }
+}
+
+@media (max-width: 421px) {
+    .nosotros-logoContainer {
+        width: 70px;
+    }
+
+    .nosotros-text > p{
+        font-size: 15px;
+    }
+}

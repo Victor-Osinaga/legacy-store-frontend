@@ -1,0 +1,136 @@
+/* @font-face {
+    font-family: "harryp";
+    src: url("../../../harryp.ttf");
+} */
+  
+
+#footer{
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 20px;
+    width: 100%;
+    min-height: 100vh;
+    height: 100%;
+    /* height: 100vh; */
+    position: relative;
+      
+}
+
+.footer_tltle{
+    /* font-size: 35px; */
+    font-size: 65px;
+    font-family: "harryp", sans-serif;
+    color: var(--colorSecondary)
+}
+
+.footer_subtitle{
+    font-size: 28px;
+}
+
+.footer_social{
+    /* font-size: 14px; */
+    font-size: 18px;
+}
+
+.list_title{
+    margin-bottom: 5px;
+    font-family: "harryp", sans-serif;
+    color: var(--colorSecondary);
+    text-align: center;
+}
+
+.footer_social a:hover{
+    text-decoration: underline;
+}
+
+.footer_container{
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    width: 80%;
+    height: 60%;
+    margin: auto;
+    /* background-color: red; */
+}
+
+.footer_social{
+    justify-content: space-around;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    /* gap: 65px; */
+}
+
+.socialA{
+    text-decoration: none;
+    color: white;
+    /* background-color: red; */
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+/* .social_ul{
+    background-color: red;
+} */
+
+.iconLink{
+    margin-right: 5px;
+}
+
+.footer_wp{
+    color: white;
+    text-decoration: underline;
+}
+
+.footer_info a{
+    color: white;
+    color: var(--colorSecondary);
+}
+
+.footer_bg{
+    background-color: red;
+}
+
+.footer_img{
+    object-fit: cover;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: -1;
+}
+
+@media screen and (max-width: 767px) {
+    #footer{
+        padding: 20px 10px;
+    }
+
+    .footer_social{
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        align-items: center;
+    }
+
+    .footer_container{
+        gap: 25px;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        /* background-color: red; */
+    }
+}
+
+@media (max-width: 421px) {
+    .nosotros-logoContainer{
+        width: 70px;
+    }
+}

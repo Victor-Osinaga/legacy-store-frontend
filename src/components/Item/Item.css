@@ -1,0 +1,125 @@
+.itemContainer {
+  padding: 10px 1px;
+  height: 450px;
+  width: 280px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 5px;
+  background: white;
+  outline: 1px solid #cccccc;
+  transition: outline .5s ease;
+  background-color: white;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  overflow: hidden;
+  position: relative;
+}
+
+.itemContainer:hover {
+  outline: 1px solid #767677;
+}
+
+.item__stock{
+  color: white;
+  /* background-color: var(--colorSecondary); */
+  background-color: rgba(0, 0, 0, 0.554);
+  padding: 0px 5px;
+  font-weight: 600;
+  font-size: .8rem;
+}
+
+.itemTitulo{
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.itemImgContainer {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.itemImg {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.itemPrecio{
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: green;
+}
+
+.btn__vermas {
+  /* margin-top: 10px; */
+  /* border-radius: 5px; */
+  border: none;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  /* font-weight: bold; */
+  font-size: 1rem;
+  /* background: #732D4D; */
+  background: var(--colorSecondary);
+  /* padding: 5px 10px; */
+  color: white;
+  transition: color .5s ease;
+  height: 50px;
+}
+
+.btn__vermas:hover {
+  cursor: pointer;
+  color: black;
+}
+
+.consulta{
+  font-size: .8rem;
+}
+.consulta:hover{
+  text-decoration: underline;
+}
+
+.item__logoWp{
+  width: 18px;
+  height: 18px;
+  /* background-color: red; */
+}
+
+@media screen and (max-width: 767px) {
+
+  .itemContainer {
+    height: 350px;
+    width: 200px;
+  }
+
+  .itemImgContainer {
+    /* height: 200px; */
+    width: 60%;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .itemContainer {
+    height: 300px;
+    width: 150px;
+  }
+
+  .btn__vermas {
+    font-size: 14px;
+    margin-top: 0px;
+    border-radius: 3px;
+    border: none;
+    /* background: #732D4D; */
+    background: var(--colorSecondary);
+    /* padding: 5px 10px; */
+    color: white;
+  }
+}
+
+/* @media screen and (max-width: 480px) {
+  
+} */

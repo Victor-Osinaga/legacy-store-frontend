@@ -1,0 +1,30 @@
+.nav__CartSvgContainer{
+  display: flex;
+  /* gap: 5px; */
+  position: relative;
+}
+
+.cartIcon {
+  color: black;
+  font-size: var(--iconSize);
+}
+
+.nav__CartSvgContainer:hover .cartIcon {
+  color: var(--colorSecondary);
+  cursor: pointer;
+}
+
+.nav__CartSvgContainer > span {
+  position: absolute;
+  left: 75%;
+  bottom: 30%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.3rem;
+  height: 1.3rem;
+  /* background-color: rgba(255, 255, 255, 1); */
+  background-color: black;
+  color: white;
+  border-radius: 50%;
+}

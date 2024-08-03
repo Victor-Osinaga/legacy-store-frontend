@@ -1,0 +1,281 @@
+.itemDetail {
+  min-height: 514px;
+  /* min-height: calc(100vh - var(--navHeight)); */
+  max-width: 95vw;
+  padding: 20px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  align-items: center;
+  justify-content: center;
+}
+
+.detailTitle {
+  position: relative;
+  font-size: 39px;
+  color: var(--colorSecondary);
+  font-family: 'harryp', 'Poppins', 'sans-serif';
+}
+
+.itemDetail h3 {
+  grid-column: span 5;
+}
+
+.itemDetail .itemDetailLeft {
+  grid-column: span 2;
+  /* box-shadow: .5px 0px #96305A; */
+  box-shadow: .5px 0px #cccccc;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.itemDetail .itemDetailImg {
+  object-fit: cover;
+  width: 50%;
+}
+
+.itemDetail .itemDetailRight {
+  padding-left: 20px;
+  /* box-shadow: -1px 0px gray; */
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  grid-column: span 3;
+}
+
+.itemDetailPrecio {
+  font-size: 2rem;
+  font-weight: 400;
+}
+
+.seguirComprando {
+  padding: 8px 15px;
+  background-color: rgb(0, 93, 180);
+  border-radius: 5px;
+  color: white;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.seguirComprando:hover {
+  cursor: pointer;
+}
+
+.toCart {
+  border-radius: 5px;
+  padding: 8px 15px;
+  background: var(--colorSecondary);
+  color: white;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.actionsContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.glitch2 {
+  /* background: rgb(212, 212, 212); */
+  color: var(--colorSecondary);
+  font-size: 30px;
+  position: relative;
+  min-width: 400px;
+  margin: 0 auto;
+}
+
+@keyframes noise-anim {
+  0% {
+    clip: rect(57px, 9999px, 40px, 0);
+  }
+  5% {
+    clip: rect(78px, 9999px, 22px, 0);
+  }
+  10% {
+    clip: rect(27px, 9999px, 85px, 0);
+  }
+  15% {
+    clip: rect(90px, 9999px, 93px, 0);
+  }
+  20% {
+    clip: rect(92px, 9999px, 4px, 0);
+  }
+  25% {
+    clip: rect(93px, 9999px, 22px, 0);
+  }
+  30% {
+    clip: rect(88px, 9999px, 98px, 0);
+  }
+  35% {
+    clip: rect(88px, 9999px, 61px, 0);
+  }
+  40% {
+    clip: rect(44px, 9999px, 83px, 0);
+  }
+  45% {
+    clip: rect(16px, 9999px, 10px, 0);
+  }
+  50% {
+    clip: rect(38px, 9999px, 33px, 0);
+  }
+  55% {
+    clip: rect(17px, 9999px, 48px, 0);
+  }
+  60% {
+    clip: rect(74px, 9999px, 22px, 0);
+  }
+  65% {
+    clip: rect(88px, 9999px, 11px, 0);
+  }
+  70% {
+    clip: rect(56px, 9999px, 21px, 0);
+  }
+  75% {
+    clip: rect(42px, 9999px, 54px, 0);
+  }
+  80% {
+    clip: rect(74px, 9999px, 26px, 0);
+  }
+  85% {
+    clip: rect(62px, 9999px, 88px, 0);
+  }
+  90% {
+    clip: rect(88px, 9999px, 40px, 0);
+  }
+  95% {
+    clip: rect(65px, 9999px, 60px, 0);
+  }
+  100% {
+    clip: rect(3px, 9999px, 43px, 0);
+  }
+}
+.glitch2:after {
+  content: attr(data-text);
+  position: absolute;
+  left: 30%;
+  text-shadow: -1px 0 red;
+  top: 0;
+  color: var(--colorSecondary);
+  /* background: rgb(212, 212, 212); */
+  overflow: hidden;
+  clip: rect(0, 900px, 0, 0);
+  animation: noise-anim 2s infinite linear alternate-reverse;
+}
+
+@keyframes noise-anim-2 {
+  0% {
+    clip: rect(59px, 9999px, 93px, 0);
+  }
+  5% {
+    clip: rect(100px, 9999px, 51px, 0);
+  }
+  10% {
+    clip: rect(48px, 9999px, 29px, 0);
+  }
+  15% {
+    clip: rect(84px, 9999px, 22px, 0);
+  }
+  20% {
+    clip: rect(99px, 9999px, 47px, 0);
+  }
+  25% {
+    clip: rect(60px, 9999px, 88px, 0);
+  }
+  30% {
+    clip: rect(11px, 9999px, 97px, 0);
+  }
+  35% {
+    clip: rect(100px, 9999px, 27px, 0);
+  }
+  40% {
+    clip: rect(4px, 9999px, 8px, 0);
+  }
+  45% {
+    clip: rect(28px, 9999px, 85px, 0);
+  }
+  50% {
+    clip: rect(40px, 9999px, 100px, 0);
+  }
+  55% {
+    clip: rect(69px, 9999px, 97px, 0);
+  }
+  60% {
+    clip: rect(54px, 9999px, 33px, 0);
+  }
+  65% {
+    clip: rect(65px, 9999px, 34px, 0);
+  }
+  70% {
+    clip: rect(95px, 9999px, 33px, 0);
+  }
+  75% {
+    clip: rect(87px, 9999px, 2px, 0);
+  }
+  80% {
+    clip: rect(13px, 9999px, 76px, 0);
+  }
+  85% {
+    clip: rect(79px, 9999px, 81px, 0);
+  }
+  90% {
+    clip: rect(60px, 9999px, 27px, 0);
+  }
+  95% {
+    clip: rect(38px, 9999px, 66px, 0);
+  }
+  100% {
+    clip: rect(24px, 9999px, 68px, 0);
+  }
+}
+.glitch2:before {
+  content: attr(data-text);
+  position: absolute;
+  left: 28.5%;
+  text-shadow: 1px 0 blue;
+  top: 0;
+  color: var(--colorSecondary);
+  /* background: rgb(212, 212, 212); */
+  overflow: hidden;
+  clip: rect(0, 900px, 0, 0);
+  animation: noise-anim-2 3s infinite linear alternate-reverse;
+}
+
+@media screen and (max-width: 767px) {
+  .itemDetail {
+    grid-template-columns: 1fr;
+  }
+
+  .itemDetail h3 {
+    grid-column: span 1;
+  }
+
+  .itemDetail .itemDetailLeft {
+    grid-column: span 1;
+    padding-bottom: 10px;
+    /* box-shadow: 0px .5px #96305A; */
+    box-shadow: .5px 0px var(--colorSecondary);
+    margin-bottom: 0px;
+  }
+
+  .itemDetail .itemDetailImg {
+    object-fit: cover;
+    width: 50%;
+  }
+
+  .itemDetail .itemDetailRight {
+    padding-left: 0px;
+    grid-column: span 1;
+    gap: 5px;
+    /* background-color: red; */
+  }
+
+  .itemDetailPrecio {
+    font-size: 1.5rem;
+  }
+
+}

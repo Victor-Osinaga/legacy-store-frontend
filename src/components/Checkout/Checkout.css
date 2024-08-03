@@ -1,0 +1,16 @@
+.checkout {
+  min-height: 100vh;
+  padding: 40px;
+  background-color: var(--bgMain);
+}
+
+.svg_plus {
+  width: 20px;
+  height: 20px;
+}
+
+@media screen and (max-width: 767px) {
+  .checkoutFormContainer {
+    width: 80%;
+  }
+}

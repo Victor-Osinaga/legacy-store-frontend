@@ -1,0 +1,542 @@
+#nav {
+  background-color: white;
+  width: 100%;
+  top: 0;
+  /* z-index: 6; */
+  color: black;
+  position: relative;
+  box-shadow: 0px 5px 12px 3px rgba(255,255,255,1);
+}
+
+/* primer fila */
+.nav__avisosContainer {
+  min-height: 40px;
+  background-color: black;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: .75rem;
+}
+
+.nav__aviso {
+  position: absolute;
+  animation: roll 6s ease 0s infinite backwards;
+}
+
+.nav__aviso:nth-child(1) {
+  animation-delay: 0s;
+  opacity: 0;
+}
+
+.nav__aviso:nth-child(2) {
+  animation-delay: 3s;
+  opacity: 0;
+}
+
+@keyframes roll {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -70%, 0);
+  }
+
+  2.5%,
+  35% {
+    opacity: 1;
+    transform: translateZ(0);
+  }
+
+  37.5%,
+  100% {
+    opacity: 0;
+    transform: translate3d(0, 70%, 0);
+  }
+}
+
+/* SEGUNDO CONTAINER */
+
+.nav__mainContainer {
+  /* el relative para modificar el submenu de cada categoria */
+  position: relative;
+  padding: 0 40px;
+  margin: 0 auto;
+}
+
+/* SEGUNDO CONTAINER - PRIMER FILA - LINKS DE AYUDAS */
+
+.nav__mainAyudasContainer {
+  font-size: .75rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 3px 0px;
+  gap: 10px;
+  height: 32px;
+}
+
+.nav__mainAyudasContainer li a:hover {
+  text-decoration: underline;
+}
+
+/* SEGUNDO CONTAINER - SEGUNDA FILA - MAIN LINKS (LOGO, INPUT, LOGIN, CART)*/
+.nav__mainLinksContainer {
+  /* position: relative; */
+  /* overflow: hidden; */
+  display: grid;
+  align-items: center;
+  grid-template-columns: 2fr 5fr 2fr;
+}
+
+/* LOGO */
+.nav__LogoSvgContainer {
+  position: relative;
+  /* display: flex; */
+  animation-name: rotacion;
+  animation-duration: 1.5s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  width: 3.5rem;
+}
+
+#nav__LogoSvg {
+  /* width: 2.8rem; */
+  width: inherit;
+}
+
+/* .nav__LogoSvgContainer::after {
+  content: "JARRY";
+  color: black;
+  position: absolute;
+  right: 110%;
+  top: 25%;
+  
+  /* animation-name: rotacion;
+  animation-duration: 1.5s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  font-weight: 500; 
+} */
+
+/* .nav__LogoSvgContainer::before {
+  content: "INDUM";
+  color: black;
+  position: absolute;
+  left: 110%;
+  top: 25%;
+  /* animation-name: rotacion;
+  animation-duration: 1.5s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  font-weight: 500; 
+} */
+
+@keyframes rotacion {
+  0% {
+    transform: rotate3d(0);
+  }
+
+  50% {
+    transform: rotate3d(0, 1, 0, 90deg);
+  }
+
+  100% {
+    transform: rotate3d(0);
+  }
+}
+
+/* INPUT */
+
+.nav__mainFormContainer {
+  /* width: 200px; */
+  display: flex;
+  align-items: center;
+  padding: 0 5px;
+  background-color: #eceff1;
+  border: 1px solid transparent;
+  transition: border .5s ease;
+  height: 2rem;
+}
+
+.nav__mainFormContainer:focus-within {
+  border: 1px solid #767677;
+}
+
+.nav__mainFormIcon {
+  margin: 0 10px 0 0;
+}
+
+#nav__input {
+  display: flex;
+  font-size: 0.75rem;
+  background-color: transparent;
+  border: none;
+}
+
+#nav__input:focus {
+  outline: none;
+}
+
+/* CATEGORIAS */
+.nav__mainCategoriasContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  height: 100%;
+}
+
+.nav_mainCategory {
+  height: 100%;
+}
+
+.nav_mainCategory>a {
+  font-size: .9rem;
+  font-weight: 600;
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5px;
+  border-bottom: 1px solid transparent;
+}
+
+.nav_mainCategory>a:hover {
+  border-bottom: 1px solid black;
+}
+
+.nav_mainSub {
+  border-top: 1px solid #eceff1;
+  border-bottom: 1px solid #eceff1;
+  background-color: white;
+  display: grid;
+  /* grid-auto-flow: column; */
+  /* gap-row: 60px; */
+  width: 100%;
+  grid-template-columns: repeat(6, 1fr);
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 50vh;
+  transition: z-index 0s ease;
+  z-index: -100;
+  padding: 0px 5vw;
+}
+
+.nav_mainSub li {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 30px 10px 30px 20px;
+}
+
+.nav_mainSub li:nth-child(1) {
+  border-right: 1px solid #eceff1;
+  border-bottom: 1px solid #eceff1;
+}
+
+/* .nav_mainSub li:nth-child(7){
+  border-right: 1px solid #eceff1;
+} */
+
+.nav_mainSub li>a {
+  margin-bottom: 5px;
+  font-size: .9rem;
+  font-weight: 600;
+}
+
+.nav_mainSub li>a:hover {
+  text-decoration: underline;
+}
+
+.nav_categFromSubcategory a {
+  /* color: red; */
+  /* margin-bottom: 5px; */
+  font-size: .85rem;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.nav_categFromSubcategory a:hover {
+  text-decoration: underline;
+}
+
+/* LINKS AUXILIARES */
+.nav_auxiliaryContainer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.nav__MenuSvg {
+  display: flex;
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+.nav__MenuSvg:hover {
+  cursor: pointer;
+}
+
+/* icon LOGIN, LOGOUT */
+.nav__iconLoginContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 48px;
+}
+
+.nav__iconLogin {
+  font-size: var(--iconSize);
+  color: green;
+}
+
+.nav__iconLogoutContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 48px;
+}
+
+.nav__iconLogout {
+  font-size: var(--iconSize);
+  color: red;
+}
+
+/* cart ICON */
+
+.nav__cartIconContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 48px;
+  position: relative;
+}
+
+.nav__cartIconContainer:hover .nav_iconCart {
+  color: var(--colorSecondary);
+}
+
+.nav__cartIconContainer>span {
+  font-size: .8rem;
+  position: absolute;
+  left: 50%;
+  bottom: 45%;
+  width: 1.3rem;
+  height: 1.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.62);
+  color: white;
+  border-radius: 50%;
+}
+
+.nav__MenuSvgContainer{
+  display: none;
+}
+
+/* BURGUER MOBILE */
+.nav__burguerIconOpenContainer,
+.nav__burguerIconCloseContainer {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  padding: 2px;
+  /* height: 25px; */
+  /* padding: 5px; */
+  border-radius: 3px;
+  /* border: 1px solid black; */
+}
+
+@media screen and (max-width: 767px) {
+  .nav__MenuSvgContainer{
+    display: flex;
+    /* margin-left: 10px; */
+    width: min-content;
+    padding: 0 10px;
+  }
+
+  .nav__MenuSvgContainerClose{
+    display: flex;
+    width: 100%;
+    justify-content: flex-start;
+    height: 40px;
+    padding-left: 20px;
+  }  
+
+  .nav__mainContainer {
+    padding: 0px;
+  }
+
+  .nav__avisosContainer {
+    font-size: .7rem;
+  }
+
+  .nav__mainAyudasContainer {
+    font-size: .7rem;
+    gap: 5px;
+    justify-content: center;
+  }
+
+  .nav__mainLinksContainer {
+    /* position: relative; */
+    /* overflow: hidden; */
+    /* display: grid; */
+    grid-template-columns: 2fr 5fr 2fr;
+  }
+
+  .nav__mainFormContainer{
+    display: none;
+  }
+
+  .nav__mainCategoriasContainer {
+    flex-direction: column;
+    position: fixed;
+    /* min-height: calc(100vh - var(--navHeight)); */
+    min-height: 100vh;
+    width: 100%;
+    justify-content: flex-start;
+    transition: transform .5s ease;
+    top: 0;
+    bottom: 0;
+    transform: translateX(-100vw);
+    /* transform: translateY(100%); */
+    z-index: 1000;
+    overflow: auto;
+  }
+
+  .expanded {
+    transform: translateX(0vw);
+  }
+
+  .nav_auxiliaryContainer{
+    /* grid-column: 3/4; */
+    padding-right: 10px;
+  }
+
+  .nav__burguerIconOpenContainer,
+  .nav__burguerIconCloseContainer {
+    position: relative;
+    /* z-index: 5000; */
+    display: flex;
+  }
+
+  .nav__LogoSvgContainer {
+    /* grid-column: 2/3; */
+    margin: 0 auto;
+    width: 2.5rem;
+  }
+
+  .nav__LogoSvgContainer::after {
+    content: "JARRY";
+    color: white;
+    position: absolute;
+    right: 110%;
+    /* top: 30%; */
+    /* animation-name: rotacion; */
+    animation-duration: 1.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    font-weight: 500;
+    font-size: 0.65rem;
+  }
+
+  .nav__LogoSvgContainer::before {
+    content: "INDUM";
+    color: white;
+    position: absolute;
+    left: 110%;
+    /* top: 30%; */
+    /* animation-name: rotacion; */
+    animation-duration: 1.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    font-weight: 500;
+    font-size: 0.65rem;
+  }
+
+  .nav_mainSub{
+    position: relative;
+    top: 0;
+    border-top: 1px solid #eceff1;
+  border-bottom: 1px solid #eceff1;
+  background-color: white;
+  display: flex;
+  width: 100%;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 0px 5vw;
+  height: auto;
+  }
+
+  .nav_mainCategory{
+    /* border-top: 1px solid #eceff1; */
+    border-bottom: 1px solid #eceff1;
+    height: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    /* padding: 10px 0; */
+  }
+  /* .nav_mainCategory li{
+    width: 100%;
+  } */
+
+  .nav_mainSub li{
+    padding: 20px 0px;
+    height: auto;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .nav_mainSub li:nth-child(1) {
+    border-right: 1px solid #eceff1;
+    border-left: 1px solid #eceff1;
+    border-bottom: 1px solid #eceff1;
+  }
+  .nav_mainSub a{
+    height: 40px;
+    width: 100%;
+    
+  }
+  
+
+  .nav_mainCategory>a {
+    height: 40px;
+    width: 100%;
+  }
+
+  .nav_categFromSubcategory{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .nav_categFromSubcategory a {
+    height: 40px;
+    justify-content: center;
+    width: 100%;
+  }
+}
+
+@media (max-width: 421px) {
+  .nav__mainContainer {
+    padding: 0px;
+  }
+
+  .nav__mainAyudasContainer {
+    font-size: .7rem;
+    gap: 1px;
+    justify-content: center;
+  }
+
+  .nav__LogoSvgContainer {
+    width: 2rem;
+  }
+}

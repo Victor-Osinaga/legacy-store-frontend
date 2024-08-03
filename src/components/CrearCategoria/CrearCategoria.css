@@ -1,0 +1,12 @@
+.crearCategoria{
+    background-color: white;
+    min-height: 100vh;
+}
+
+.nameCategoryContainer{
+    margin-bottom: 20px;
+}
+
+.nameSubCategoryContainer{
+    margin-bottom: 20px;
+}

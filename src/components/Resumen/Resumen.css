@@ -1,0 +1,134 @@
+.ResumenView {
+    justify-content: center;
+    min-height: calc(100vh - var(--navHeight));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--bgMain);
+  }
+  
+  .itemResumenContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 15px;
+  }
+
+  .titleMainResumen{
+    grid-column: span 4;
+  }
+  
+  .infoFinalResumen {
+    grid-column: span 4;
+  }
+  
+  .itemResumen {
+    outline: 1px solid #cccccc;
+    transition: outline .5s ease;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    flex-direction: column;
+    padding: 10px;
+    border-radius: 3px;
+    min-width: 270px;
+    min-height: 300px;
+
+  }
+
+  .itemResumen:hover {
+    outline: 1px solid #767677;
+  }
+  
+  .itemResumenDescription {
+    display: flex;
+    text-align: start;
+    gap: 15px;
+    align-items: center;
+  }
+  
+  .itemDescr1Resumen img {
+    width: 120px;
+  }
+  
+  .itemDescr2Resumen {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .btnComprarResumen {
+    border-radius: 5px;
+    border: none;
+    background: green;
+    padding: 5px 10px;
+    color: white;
+    width: 100%;
+    height: 50px;   
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .btnComprarResumen, .precioFinalResumen {
+    margin-bottom: 10px;
+  }
+  
+  .btnComprarResumen {
+    cursor: pointer;
+  }
+
+  .datosEnvioContainerResumen{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    align-items: flex-start;
+    margin-bottom: 10px;
+  }
+  
+  
+  @media screen and (max-width: 1200px) {
+    .itemResumenContainer {
+      grid-template-columns: 3fr;
+    }
+  
+    .infoFinalResumen {
+      grid-column: span 3;
+    }
+
+    .titleMainResumen{
+      grid-column: span 3;
+    }
+  }
+  
+  @media screen and (max-width: 767px) {
+  
+    .itemResumenContainer {
+      grid-template-columns: 2fr;
+    }
+  
+    .infoFinalResumen {
+      grid-column: span 2;
+    }
+
+    .titleMainResumen{
+      grid-column: span 2;
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+  
+    .itemResumenContainer {
+      grid-template-columns: 1fr;
+    }
+  
+    .infoFinalResumen {
+      grid-column: span 1;
+    }
+
+    .titleMainResumen{
+      grid-column: span 1;
+    }
+  }

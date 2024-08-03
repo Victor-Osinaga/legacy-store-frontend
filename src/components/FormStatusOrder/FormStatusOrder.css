@@ -1,0 +1,4 @@
+.formStatusOrderContainer{
+    min-height: calc(100vh - var(--navHeight));
+    background-color: var(--bgMain);
+}

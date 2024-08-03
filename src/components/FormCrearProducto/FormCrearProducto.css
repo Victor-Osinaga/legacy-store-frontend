@@ -1,0 +1,443 @@
+/* #crear{
+    min-height: calc(100vh - var(--navHeight));
+    width: 100%;
+}
+
+.crearContainer{
+    display: flex;
+    width: 80%;
+    min-height: 100%;
+    background-color: red;
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+}
+
+.preview{
+    width: 40%;
+    height: 100%;
+    background-color: aqua;
+}
+
+.formCrear{
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    height: 100%;
+}
+
+.formCrear > form{
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    text-align: start;
+}
+ */
+
+
+ #crear {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* min-height: 100vh; */
+    /* background-color: red; */
+    min-height: calc(100vh - (var(--navHeight)));
+    padding: 25px 0;
+}
+
+.section_title-crear {
+    width: 100%;
+    /* margin: 15px 0; */
+    font-size: xx-large;
+    text-align: center;
+    background-color: #f8f9fa
+}
+
+.main-crear {
+    box-shadow: 0px 0px 35px 15px rgba(0, 0, 0, 0.28);
+    -webkit-box-shadow: 0px 0px 35px 15px rgba(0, 0, 0, 0.28);
+    -moz-box-shadow: 0px 0px 35px 15px rgba(0, 0, 0, 0.28);
+    color: rgb(71, 71, 71);
+    /* outline: 1px solid white; */
+    /* width: 80%; PARA CUANDO ESTE MAIN LEFT */
+    width: 70%;
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    /* background-color: red; */
+    background-color: #f8f9fa;
+    /* height: 100%; */
+    padding: 20px 0px;
+    justify-content: center;
+}
+
+
+.main_left-crear {
+    width: 41.7%;
+    height: 100%;
+    /* background: rgb(255, 192, 203); */
+    color: white;
+}
+
+.main_left_cont-crear {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* padding: 10px; */
+    padding: 10px 25px;
+}
+
+.main_right-crear {
+    /* width: calc(100% - 41.7%); PARA CUAANDO ESTE EL MAIN LEFT*/
+    width: 100%;
+    height: 100%;
+    /* background-color: red; */
+    background-color: #f8f9fa;
+}
+
+.main_right_cont-crear {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0px 35px;
+    /* background-color: aqua; */
+}
+
+.form-group-crear {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+
+.form-group-crear>input {
+    display: flex;
+    width: 100%;
+    height: 25px;
+    background-color: white;
+    border-radius: 2px;
+    padding-left: 7px;
+    color: gray;
+    outline: none;
+    border: none;
+    box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.2);
+    -webkit-box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.2);
+}
+
+.start_login-crear {
+    color: white;
+    /* background-color: rgb(255, 192, 203); */
+    background-color: var(--colorSecondary);
+    border: none;
+    padding: 10px 0;
+    width: 100%;
+    margin: 0 auto;
+    transition: box-shadow 1s ease;
+}
+
+.start_login-crear:hover {
+    cursor: pointer;
+    box-shadow: 0px 0px 15px 5px rgba(0, 0, 0, 0.28);
+    -webkit-box-shadow: 0px 0px 15px 5px rgba(0, 0, 0, 0.28);
+    -moz-box-shadow: 0px 0px 15px 5px rgba(0, 0, 0, 0.28);
+}
+
+.img_login-crear {
+    max-width: 30%;
+    border-radius: 8px;
+}
+
+
+.div1-crear {
+    position: absolute;
+    left: 0;
+    width: 43.36%;
+    height: 100%;
+    background: rgb(62, 62, 62);
+    z-index: -1;
+}
+
+.div2-crear {
+    position: absolute;
+    right: 0;
+    width: calc(100% - 43.36%);
+    height: 100%;
+    background: white;
+    z-index: -1;
+}
+
+#resultLogin{
+    display: flex;
+    justify-content: center;
+    height: 30px;
+    width: 100%;
+    color: red;
+    /* background-color: red; */
+}
+
+.sesionComprobando{
+    color: gray;
+}
+.sesionExitoso{
+    color: green;
+}
+.sesionFallido{
+    color: red;
+}
+
+.glitchLogin-crear {
+    background-color: #f8f9fa;
+    text-align: center;
+    font-size: xx-large;
+    width: 100%;
+    text-align: center;
+    color: black;
+    /* font-size: 30px; */
+    position: relative;
+    margin: 0 auto;
+}
+
+.failure{
+    color: red;
+}
+.success{
+    color: green;
+}
+
+@keyframes noise-anim {
+    0% {
+        clip: rect(57px, 9999px, 40px, 0);
+    }
+
+    5% {
+        clip: rect(78px, 9999px, 22px, 0);
+    }
+
+    10% {
+        clip: rect(27px, 9999px, 85px, 0);
+    }
+
+    15% {
+        clip: rect(90px, 9999px, 93px, 0);
+    }
+
+    20% {
+        clip: rect(92px, 9999px, 4px, 0);
+    }
+
+    25% {
+        clip: rect(93px, 9999px, 22px, 0);
+    }
+
+    30% {
+        clip: rect(88px, 9999px, 98px, 0);
+    }
+
+    35% {
+        clip: rect(88px, 9999px, 61px, 0);
+    }
+
+    40% {
+        clip: rect(44px, 9999px, 83px, 0);
+    }
+
+    45% {
+        clip: rect(16px, 9999px, 10px, 0);
+    }
+
+    50% {
+        clip: rect(38px, 9999px, 33px, 0);
+    }
+
+    55% {
+        clip: rect(17px, 9999px, 48px, 0);
+    }
+
+    60% {
+        clip: rect(74px, 9999px, 22px, 0);
+    }
+
+    65% {
+        clip: rect(88px, 9999px, 11px, 0);
+    }
+
+    70% {
+        clip: rect(56px, 9999px, 21px, 0);
+    }
+
+    75% {
+        clip: rect(42px, 9999px, 54px, 0);
+    }
+
+    80% {
+        clip: rect(74px, 9999px, 26px, 0);
+    }
+
+    85% {
+        clip: rect(62px, 9999px, 88px, 0);
+    }
+
+    90% {
+        clip: rect(88px, 9999px, 40px, 0);
+    }
+
+    95% {
+        clip: rect(65px, 9999px, 60px, 0);
+    }
+
+    100% {
+        clip: rect(3px, 9999px, 43px, 0);
+    }
+}
+
+.glitchLogin-crear:after {
+    content: attr(data-text);
+    position: absolute;
+    left: 42%;
+    text-shadow: -1px 0 red;
+    top: 0;
+    color: black;
+    background: #f8f9fa;
+    overflow: hidden;
+    clip: rect(0, 900px, 0, 0);
+    animation: noise-anim 2s infinite linear alternate-reverse;
+}
+
+@keyframes noise-anim-2 {
+    0% {
+        clip: rect(59px, 9999px, 93px, 0);
+    }
+
+    5% {
+        clip: rect(100px, 9999px, 51px, 0);
+    }
+
+    10% {
+        clip: rect(48px, 9999px, 29px, 0);
+    }
+
+    15% {
+        clip: rect(84px, 9999px, 22px, 0);
+    }
+
+    20% {
+        clip: rect(99px, 9999px, 47px, 0);
+    }
+
+    25% {
+        clip: rect(60px, 9999px, 88px, 0);
+    }
+
+    30% {
+        clip: rect(11px, 9999px, 97px, 0);
+    }
+
+    35% {
+        clip: rect(100px, 9999px, 27px, 0);
+    }
+
+    40% {
+        clip: rect(4px, 9999px, 8px, 0);
+    }
+
+    45% {
+        clip: rect(28px, 9999px, 85px, 0);
+    }
+
+    50% {
+        clip: rect(40px, 9999px, 100px, 0);
+    }
+
+    55% {
+        clip: rect(69px, 9999px, 97px, 0);
+    }
+
+    60% {
+        clip: rect(54px, 9999px, 33px, 0);
+    }
+
+    65% {
+        clip: rect(65px, 9999px, 34px, 0);
+    }
+
+    70% {
+        clip: rect(95px, 9999px, 33px, 0);
+    }
+
+    75% {
+        clip: rect(87px, 9999px, 2px, 0);
+    }
+
+    80% {
+        clip: rect(13px, 9999px, 76px, 0);
+    }
+
+    85% {
+        clip: rect(79px, 9999px, 81px, 0);
+    }
+
+    90% {
+        clip: rect(60px, 9999px, 27px, 0);
+    }
+
+    95% {
+        clip: rect(38px, 9999px, 66px, 0);
+    }
+
+    100% {
+        clip: rect(24px, 9999px, 68px, 0);
+    }
+}
+
+.glitchLogin-crear:before {
+    content: attr(data-text);
+    position: absolute;
+    left: 42%;
+    text-shadow: 1px 0 blue;
+    top: 0;
+    color: black;
+    background: #f8f9fa;
+    overflow: hidden;
+    clip: rect(0, 900px, 0, 0);
+    animation: noise-anim-2 3s infinite linear alternate-reverse;
+}
+
+/* .styleToastCreateProduct {
+    position: relative;
+    width: 100px;
+    z-index: 1000000;
+} */
+
+@media (max-width: 767px) {
+    .styleToastCreateProduct {
+        width: 100px;
+    }
+    .main-crear {
+        width: 90%;
+        min-height: 85vh;
+    }
+
+    .main_left-crear {
+        display: none;
+    }
+
+    .main_right-crear {
+        width: 100%;
+    }
+}
+
+@media (max-width: 421px) {
+    .main_right_cont-crear{
+        padding: 0px 20px;
+    }
+}

@@ -1,19 +1,26 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ItemDetail from "../ItemDetail/ItemDetail";
 import './ItemDetailContainer.css';
-import { getItem } from "../../fetch/fetch";
-import Footer from "../footer/footer";
+import useStoreContext from "../../provider/storeProvider";
+
 
 function ItemDetailContainer() {
+  const navigate = useNavigate()
+  const { getItemContext, loading } = useStoreContext()
     const [producto, setProducto] = useState();
     const { itemid } = useParams();
 
     useEffect(() => {
-        getItem(itemid).then(respuestaPromise => {
-          setProducto(respuestaPromise)
-        });
-    }, [itemid]);
+      if(!loading){
+        const product = getItemContext(itemid)
+        if(product){
+          setProducto(product)
+        }else{
+          navigate('/')
+        }
+      }
+    }, [itemid, loading]);
 
     return (
         <section className="ItemDetailContainer">

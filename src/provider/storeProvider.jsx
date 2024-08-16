@@ -1,6 +1,7 @@
 import { createContext } from 'react';
 import { useContext, useState, useEffect } from 'react';
 import config from '../../config.js';
+import { getProductsBySubdomain, getConfigBySubdomain } from '../fetch/fetch.js';
 
 const StoreContext = createContext();
 const useStoreContext = () => useContext(StoreContext);
@@ -10,10 +11,28 @@ const { Provider } = StoreContext;
 
 
 export function StoreContextProvider({ children }) {
+    const [loading, setLoading] = useState(true); //esto necesario para manejar la renderizaciones 
+    const [loadingConfig, setLoadingConfig] = useState(true); //esto necesario para manejar la renderizaciones 
+    
     const [cart, setCart] = useState([]);
     const [token, settoken] = useState()
+    const [products, setProducts] = useState(null)
+    const [configStore, setConfigStore] = useState(null)
 
     useEffect(() => {
+
+        const capitalizeFirstLetter = (string) => {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        };
+
+        const hostname = window.location.hostname;
+        const subdomain = hostname.split('.')[0];
+        document.title = capitalizeFirstLetter(subdomain)
+
+        getProductsBySubdomainContext()
+        getConfigBySubdomainContext()
+
+
         const access_token = sessionStorage.getItem('access_token');
         if (access_token) {
             settoken(true)
@@ -34,7 +53,7 @@ export function StoreContextProvider({ children }) {
         }
     }
 
-    const getProvincias = ()=>{
+    const getProvincias = () => {
         return [
             {
                 id: "1",
@@ -160,24 +179,38 @@ export function StoreContextProvider({ children }) {
     }
 
 
-    const addToCart = (item, cant, selectedColor, selectedSize) => {
-        if (isInCart(item.id)) {
-            const newCart = cart.map(cartItem => {
-                if (cartItem.id === item.id) {
-                    const copyItem = { ...cartItem };
+    const addToCart = (item, cant, data) => {
+        let itemExists = false;
+        const newCart = cart.map(cartItem => {
+            if (cartItem.id === item.id) {
+                if (cartItem.selectedSizeId === data.selectedSizeId && cartItem.selectedColorId === data.selectedColorId) {
+                    
+                    let copyItem = { ...cartItem };
                     copyItem.quantity += cant;
-                    copyItem.color = [selectedColor]
-                    copyItem.size = [selectedSize]
+                    console.log("producto existente en el carrito con mismo size y color, agregando mas quantity", copyItem);
+                    itemExists = true;
                     return copyItem;
-                } else {
-                    return cartItem;
                 }
-            })
-            setCart(newCart);
+            }
+            return cartItem;
+        });
+
+        if (!itemExists) {
+            const newItem = {
+                id: item.id,
+                selectedSizeId: data.selectedSizeId,
+                selectedSizeName: data.selectedSizeName,
+                selectedColorId: data.selectedColorId,
+                selectedColorName: data.selectedColorName,
+                image: data.image,
+                price: data.price,
+                name: data.name,
+                quantity: cant
+            };
+            setCart([...newCart, newItem]);
+            console.log("producto nuevo añadido al carrito: ", newItem);
         } else {
-            const newItem = { ...item, color: [selectedColor], size: [selectedSize], quantity: cant };
-            console.log("new item", newItem)
-            setCart([...cart, newItem]);
+            setCart(newCart);
         }
     }
 
@@ -192,10 +225,10 @@ export function StoreContextProvider({ children }) {
         return json
     }
 
-    const removeFromCart = (id) => {
+    const removeFromCart = (idColor) => {
         const newCart = [...cart];
         const cartFilter = newCart.filter(item => {
-            return item.id !== id;
+            return item.selectedColorId !== idColor;
         });
         setCart(cartFilter)
     }
@@ -252,7 +285,7 @@ export function StoreContextProvider({ children }) {
         const selectElement = document.getElementById('stateName')
         var selectedIndex = selectElement.selectedIndex;
         var selectedOption = selectElement.options[selectedIndex];
-        
+
         var selectedValue = selectedOption.value;
         var selectedOptionId = selectedOption.id;
         console.log("ID y VALUE del option seleccionado: " + selectedOptionId, selectedValue);
@@ -316,8 +349,104 @@ export function StoreContextProvider({ children }) {
         }
     }
 
+    const calculateTotalStock = (sizes) => {
+        let totalStock = 0;
+        sizes.forEach(size => {
+            size.colors.forEach(color => {
+                totalStock += color.stock;
+            });
+        });
+        return totalStock;
+    };
+
+    const getProductsBySubdomainContext = async () => {
+        const products = await getProductsBySubdomain()
+        console.log("products desd context", products);
+
+        setProducts(products)
+        setLoading(false)
+    }
+
+    function getItemsByPrimaryCategoryContext(categoryId) {
+        const prod = []
+        const filteredItems = products.filter(item => {
+            item.categories.filter(cat => {
+                if (cat.categoria.id == categoryId) {
+                    prod.push(item)
+                }
+            })
+
+        });
+        return prod
+    }
+
+    const getConfigBySubdomainContext = async () => {
+        const config = await getConfigBySubdomain()
+        console.log("config desde provider", config);
+        
+        setConfigStore(config)
+        setLoadingConfig(false)
+    } 
+
+    function getItemsBySecondaryCategoryContext(subcategoryid) {
+        const prod = []
+        const filteredItems = products.filter(item => {
+            item.categories.filter(cat => {
+                if (cat.subCategoria.id == subcategoryid) {
+                    prod.push(item)
+                }
+            })
+
+        });
+        return prod
+    }
+
+    function getItemsByTerciaryCategoryContext(subsubcategoryid) {
+        const prod = []
+        const filteredItems = products.filter(item => {
+            item.categories.filter(cat => {
+                if (cat.subSubCategoria.id == subsubcategoryid) {
+                    prod.push(item)
+                }
+            })
+
+        });
+        return prod
+    }
+
+    function getItemContext(id) {
+        const prod = products.find(prod => prod.id == id)
+        return prod
+    }
+
     return (
-        <Provider value={{ cantInCart, getProvincias, calcPriceCart, cleanCart, getItemFromCart, cart, addToCart, removeFromCart, token, settoken, logout, createBuyOrder, handleBuy, calcPriceFinal }}>
+        <Provider value={{
+            loading,
+            calculateTotalStock,
+            cantInCart,
+            getProvincias,
+            calcPriceCart,
+            cleanCart,
+            getItemFromCart,
+            cart,
+            addToCart,
+            removeFromCart,
+            token,
+            settoken,
+            logout,
+            createBuyOrder,
+            handleBuy,
+            calcPriceFinal,
+            products,
+            getItemsByPrimaryCategoryContext,
+            getItemsBySecondaryCategoryContext,
+            getItemsByTerciaryCategoryContext,
+            getItemContext,
+            getConfigBySubdomainContext,
+            configStore,
+            loadingConfig
+        }}
+        >
             {children}
         </Provider>
     )

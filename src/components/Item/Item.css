@@ -21,15 +21,6 @@
   outline: 1px solid #767677;
 }
 
-.item__stock{
-  color: white;
-  /* background-color: var(--colorSecondary); */
-  background-color: rgba(0, 0, 0, 0.554);
-  padding: 0px 5px;
-  font-weight: 600;
-  font-size: .8rem;
-}
-
 .itemTitulo{
   font-weight: 600;
   font-size: 1rem;
@@ -64,7 +55,7 @@
   /* font-weight: bold; */
   font-size: 1rem;
   /* background: #732D4D; */
-  background: var(--colorSecondary);
+  /* background: var(--colorSecondary); */
   /* padding: 5px 10px; */
   color: white;
   transition: color .5s ease;

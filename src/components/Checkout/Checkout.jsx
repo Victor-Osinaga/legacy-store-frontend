@@ -24,8 +24,8 @@ function Checkout() {
         id: ''    // ID de la provincia seleccionada
     });
 
-    useEffect(()=>{
-        if(cart.length == 0){
+    useEffect(() => {
+        if (cart.length == 0) {
             navigate('/');
         }
     }, [cart])
@@ -132,11 +132,11 @@ function Checkout() {
                     }
                 );
                 // setTimeout(() => {
-                    navigate('/resumen', {
-                        state: {
-                            datos: { link: result.data.init_point, resumen: result.buyOrder, shipmentCost: result.data.costShipment, idOrder: result.data.idOrder },
-                        },
-                    });
+                navigate('/resumen', {
+                    state: {
+                        datos: { link: result.data.init_point, resumen: result.buyOrder, shipmentCost: result.data.costShipment, idOrder: result.data.idOrder },
+                    },
+                });
                 // }, 1000);
                 // navigate('/resumen', { state: { datos: { link: result.data, resumen: result.buyOrder } } })
             }
@@ -205,7 +205,8 @@ function Checkout() {
                                                     }`}
                                                 id="name"
                                                 name="name"
-                                                required />
+                                                required
+                                            />
                                             <div className="valid-feedback">
                                                 Completo!
                                             </div>
@@ -356,7 +357,7 @@ function Checkout() {
                                             <span>info</span>
                                         </div> */}
                                             <label htmlFor="stateName" className="form-label fw-semibold w-100 d-flex mb-1">Provincia</label>
-                                            <select name="" id="stateName" onChange={(e)=>{handleProvinceChange(e)}}
+                                            <select name="" id="stateName" onChange={(e) => { handleProvinceChange(e) }}
                                                 className={`form-control ${selectedProvince.name.length == 0
                                                     ? ""
                                                     : selectedProvince.name.length > 3

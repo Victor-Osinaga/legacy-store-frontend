@@ -1,6 +1,6 @@
 import React from "react";
 import { BsChevronDoubleDown } from 'react-icons/bs';
-import footerGif from '../../assets/banner2.gif'
+import footerGif from '../../assets/banner.gif'
 import './Bienvenida.css';
 
 function Bienvenida() {

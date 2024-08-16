@@ -1,6 +1,8 @@
 .ItemDetailContainer {
   /* min-height: calc(100vh - var(--navHeight)); */
   
+  /* background-color: #ebebeb; */
+  /* background-color: white; */
   background-color: #ebebeb;
 }
 

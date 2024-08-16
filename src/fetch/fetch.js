@@ -1,63 +1,63 @@
 import config from "../../config.js";
 
 async function getItems() {
-    const response = await fetch(`${config.API_BASE_URL}/products`);
-    const json = await response.json()
-    // return json.data
-    const itemsWithQuantity = json.data.map(item => {
-        return {
-            ...item,
-            quantity: 1 // aquí puedes establecer cualquier valor predeterminado que desees
-        };
-    });
-    // console.log("con qunatity", itemsWithQuantity);
-    return itemsWithQuantity;
+  const response = await fetch(`${config.API_BASE_URL}/products`);
+  const json = await response.json()
+  // return json.data
+  const itemsWithQuantity = json.data.map(item => {
+    return {
+      ...item,
+      quantity: 1 // aquí puedes establecer cualquier valor predeterminado que desees
+    };
+  });
+  // console.log("con qunatity", itemsWithQuantity);
+  return itemsWithQuantity;
 }
 
-async function login(obj){
-  const result = await fetch(`${config.API_BASE_URL}/users/login`,    
-  {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(obj)
-  })
+async function login(obj) {
+  const result = await fetch(`${config.API_BASE_URL}/users/login`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(obj)
+    })
   const json = await result.json()
   console.log(json);
   return json
 }
 
-async function getOrders(token){
-  const result = await fetch(`${config.API_BASE_URL}/orders/`, 
-  {
-    method: 'GET',
-    headers: { Authorization: `Bearer ${token}` }
-  })
+async function getOrders(token) {
+  const result = await fetch(`${config.API_BASE_URL}/orders/`,
+    {
+      method: 'GET',
+      headers: { Authorization: `Bearer ${token}` }
+    })
   const json = await result.json()
   // console.log(json);
   return json
 }
 
-async function createProduct(token, product){
+async function createProduct(token, product) {
   console.log("--------------------------");
   product.forEach((value, key) => {
     console.log(`${key}: ${value}`);
   });
   try {
-    const response = await fetch(`${config.API_BASE_URL}/products/`, 
-  {
-    headers: { Authorization: `Bearer ${token}` },
-    method: 'POST',
-    // headers: { 'Content-Type': 'application/json' },
-    body: product,
-  })
+    const response = await fetch(`${config.API_BASE_URL}/products/`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+        method: 'POST',
+        // headers: { 'Content-Type': 'application/json' },
+        body: product,
+      })
 
-  if (!response.ok) {
+    if (!response.ok) {
+      const json = await response.json()
+      throw { statusText: response.statusText, status: response.status, msgBack: json.data, msgFront: "Datos erroneos" }
+    }
+
     const json = await response.json()
-    throw {statusText: response.statusText, status: response.status, msgBack: json.data, msgFront: "Datos erroneos" }
-  }
-
-  const json = await response.json()
-  return json
+    return json
   } catch (error) {
     throw error;
   }
@@ -66,16 +66,16 @@ async function createProduct(token, product){
 async function createCategory(category) {
   try {
     const access_token = sessionStorage.getItem('access_token');
-    const result = await fetch(`${config.API_BASE_URL}/categories/`, 
-    {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${access_token}` },
-      body: JSON.stringify(category),
-    })
+    const result = await fetch(`${config.API_BASE_URL}/categories/`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${access_token}` },
+        body: JSON.stringify(category),
+      })
 
     if (!result.ok) {
       const json = await result.json()
-      throw {statusText: result.statusText, status: result.status, msgBack: json.data, msgFront: "Datos erroneos" }
+      throw { statusText: result.statusText, status: result.status, msgBack: json.data, msgFront: "Datos erroneos" }
     }
 
     const json = await result.json();
@@ -86,13 +86,33 @@ async function createCategory(category) {
 }
 
 async function getItem(id) {
-    const item = await fetch(`${config.API_BASE_URL}/products/${id}`);
-    const itemJson = await item.json()
-    console.log("JSON", itemJson);
-    return {
-        ...itemJson.data,
-        quantity: 1
+  const hostname = window.location.hostname;
+  const subdomain = hostname.split('.')[0];
+  try {
+    const response = await fetch(`${config.API_LEGACY_STORE}/products/${id}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ subdomain: subdomain }),
+      })
+    const result = await response.json();
+    console.log("result desde getItem", result);
+
+    if (!response.ok) {
+      throw { msg: result.data }
     }
+
+
+    return {
+      ...result.data,
+      quantity: 1 // aquí puedes establecer cualquier valor predeterminado que desees
+    }
+  } catch {
+    if (error.message == 'Failed to fetch') {
+      throw { msg: 'Error al conectar con el servidor' }
+    }
+    throw error
+  }
 }
 
 async function getItemClear(id) {
@@ -100,109 +120,192 @@ async function getItemClear(id) {
   const itemJson = await item.json()
   console.log("JSON", itemJson);
   return itemJson.data
-  
+
 }
 
 async function getItemsByPrimaryCategory(category) {
-    const productos = await getItems()
-    console.log("2",productos);
-    const prod = []
-    const filteredItems = productos.filter(item => {
-      
-      item.categories.filter(cat => {
-        if(cat.categoria.id == category){
-          prod.push(item)
-        }
-        
-      }) 
-      
-    });
-    // console.log("LOS PRODUCTOS", prod);
-    return prod
+  const productos = await getProductsBySubdomain()
+  console.log("getItemsByPrimaryCategory", productos);
+  const prod = []
+  const filteredItems = productos.filter(item => {
+    item.categories.filter(cat => {
+      if (cat.categoria.id == category) {
+        prod.push(item)
+      }
+    })
+
+  });
+  return prod
 }
 
 async function getItemsBySecondaryCategory(subCategory) {
-  const productos = await getItems()
+  const productos = await getProductsBySubdomain()
   const prod = []
-  console.log("prodddddddd", productos);
-    const filteredItems = productos.filter(item => {
-      
-      item.categories.filter(cat => {
-        if(cat.subCategoria.id == subCategory){
-          prod.push(item)
-        }
-        
-      }) 
-      
-    });
-    console.log("LOS PRODUCTOS", prod);
-    return prod
+  console.log("getItemsBySecondaryCategory", productos);
+  const filteredItems = productos.filter(item => {
+    item.categories.filter(cat => {
+      if (cat.subCategoria.id == subCategory) {
+        prod.push(item)
+      }
+    })
+
+  });
+  return prod
 }
 
 async function getItemsByTerciaryCategory(subSubCategory) {
-  const productos = await getItems()
+  const productos = await getProductsBySubdomain()
   const prod = []
-    const filteredItems = productos.filter(item => {
-      
-      item.categories.filter(cat => {
-        if(cat.subSubCategoria.id == subSubCategory){
-          prod.push(item)
-        }
-        
-      }) 
-      
-    });
-    // console.log("LOS PRODUCTOS", prod);
-    return prod
+  const filteredItems = productos.filter(item => {
+    item.categories.filter(cat => {
+      if (cat.subSubCategoria.id == subSubCategory) {
+        prod.push(item)
+      }
+    })
+
+  });
+  return prod
 }
 
-async function createBuyOrder(orderData){
-  const result = await fetch(`${config.API_BASE_URL}/orders/payment`, 
-  {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(orderData)
-  })
+async function createBuyOrder(orderData) {
+  const result = await fetch(`${config.API_BASE_URL}/orders/payment`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(orderData)
+    })
   const json = await result.json()
   console.log(json);
-  }
+}
 
-  async function getCategorias(){
-    const result = await fetch(`${config.API_BASE_URL}/categories/`,  
+async function getCategorias() {
+  const result = await fetch(`${config.API_BASE_URL}/categories/`,
     {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
     })
-    const json = await result.json()
-    // console.log(json);
-    return json
+  const json = await result.json()
+  // console.log(json);
+  return json
+}
+
+async function updateCategoryById(id, newCategory) {
+  const access_token = sessionStorage.getItem('access_token');
+  const result = await fetch(`${config.API_BASE_URL}/categories/${id}`,
+    {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${access_token}` },
+      body: JSON.stringify(newCategory)
+    })
+  const json = await result.json()
+  console.log(json);
+  return json
+}
+
+async function getProductsBySubdomain() {
+  const hostname = window.location.hostname;
+  const subdomain = hostname.split('.')[0];
+  try {
+    // si no conecta con el backend lanza el error failed to fetch
+    const response = await fetch(`${config.API_LEGACY_STORE}/products`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ subdomain: subdomain }),
+      })
+    const result = await response.json();
+    // console.log("result desde getProductsBySubdomain", result);
+
+
+    if (!response.ok) {
+      throw { msg: result.data }
     }
 
-    async function updateCategoryById(id, newCategory){
-      const access_token = sessionStorage.getItem('access_token');
-      const result = await fetch(`${config.API_BASE_URL}/categories/${id}`, 
+    const itemsWithQuantity = result.data.map(item => {
+      return {
+        ...item,
+        quantity: 1 // aquí puedes establecer cualquier valor predeterminado que desees
+      };
+    });
+    console.log("productos con qunatity desde services", itemsWithQuantity);
+
+    return itemsWithQuantity;
+
+  } catch (error) {
+    if (error.message == 'Failed to fetch') {
+      throw { msg: 'Error al conectar con el servidor' }
+    }
+    throw error
+  }
+}
+
+async function getCategoriasBySubdomain() {
+  const hostname = window.location.hostname;
+  const subdomain = hostname.split('.')[0];
+
+  const response = await fetch(`${config.API_LEGACY_STORE}/categories`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ subdomain: subdomain }),
+    })
+  const result = await response.json()
+  // console.log("result desde getCategoriasBySubdomain", result);
+  console.log("categories desde services", result.data);
+
+  if (!response.ok) {
+    throw { msg: result.data }
+  }
+  // console.log(json);
+  return result.data
+}
+
+async function getConfigBySubdomain() {
+  const hostname = window.location.hostname;
+  const subdomain = hostname.split('.')[0];
+  try {
+    // si no conecta con el backend lanza el error failed to fetch
+    const response = await fetch(`${config.API_LEGACY_STORE}/store-configuration`,
       {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${access_token}` },
-        body: JSON.stringify(newCategory)
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ subdomain: subdomain }),
       })
-      const json = await result.json()
-      console.log(json);
-      return json
-      }
+    const result = await response.json();
+    // console.log("result desde getProductsBySubdomain", result);
+
+    console.log("config desde services", result);
+
+    if (!response.ok) {
+      throw { msg: result.data }
+    }
+
+
+    return result.data;
+
+  } catch (error) {
+    if (error.message == 'Failed to fetch') {
+      throw { msg: 'Error al conectar con el servidor' }
+    }
+    throw error
+  }
+}
 
 export {
-    getItems,
-    getItem,
-    getItemsByPrimaryCategory,
-    getItemsBySecondaryCategory,
-    getItemsByTerciaryCategory,
-    createBuyOrder,
-    login,
-    getOrders,
-    createProduct,
-    getItemClear,
-    getCategorias,
-    createCategory,
-    updateCategoryById
+  getItems,
+  getItem,
+  getItemsByPrimaryCategory,
+  getItemsBySecondaryCategory,
+  getItemsByTerciaryCategory,
+  createBuyOrder,
+  login,
+  getOrders,
+  createProduct,
+  getItemClear,
+  getCategorias,
+  createCategory,
+  updateCategoryById,
+  getProductsBySubdomain,
+  getCategoriasBySubdomain,
+  getConfigBySubdomain
 }

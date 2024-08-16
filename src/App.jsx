@@ -23,6 +23,7 @@ import FormStatusOrder from './components/FormStatusOrder/FormStatusOrder';
 import EditarEliminarCategoria from './components/EditarEliminarCategoria/EditarEliminarCategoria';
 import EditarCategoria from './components/EditarCategoria/EditarCategoria';
 import Faqs from './components/Faqs/Faqs';
+import RedirectToHome from './components/RedirectToHome/RedirectToHome';
 
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
     <>
       <StoreContextProvider>
         <BrowserRouter>
+          <RedirectToHome />
           <NavBar />
           <Routes>
             <Route path="/admin/crear-administrador" element={<CrearAdministrador />} />
@@ -51,9 +53,9 @@ function App() {
             <Route path='/admin/editar' element={<ItemListContainerAdmin titulo='Elige cual editar' />} />
             <Route path='/admin/editar/:editarid' element={<FormEditarProducto />} />
             <Route path='/admin/crear-categoria' element={<CrearCategoria />} />
-            <Route path='/admin/categoria/editar-eliminar' element={<EditarEliminarCategoria/>}/>
-            <Route path='/admin/categoria/editar/:id' element={<EditarCategoria/>}/>
-            <Route path='/cliente/preguntas/frecuentes' element={<Faqs/>}/>
+            <Route path='/admin/categoria/editar-eliminar' element={<EditarEliminarCategoria />} />
+            <Route path='/admin/categoria/editar/:id' element={<EditarCategoria />} />
+            <Route path='/cliente/preguntas/frecuentes' element={<Faqs />} />
           </Routes>
         </BrowserRouter>
       </StoreContextProvider>

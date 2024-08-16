@@ -6,7 +6,7 @@ import { BsPerson, BsBag, BsPersonX } from 'react-icons/bs';
 import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import useStoreContext from '../../provider/storeProvider';
-import { getCategorias } from '../../fetch/fetch';
+import { getCategorias, getCategoriasBySubdomain } from '../../fetch/fetch';
 
 function NavBar() {
   const { token, logout, cantInCart } = useStoreContext();
@@ -16,7 +16,7 @@ function NavBar() {
 
   const [isHovered, setIsHovered] = useState(false);
   const handleMouseEnter = (id) => {
-    if(navVisible){
+    if (navVisible) {
       document.getElementById(id).style.zIndex = "-100"
       setIsHovered(false);
     }
@@ -24,7 +24,7 @@ function NavBar() {
     setIsHovered(true);
   };
   const handleMouseLeave = (id) => {
-    if(navVisible){
+    if (navVisible) {
       document.getElementById(id).style.zIndex = "100"
       setIsHovered(true);
       return
@@ -34,7 +34,7 @@ function NavBar() {
   };
 
   const ocultar = (id) => {
-    if(navVisible)return
+    if (navVisible) return
     document.getElementById(id).style.zIndex = "-100"
     setIsHovered(false);
   };
@@ -44,17 +44,17 @@ function NavBar() {
   }, [])
 
   const fetchCategorias = async (id) => {
-    getCategorias()
+    getCategoriasBySubdomain()
       .then((res) => {
         console.log(res);
-        setCategorias(res.data)
+        setCategorias(res)
       })
       .finally(() => setLoading(false))
   }
 
   const toggleNav = () => {
     setNavVisible(!navVisible);
-    
+
     // Cambiar el overflow del body directamente
     document.body.style.overflow = navVisible ? 'auto' : 'hidden';
   };
@@ -78,12 +78,12 @@ function NavBar() {
 
         <div className='nav__mainLinksContainer'>
           <div id='nav__MenuSvgContainer' className='nav__MenuSvgContainer'
-              onClick={toggleNav}>
-                <div className='nav__burguerIconOpenContainer' id='nav__burguerIconOpenContainer'>
-                  <AiOutlineMenu id='nav__MenuSvg' className='nav__MenuSvg' />
-                </div>
+            onClick={toggleNav}>
+            <div className='nav__burguerIconOpenContainer' id='nav__burguerIconOpenContainer'>
+              <AiOutlineMenu id='nav__MenuSvg' className='nav__MenuSvg' />
             </div>
-          
+          </div>
+
           <Link className='nav__LogoSvgContainer' to={'/'}>
             <img id='nav__LogoSvg' src={logo} alt='logo jarry indumentaria' />
           </Link>
@@ -95,60 +95,60 @@ function NavBar() {
           ) : (
             <ul className={navVisible ? "nav__mainCategoriasContainer expanded" : "nav__mainCategoriasContainer"}>
               <div id='nav__MenuSvgContainerClose' className='nav__MenuSvgContainerClose'
-              onClick={toggleNav}>
+                onClick={toggleNav}>
                 <div className='nav__burguerIconCloseContainer'>
                   <AiOutlineClose id='nav__MenuSvg' className='nav__MenuSvg' />
                 </div>
-            </div>
+              </div>
               <li className='nav_mainCategory'>
-                {navVisible?(
+                {navVisible ? (
                   <Link to='/' onClick={toggleNav}>INICIO</Link>
-                ):(
+                ) : (
                   <Link to='/'>INICIO</Link>
                 )}
               </li>
-              {token?(navVisible?(
-                  <li className='nav_mainCategory'>
+              {token ? (navVisible ? (
+                <li className='nav_mainCategory'>
                   <Link to='/admin/panel' onClick={toggleNav}>PANEL</Link>
                 </li>
-                ):(
-                  <li className='nav_mainCategory'>
+              ) : (
+                <li className='nav_mainCategory'>
                   <Link to='/admin/panel'>PANEL</Link>
                 </li>
-                )
-              ): null}
+              )
+              ) : null}
               {categorias?.length > 0 ? (
                 categorias.map((cat, index) => (
                   <li onMouseEnter={() => handleMouseEnter(cat.id)}
-                      onMouseLeave={() => handleMouseLeave(cat.id)}
-                      id={index}
-                      key={cat.id}
-                      className='nav_mainCategory'>
+                    onMouseLeave={() => handleMouseLeave(cat.id)}
+                    id={index}
+                    key={cat.id}
+                    className='nav_mainCategory'>
                     {navVisible ? (
                       <Link onClick={toggleNav} to={`/category/${cat.name.toLowerCase()}/${cat.id}`}>{cat.name.toUpperCase()}</Link>
-                    ):(
-                      <Link onClick={()=>{ocultar(cat.id)}} to={`/category/${cat.name.toLowerCase()}/${cat.id}`}>{cat.name.toUpperCase()}</Link>
+                    ) : (
+                      <Link onClick={() => { ocultar(cat.id) }} to={`/category/${cat.name.toLowerCase()}/${cat.id}`}>{cat.name.toUpperCase()}</Link>
                     )}
-  
+
                     <ul id={cat.id} className='nav_mainSub' onMouseEnter={() => handleMouseEnter(cat.id)}
                       onMouseLeave={() => handleMouseLeave(cat.id)}>
                       {cat.subCategories.map((sub) => (
                         <li id={sub.id} key={sub.id}>
-                          {navVisible?(
+                          {navVisible ? (
                             <Link onClick={toggleNav} to={`/category/${cat.name.toLowerCase()}/${sub.name.toLowerCase()}/${sub.id}`}>{sub.name.toUpperCase()}</Link>
-                          ):(
-                            <Link onClick={()=>ocultar(cat.id)} to={`/category/${cat.name.toLowerCase()}/${sub.name.toLowerCase()}/${sub.id}`}>{sub.name.toUpperCase()}</Link>
+                          ) : (
+                            <Link onClick={() => ocultar(cat.id)} to={`/category/${cat.name.toLowerCase()}/${sub.name.toLowerCase()}/${sub.id}`}>{sub.name.toUpperCase()}</Link>
                           )}
-  
+
                           <div className='nav_categFromSubcategory'>
                             {sub.categories.map((uniq) => (
-                              <>
-                                {navVisible?(
-                                <Link onClick={toggleNav} to={`/category/${cat.name.toLowerCase()}/${sub.name.toLowerCase()}/${uniq.name.toLowerCase().replace(" ", "")}/${uniq.id}`} key={uniq.id}>{uniq.name}</Link>
-                              ):(
-                                <Link onClick={()=>ocultar(cat.id)} to={`/category/${cat.name.toLowerCase()}/${sub.name.toLowerCase()}/${uniq.name.toLowerCase().replace(" ", "")}/${uniq.id}`} key={uniq.id}>{uniq.name}</Link>
-                              )}
-                              </>
+                              <div key={uniq.id}>
+                                {navVisible ? (
+                                  <Link onClick={toggleNav} to={`/category/${cat.name.toLowerCase()}/${sub.name.toLowerCase()}/${uniq.name.toLowerCase().replace(" ", "")}/${uniq.id}`} key={uniq.id}>{uniq.name}</Link>
+                                ) : (
+                                  <Link onClick={() => ocultar(cat.id)} to={`/category/${cat.name.toLowerCase()}/${sub.name.toLowerCase()}/${uniq.name.toLowerCase().replace(" ", "")}/${uniq.id}`} key={uniq.id}>{uniq.name}</Link>
+                                )}
+                              </div>
                             ))}
                           </div>
                         </li>
@@ -183,9 +183,9 @@ function NavBar() {
               <span>{cantInCart()}</span>
             </Link>
 
-            
+
           </div>
-          
+
 
         </div>
       </div>

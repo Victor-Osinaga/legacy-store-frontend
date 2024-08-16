@@ -5,6 +5,8 @@ import './CartView.css'
 
 function CartView() {
     const { cart, removeFromCart, cleanCart, calcPriceCart } = useStoreContext();
+    console.log("carrito: ", cart);
+    
 
     if (cart.length === 0) {
         return (
@@ -20,9 +22,9 @@ function CartView() {
             <section className="CartView" >
                 <h3 className='titleMainResumen'>Mi carrito</h3>
                 <div className="itemCartContainer mb-3">
-                    {cart.map(itemCart => {
+                    {cart.map((itemCart, index) => {
                         return (
-                            <div className="itemCart" key={itemCart.id}>
+                            <div className="itemCart" key={index}>
                                 <span>{itemCart.name}</span>
 
                                 <div className="itemDescription">
@@ -31,13 +33,13 @@ function CartView() {
                                     </div>
                                     <div className="itemDescr2">
                                         <p>Cantidad: <strong>{itemCart.quantity}</strong></p>
-                                        <p>Tamaño: <strong>{`'${itemCart.size}'`}</strong></p>
-                                        <p>Color: <strong>{`'${itemCart.color}'`}</strong></p>
+                                        <p>Tamaño: <strong>{`'${itemCart.selectedSizeName}'`}</strong></p>
+                                        <p>Color: <strong>{`'${itemCart.selectedColorName}'`}</strong></p>
                                         <p>Precio c/u: <strong className="text-success">${itemCart.price}</strong></p>
                                         <p>Subtotal: <strong className="text-success">${itemCart.quantity * itemCart.price}</strong></p>
                                     </div>
                                 </div>
-                                <button className="btnEliminar" onClick={() => removeFromCart(itemCart.id)}>
+                                <button className="btnEliminar" onClick={() => removeFromCart(itemCart.selectedColorId)}>
                                     <strong>ELIMINAR</strong>
                                 </button>
                             </div>
@@ -45,7 +47,7 @@ function CartView() {
                     })}
                 </div>
                 <div className="infoFinal">
-                    <h4 className="precioFinal">Total: <strong className="text-success">${calcPriceCart()}</strong></h4>
+                    <h4 className="precioFinal">Subtotal: <strong className="text-success">${calcPriceCart()}</strong></h4>
                     <div className="infoFinalBtnsContainer">
                         <button className="btnVaciarCarrito" onClick={cleanCart}>
                             <strong>VACIAR CARRITO</strong>

@@ -88,8 +88,15 @@ async function createCategory(category) {
 async function getItem(id) {
   const hostname = window.location.hostname;
   const subdomain = hostname.split('.')[0];
+
+  let back_legacy_panel_url;
+  if (config.env == 'dev'){
+    back_legacy_panel_url= config.back_legacy_panel_url_dev
+  }else{
+    back_legacy_panel_url= config.back_legacy_panel_url_prod
+  }
   try {
-    const response = await fetch(`${config.API_LEGACY_STORE}/products/${id}`,
+    const response = await fetch(`${back_legacy_panel_url}/products/${id}`,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -205,9 +212,16 @@ async function updateCategoryById(id, newCategory) {
 async function getProductsBySubdomain() {
   const hostname = window.location.hostname;
   const subdomain = hostname.split('.')[0];
+
+  let back_legacy_panel_url;
+  if (config.env == 'dev'){
+    back_legacy_panel_url= config.back_legacy_panel_url_dev
+  }else{
+    back_legacy_panel_url= config.back_legacy_panel_url_prod
+  }
   try {
     // si no conecta con el backend lanza el error failed to fetch
-    const response = await fetch(`${config.API_LEGACY_STORE}/products`,
+    const response = await fetch(`${back_legacy_panel_url}/products`,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -243,7 +257,13 @@ async function getCategoriasBySubdomain() {
   const hostname = window.location.hostname;
   const subdomain = hostname.split('.')[0];
 
-  const response = await fetch(`${config.API_LEGACY_STORE}/categories`,
+  let back_legacy_panel_url;
+  if (config.env == 'dev'){
+    back_legacy_panel_url= config.back_legacy_panel_url_dev
+  }else{
+    back_legacy_panel_url= config.back_legacy_panel_url_prod
+  }
+  const response = await fetch(`${back_legacy_panel_url}/categories`,
     {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -263,9 +283,16 @@ async function getCategoriasBySubdomain() {
 async function getConfigBySubdomain() {
   const hostname = window.location.hostname;
   const subdomain = hostname.split('.')[0];
+
+  let back_legacy_panel_url;
+  if (config.env == 'dev'){
+    back_legacy_panel_url= config.back_legacy_panel_url_dev
+  }else{
+    back_legacy_panel_url= config.back_legacy_panel_url_prod
+  }
   try {
     // si no conecta con el backend lanza el error failed to fetch
-    const response = await fetch(`${config.API_LEGACY_STORE}/store-configuration`,
+    const response = await fetch(`${back_legacy_panel_url}/store-configuration`,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

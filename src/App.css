@@ -13,14 +13,50 @@
   --colorMain: #000000;
   --bgCategorias: rgba(0, 0, 0, 0.5);
   --bgMain: #eceff1;
+  --bgSecondary: rgb(255, 255, 255);
+  /* --bgContainer: rgb(241, 245, 249); */
   --colorSecondary: rgb(218, 155, 62);
   --iconSize: 24px;
+
+  --textGray300Custom: rgb(161, 161, 161);
+
+  /* FONT SIZES */
+  --customFontSizeXs: .75rem;
+  --customFontSizeSm: .875rem;
 }
 
 html {
   font-size: 16px;
-  text-align: center;
+  /* text-align: center; */
   /* overflow: hidden; */
+}
+
+/* Quita los botones del input type NUMBER */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.fontSM-Custom {
+  font-size: var(--customFontSizeSm);
+}
+
+.fontXS-Custom {
+  font-size: var(--customFontSizeXs);
+}
+
+.bgContainer {
+  background-color: var(--bgMain);
+}
+.bgSecondary {
+  background-color: var(--bgSecondary);
+}
+
+.custom-placeholder::placeholder {
+  color: var(--textGray300Custom);
+  opacity: 1;
+  /* Para que el color se vea claramente en todos los navegadores */
 }
 
 /* arreglo bootstrap */

@@ -3,10 +3,25 @@ import useStoreContext from "../../provider/storeProvider";
 import './Checkout.css'
 import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate } from "react-router-dom";
+import { useForm, useFieldArray, Controller } from 'react-hook-form'
+import { validateAreaCodeCheckout, validateEmailCheckout, validateNameCheckout, validateNumberCheckout, validateSurnameCheckout } from "../../validators/validators.js";
 
 function Checkout() {
-    const { handleBuy, getProvincias, cart } = useStoreContext();
+    const { register, handleSubmit, watch, setValue, getValues, formState: { errors }, } = useForm({
+        defaultValues: {
+            name: "",
+            surname: "",
+            areaCode: "",
+            phone: "",
+            email: "",
+            radioGroup: "",
+            stateName: "",
+            cityName: ""
+        }
+    })
+    const { handleBuy, getProvincias, getSucursales, cart } = useStoreContext();
     const [provincias, setProvincias] = useState(getProvincias())
+    const [sucursales, setSucursales] = useState(getSucursales())
     const navigate = useNavigate();
 
     const [name, setName] = useState('')
@@ -151,15 +166,22 @@ function Checkout() {
         }
     }
 
+    const onSubmit = async (data) => {
+        console.log("data", data);
+
+    }
+
+    // watch()
+
     return (
         <>
             <Toaster position="top-right" reverseOrder={true} />
-            <section className='checkout'>
+            <section className='checkout p-3 p-md-4 bgContainer'>
                 <div>
-                    <form onSubmit={prevent}>
+                    <form onSubmit={handleSubmit(onSubmit)}>
                         <div className='d-flex align-items-center flex-column w-100'>
                             <div className="">
-                                <h3 className='fs-4 mainTitle'>Formulario de contacto</h3>
+                                <h3 className='fs-5 mainTitleCheckout '>FORMULARIO DE CONTACTO Y ENVIO</h3>
                             </div>
                             <div className='rounded py-1'>
                                 <div className='d-flex bg-success px-4 py-1 justify-content-between align-items-center'>
@@ -173,242 +195,315 @@ function Checkout() {
                                 </div>
                             </div>
                         </div>
-                        <div className='bg-white rounded mt-4 border'>
-                            <div className='px-4 py-5 container'>
-                                <div className='row mb-4'>
-                                    <h5 className='col-12 col-md-2 mb-4 text-center text-md-start formTitles'>Info de Contacto</h5>
-                                    <div className='col-md-10 col-12 row mb-4'>
-                                        <div className='col-12 col-md-6 mb-3'>
-                                            {/* <label htmlFor="name1" className='form-label w-100 d-flex mb-1'>
-                                            <div className='fw-semibold'>
-                                                Nombre
-                                                <span>*</span>
-                                            </div>
-                                        </label>
-                                        <div>
-                                            <div className='mb-1'>
-                                                <input type="text" id="name1" name='name' className='form-control is-valid ps-2 w-100' required />
-                                            </div>
-                                            <div className="valid-feedback">
-                                                Looks good!
-                                            </div>
-                                        </div> */}
-
-                                            <label htmlFor="name" className="form-label fw-semibold w-100 d-flex mb-1">Nombre</label>
-                                            <input onChange={(event) => { handleName(event.target.value) }}
+                        <div className='formContainerCheckout bgSecondary rounded mt-4 border shadow-lg'>
+                            <div className='px-2 py-4 px-md-4 py-md-5 container-fluid'>
+                                <div className='row mb-1'>
+                                    <h5 className='col-12 col-md-2 mb-4 text-center text-md-start formTitles'>Información de Contacto</h5>
+                                    <div className='col-12 col-md-10 row mx-auto mb-4'>
+                                        <div className='col-6 col-md-6 mb-3'>
+                                            <label htmlFor="name" className="form-label fw-semibold w-100 d-flex mb-1 fontSM-Custom">Nombre</label>
+                                            <input
                                                 type="text"
-                                                className={`form-control ${name.length == 0
-                                                    ? ""
-                                                    : name.length > 3
-                                                        ? "is-valid"
-                                                        : "is-invalid"
-                                                    }`}
+                                                className="form-control fontSM-Custom custom-placeholder"
                                                 id="name"
-                                                name="name"
-                                                required
+                                                placeholder="Juan"
+                                                {...register('name', {
+                                                    required: {
+                                                        value: true,
+                                                        message: "'Nombre' es requerido"
+                                                    },
+                                                    validate: validateNameCheckout
+                                                })}
                                             />
-                                            <div className="valid-feedback">
-                                                Completo!
-                                            </div>
-                                            <div className="invalid-feedback">
-                                                Incompleto!
-                                            </div>
+                                            {errors.name && <span className="mt-1 fontXS-Custom text-danger">{errors.name.message} <span className='fw-semibold'>*</span></span>}
                                         </div>
-                                        <div className='col-12 col-md-6 mb-3'>
-                                            {/* <label htmlFor="surname" className='w-100 d-flex mb-1 form-label'>
-                                            <div className='fw-semibold'>
-                                                Apellido
-                                                <span>*</span>
-                                            </div>
-                                        </label>
-                                        <div>
-                                            <div className='mb-1'>
-                                                <input type="text" id="surname" name='surname' className='rounded form-control ps-2 w-100' required />
-                                            </div>
-                                            <span>info</span>
-                                        </div> */}
-                                            <label htmlFor="surname" className="form-label fw-semibold w-100 d-flex mb-1">Apellido</label>
-                                            <input type="text"
-                                                onChange={(event) => { handleSurName(event.target.value) }}
-                                                className={`form-control ${surname.length == 0
-                                                    ? ""
-                                                    : surname.length > 3
-                                                        ? "is-valid"
-                                                        : "is-invalid"
-                                                    }`}
+                                        <div className='col-6 col-md-6 mb-3'>
+                                            <label htmlFor="surname" className="form-label fw-semibold w-100 d-flex mb-1 fontSM-Custom">Apellido</label>
+                                            <input
+                                                type="text"
+                                                className="form-control fontSM-Custom custom-placeholder"
                                                 id="surname"
-                                                name="surname"
-                                                required />
-                                            <div className="valid-feedback">
-                                                Completo!
-                                            </div>
-                                            <div className="invalid-feedback">
-                                                Incompleto!
-                                            </div>
+                                                placeholder="Perez"
+                                                {...register("surname", {
+                                                    required: {
+                                                        value: true,
+                                                        message: "'Apellido' es requerido"
+                                                    },
+                                                    validate: validateSurnameCheckout
+                                                })}
+                                            />
+                                            {errors.surname && <span className="mt-1 fontXS-Custom text-danger">{errors.surname.message} <span className='fw-semibold'>*</span></span>}
                                         </div>
-                                        <div className='col-12 col-md-6 mb-3'>
-                                            {/* <label htmlFor="email" className='w-100 d-flex mb-1 form-label'>
-                                            <div className='fw-semibold'>
-                                                Email
-                                                <span>*</span>
-                                            </div>
-                                        </label>
-                                        <div>
-                                            <div className='mb-1'>
-                                                <input name='email' type="email" id="email" className='rounded form-control ps-2 w-100' required />
-                                            </div>
-                                            <span>info</span>
-                                        </div> */}
-                                            <label htmlFor="email" className="form-label fw-semibold w-100 d-flex mb-1">Email</label>
-                                            <input type="text"
-                                                onChange={(event) => { handleEmail(event, event.target.value) }}
-                                                className={`form-control`}
-                                                id="email"
-                                                name="email"
-                                                required />
-                                            <div className="valid-feedback">
-                                                Completo!
-                                            </div>
-                                            <div className="invalid-feedback">
-                                                Incompleto!
-                                            </div>
-                                        </div>
-                                        <div className='col-12 col-md-6 mb-3'>
-                                            {/* <label htmlFor="areaCode" className='w-100 d-flex mb-1 form-label'>
-                                            <div className='fw-semibold'>
-                                                Código de area
-                                                <span>*</span>
-                                            </div>
-                                        </label>
-                                        <div>
-                                            <div className='mb-1'>
-                                                <input name='areaCode' type="text" id="areaCode" className='rounded form-control ps-2 w-100' required />
-                                            </div>
-                                            <span>info</span>
-                                        </div> */}
-                                            <label htmlFor="areaCode" className="form-label fw-semibold w-100 d-flex mb-1">Código de area</label>
-                                            <input type="text"
-                                                onChange={(event) => { handleAreaCode(event.target.value) }}
-                                                className={`form-control ${areaCode.length == 0
-                                                    ? ""
-                                                    : areaCode.length > 3
-                                                        ? "is-valid"
-                                                        : "is-invalid"
-                                                    }`}
+
+                                        <div className='col-6 col-md-6 mb-3'>
+                                            <label htmlFor="areaCode" className="form-label fw-semibold w-100 d-flex mb-1 fontSM-Custom">Código de area</label>
+                                            <input
+                                                type="number"
+                                                className="form-control fontSM-Custom custom-placeholder"
                                                 id="areaCode"
-                                                name="areaCode"
-                                                required />
-                                            <div className="valid-feedback">
-                                                Completo!
-                                            </div>
-                                            <div className="invalid-feedback">
-                                                Incompleto!
-                                            </div>
+                                                placeholder="2966"
+                                                {...register("areaCode", {
+                                                    required: {
+                                                        value: true,
+                                                        message: "'Código de area' es requerido"
+                                                    },
+                                                    validate: validateAreaCodeCheckout
+                                                })}
+                                            />
+                                            {errors.areaCode && <span className="mt-1 fontXS-Custom text-danger">{errors.areaCode.message} <span className='fw-semibold'>*</span></span>}
                                         </div>
-                                        <div className='col-12 col-md-6 mb-3'>
-                                            {/* <label htmlFor="phone" className='w-100 d-flex mb-1 form-label'>
-                                            <div className='fw-semibold'>
-                                                Teléfono
-                                                <span>*</span>
-                                            </div>
-                                        </label>
-                                        <div>
-                                            <div className='mb-1'>
-                                                <input name='phone' type="text" id="phone" className='rounded form-control ps-2 w-100' required />
-                                            </div>
-                                            <span>info</span>
-                                        </div> */}
-                                            <label htmlFor="phone" className="form-label fw-semibold w-100 d-flex mb-1">Teléfono</label>
-                                            <input type="number"
-                                                onChange={(event) => { handlePhone(event.target.value) }}
-                                                className={`form-control ${phone.length == 0
-                                                    ? ""
-                                                    : phone.length > 3
-                                                        ? "is-valid"
-                                                        : "is-invalid"
-                                                    }`}
+                                        <div className='col-6 col-md-6 mb-3'>
+                                            <label htmlFor="phone" className="form-label fw-semibold w-100 d-flex mb-1 fontSM-Custom">Número</label>
+                                            <input
+                                                type="number"
+                                                className="form-control fontSM-Custom custom-placeholder"
                                                 id="phone"
-                                                name="phone"
-                                                required />
-                                            <div className="valid-feedback">
-                                                Completo!
-                                            </div>
-                                            <div className="invalid-feedback">
-                                                Incompleto!
-                                            </div>
+                                                placeholder="630973"
+                                                {...register("phone", {
+                                                    required: {
+                                                        value: true,
+                                                        message: "'Número' es requerido"
+                                                    },
+                                                    validate: validateNumberCheckout
+                                                })}
+                                            />
+                                            {errors.phone && <span className="mt-1 fontXS-Custom text-danger">{errors.phone.message} <span className='fw-semibold'>*</span></span>}
+                                        </div>
+                                        <div className='col-12 col-md-12 mb-3'>
+                                            <label htmlFor="email" className="form-label fw-semibold w-100 d-flex mb-1 fontSM-Custom">Email</label>
+                                            <input
+                                                type="text"
+                                                className="form-control fontSM-Custom custom-placeholder"
+                                                id="email"
+                                                placeholder="juanperez@gmail.com"
+                                                {...register("email", {
+                                                    required: {
+                                                        value: true,
+                                                        message: "'Email' es requerido"
+                                                    },
+                                                    validate: validateEmailCheckout
+                                                })}
+                                            />
+                                            {errors.email && <span className="mt-1 fontXS-Custom text-danger">{errors.email.message} <span className='fw-semibold'>*</span></span>}
                                         </div>
                                     </div>
                                     <hr className='text-secondary' />
                                 </div>
-                                <div className='row mb-4'>
-                                    <h5 className='col-12 col-md-2 mb-4 text-center text-md-start formTitles'>Enviar a</h5>
-                                    <div className='col-md-10 col-12 row mb-4'>
-                                        <div className='col-12 col-md-6 mb-3'>
-                                            {/* <label htmlFor="stateName" className='w-100 d-flex mb-1'>
-                                            <div className='fw-semibold'>
-                                                Provincia
-                                                <span>*</span>
+                                <div className='row mb-1'>
+                                    <h5 className='col-12 col-md-2 mb-4 text-center text-md-start formTitles'>Opciones de envio</h5>
+                                    <div className='col-12 col-md-10 row mx-auto mb-4'>
+
+                                        <div className="col-12 col-md-12 row mb-3">
+                                            <div className="col-6">
+                                                <input
+                                                    class="form-check-input"
+                                                    type="radio"
+                                                    name="flexRadioDefault"
+                                                    id="flexRadioDefault2"
+                                                    value="local"
+                                                    {...register('radioGroup', {
+                                                        required: {
+                                                            value: true,
+                                                            message: "Elige una opcion de envio/retiro"
+                                                        }
+                                                    })}
+                                                // onClick={() => {
+                                                //     setValue('radioGroup', "local")
+                                                //     setValue('stateName', "")
+                                                // }}
+                                                />
+                                                <label class="form-check-label ms-1" for="flexRadioDefault2">
+                                                    Retiro en sucursal
+                                                </label>
                                             </div>
-                                        </label>
-                                        <div>
-                                            <div className='mb-1'>
-                                                <input name='stateName' type="text" id="stateName" className='form-control ps-2 w-100' required />
+                                            <div className="col-6">
+                                                <input
+                                                    class="form-check-input"
+                                                    type="radio"
+                                                    name="flexRadioDefault"
+                                                    id="flexRadioDefault1"
+                                                    value="domicilio"
+                                                    {...register('radioGroup', {
+                                                        required: {
+                                                            value: true,
+                                                            message: "Elige una opcion de envio/retiro"
+                                                        }
+                                                    })}
+                                                // onClick={() => {
+                                                //     setValue('radioGroup', "domicilio")
+                                                //     setValue('stateName', "")
+                                                // }}
+                                                />
+                                                <label class="form-check-label ms-1" for="flexRadioDefault1">
+                                                    Envio a domicilio
+                                                </label>
                                             </div>
-                                            <span>info</span>
-                                        </div> */}
-                                            <label htmlFor="stateName" className="form-label fw-semibold w-100 d-flex mb-1">Provincia</label>
-                                            <select name="" id="stateName" onChange={(e) => { handleProvinceChange(e) }}
-                                                className={`form-control ${selectedProvince.name.length == 0
-                                                    ? ""
-                                                    : selectedProvince.name.length > 3
-                                                        ? "is-valid"
-                                                        : "is-invalid"
-                                                    }`}
-                                            >
-                                                {/* <option key="" value="" id="">
-                                                    Seleccione
-                                                </option> */}
-                                                <option key="0" value="Retiro en Puesto San Julián" id="0">
-                                                    Retiro en Puesto San Julián
-                                                </option>
-                                                {provincias.map(prov => (
-                                                    <option key={prov.id} value={prov.nombre} id={prov.id}>
-                                                        {prov.nombre}
-                                                    </option>
-                                                ))}
-                                            </select>
-                                            {/* <input type="text"
-                                                onChange={(event) => { handleStateName(event.target.value) }}
-                                                className={`form-control ${stateName.length == 0
-                                                    ? ""
-                                                    : stateName.length > 3
-                                                        ? "is-valid"
-                                                        : "is-invalid"
-                                                    }`}
-                                                id="stateName"
-                                                name="stateName"
-                                                required /> */}
-                                            <div className="valid-feedback">
-                                                Completo!
-                                            </div>
-                                            <div className="invalid-feedback">
-                                                Incompleto!
-                                            </div>
+                                            {errors.radioGroup && <span className="mt-1 fontXS-Custom text-danger text-center">{errors.radioGroup.message} <span className='fw-semibold'>*</span></span>}
                                         </div>
-                                        <div className='col-12 col-md-6 mb-3'>
-                                            {/* <label htmlFor="cityName" className='w-100 d-flex mb-1 form-label'>
-                                            <div className='fw-semibold'>
-                                                Departamento
-                                                <span>*</span>
+                                        {watch('radioGroup') == "domicilio" && <>
+                                            <div className='col-12 col-md-6 mb-3'>
+                                                <label htmlFor="stateName" className="form-label fw-semibold w-100 d-flex mb-1">Elige una provincia</label>
+                                                <select
+                                                    type="select"
+                                                    className="form-select fontSM-Custom"
+                                                    id="stateName"
+                                                    {...register('stateName', {
+                                                        required: {
+                                                            value: true,
+                                                            message: "Elige donde lo enviamos"
+                                                        }
+                                                    })}
+                                                >
+                                                    <option value="">Elige una provincia</option>
+                                                    {provincias.map(prov => (
+                                                        <option key={prov.id} value={prov.id} id={prov.id}>
+                                                            {prov.nombre}
+                                                        </option>
+                                                    ))}
+                                                </select>
+                                                {errors.stateName && <span className="mt-1 fontXS-Custom text-danger">{errors.stateName.message} <span className='fw-semibold'>*</span></span>}
                                             </div>
-                                        </label>
-                                        <div>
-                                            <div className='mb-1'>
-                                                <input name='cityName' type="text" id="cityName" className='rounded form-control ps-2 w-100' required />
+                                            <div className='col-12 col-md-6 mb-3'>
+                                                <label htmlFor="cityName" className="form-label fw-semibold w-100 d-flex mb-1">Localidad</label>
+                                                <input
+                                                    type="text"
+                                                    className="form-control fontSM-Custom"
+                                                    id="cityName"
+                                                    {...register('cityName', {
+                                                        required: {
+                                                            value: true,
+                                                            message: "Debes ingresar una localidad"
+                                                        },
+                                                        validate: function (v) {
+                                                            if (v.length < 3 || v.length > 40) {
+                                                                return "La localidad debe tener entre 3 y 40 caracteres"
+                                                            }
+                                                        }
+                                                    })}
+
+                                                />
+                                                {errors.cityName && <span className="mt-1 fontXS-Custom text-danger">{errors.cityName.message} <span className='fw-semibold'>*</span></span>}
                                             </div>
-                                            <span>info</span>
-                                        </div> */}
-                                            <label htmlFor="cityName" className="form-label fw-semibold w-100 d-flex mb-1">Departamento</label>
+                                        </>}
+                                        {watch('radioGroup') == "local" && <>
+                                            <div className='col-12 col-md-6 mb-3'>
+                                                <label htmlFor="stateName" className="form-label fw-semibold w-100 d-flex mb-1">Elige una sucursal</label>
+                                                <select
+                                                    type="select"
+                                                    className="form-select fontSM-Custom"
+                                                    id="stateName"
+                                                    {...register('stateName', {
+                                                        required: {
+                                                            value: true,
+                                                            message: "Elige una sucursal"
+                                                        }
+                                                    })}
+                                                >
+                                                    <option value="">Elige una sucursal</option>
+                                                    {sucursales.map(s => (
+                                                        <option key={s.id} value={s.id} id={s.id}>
+                                                            {s.nombre}
+                                                        </option>
+                                                    ))}
+                                                </select>
+                                                {errors.stateName && <span className="mt-1 fontXS-Custom text-danger">{errors.stateName.message} <span className='fw-semibold'>*</span></span>}
+                                            </div>
+                                            {watch('stateName') && sucursales.find(s => s.id === getValues('stateName')) && (
+                                                <div className='col-12 col-md-6 mb-3'>
+                                                    <label htmlFor="cityName" className="form-label fw-semibold w-100 d-flex mb-1">Localidad</label>
+                                                    <input
+                                                        type="text"
+                                                        className="form-control fontSM-Custom"
+                                                        id="cityName"
+                                                        defaultValue={sucursales.find(s => s.id === getValues('stateName'))?.localidad || ""}
+                                                        onChange={setValue("cityName", sucursales.find(s => s.id === getValues('stateName'))?.localidad || "")}
+                                                    />
+                                                    {errors.cityName && (
+                                                        <span className="mt-1 fontXS-Custom text-danger">
+                                                            {errors.cityName.message} <span className='fw-semibold'>*</span>
+                                                        </span>
+                                                    )}
+                                                </div>
+                                            ) || (
+                                                    <div className='col-12 col-md-6 mb-3'>
+                                                        <label htmlFor="cityName" className="form-label fw-semibold w-100 d-flex mb-1">Localidad</label>
+                                                        <input
+                                                            type="text"
+                                                            className="form-control fontSM-Custom"
+                                                            id="cityName"
+                                                            defaultValue={ ""}
+                                                            onChange={setValue("cityName", sucursales.find(s => s.id === getValues('stateName'))?.localidad || "")}
+                                                        />
+                                                        {errors.cityName && (
+                                                            <span className="mt-1 fontXS-Custom text-danger">
+                                                                {errors.cityName.message} <span className='fw-semibold'>*</span>
+                                                            </span>
+                                                        )}
+                                                    </div>
+                                                )}
+                                            {/* <div className='col-12 col-md-6 mb-3'>
+                                                <label htmlFor="zipCode" className="form-label fw-semibold w-100 d-flex mb-1">Código postal</label>
+                                                <input type="text"
+                                                    onChange={(event) => { handleZipCode(event.target.value) }}
+                                                    className={`form-control ${zipCode.length == 0
+                                                        ? ""
+                                                        : zipCode.length > 3
+                                                            ? "is-valid"
+                                                            : "is-invalid"
+                                                        }`}
+                                                    id="zipCode"
+                                                    name="zipCode"
+                                                    required />
+                                                <div className="valid-feedback">
+                                                    Completo!
+                                                </div>
+                                                <div className="invalid-feedback">
+                                                    Incompleto!
+                                                </div>
+                                            </div> */}
+                                            {/* <div className='col-12 col-md-6 mb-3'>
+                                                <label htmlFor="streetName" className="form-label fw-semibold w-100 d-flex mb-1">Calle</label>
+                                                <input type="text"
+                                                    onChange={(event) => { handleStreetName(event.target.value) }}
+                                                    className={`form-control ${streetName.length == 0
+                                                        ? ""
+                                                        : streetName.length > 3
+                                                            ? "is-valid"
+                                                            : "is-invalid"
+                                                        }`}
+                                                    id="streetName"
+                                                    name="streetName"
+                                                    required />
+                                                <div className="valid-feedback">
+                                                    Completo!
+                                                </div>
+                                                <div className="invalid-feedback">
+                                                    Incompleto!
+                                                </div>
+                                            </div> */}
+                                            {/* <div className='col-12 col-md-6 mb-3'>
+                                                <label htmlFor="streetNumber" className="form-label fw-semibold w-100 d-flex mb-1">Número</label>
+                                                <input type="text"
+                                                    onChange={(event) => { handleStreetNumber(event.target.value) }}
+                                                    className={`form-control ${streetNumber.length == 0
+                                                        ? ""
+                                                        : streetNumber.length > 3
+                                                            ? "is-valid"
+                                                            : "is-invalid"
+                                                        }`}
+                                                    id="streetNumber"
+                                                    name="streetNumber"
+                                                    required />
+                                                <div className="valid-feedback">
+                                                    Completo!
+                                                </div>
+                                                <div className="invalid-feedback">
+                                                    Incompleto!
+                                                </div>
+                                            </div> */}
+                                        </>}
+                                        {/* <div className='col-12 col-md-6 mb-3'>
+                                            <label htmlFor="cityName" className="form-label fw-semibold w-100 d-flex mb-1">Localidad</label>
                                             <input type="text"
                                                 onChange={(event) => { handleCityName(event.target.value) }}
                                                 className={`form-control ${cityName.length == 0
@@ -426,20 +521,8 @@ function Checkout() {
                                             <div className="invalid-feedback">
                                                 Incompleto!
                                             </div>
-                                        </div>
-                                        <div className='col-12 col-md-6 mb-3'>
-                                            {/* <label htmlFor="zipCode" className='w-100 d-flex mb-1 form-label'>
-                                            <div className='fw-semibold'>
-                                                Código postal
-                                                <span>*</span>
-                                            </div>
-                                        </label>
-                                        <div>
-                                            <div className='mb-1'>
-                                                <input name='zipCode' type="text" id="zipCode" className='rounded form-control ps-2 w-100' required />
-                                            </div>
-                                            <span>info</span>
                                         </div> */}
+                                        {/* <div className='col-12 col-md-6 mb-3'>
                                             <label htmlFor="zipCode" className="form-label fw-semibold w-100 d-flex mb-1">Código postal</label>
                                             <input type="text"
                                                 onChange={(event) => { handleZipCode(event.target.value) }}
@@ -460,18 +543,6 @@ function Checkout() {
                                             </div>
                                         </div>
                                         <div className='col-12 col-md-6 mb-3'>
-                                            {/* <label htmlFor="streetName" className='w-100 d-flex mb-1 form-label'>
-                                            <div className='fw-semibold'>
-                                                Calle
-                                                <span>*</span>
-                                            </div>
-                                        </label>
-                                        <div>
-                                            <div className='mb-1'>
-                                                <input name='streetName' type="text" id="streetName" className='rounded form-control ps-2 w-100' required />
-                                            </div>
-                                            <span>info</span>
-                                        </div> */}
                                             <label htmlFor="streetName" className="form-label fw-semibold w-100 d-flex mb-1">Calle</label>
                                             <input type="text"
                                                 onChange={(event) => { handleStreetName(event.target.value) }}
@@ -492,18 +563,6 @@ function Checkout() {
                                             </div>
                                         </div>
                                         <div className='col-12 col-md-6 mb-3'>
-                                            {/* <label htmlFor="streetNumber" className='w-100 d-flex mb-1 form-label'>
-                                            <div className='fw-semibold'>
-                                                Número
-                                                <span>*</span>
-                                            </div>
-                                        </label>
-                                        <div>
-                                            <div className='mb-1'>
-                                                <input name='streetNumber' type="text" id="streetNumber" className='rounded form-control ps-2 w-100' required />
-                                            </div>
-                                            <span>info</span>
-                                        </div> */}
                                             <label htmlFor="streetNumber" className="form-label fw-semibold w-100 d-flex mb-1">Número</label>
                                             <input type="text"
                                                 onChange={(event) => { handleStreetNumber(event.target.value) }}
@@ -522,7 +581,7 @@ function Checkout() {
                                             <div className="invalid-feedback">
                                                 Incompleto!
                                             </div>
-                                        </div>
+                                        </div> */}
                                     </div>
                                     {/* <hr className='text-secondary' /> */}
                                 </div>

@@ -90,10 +90,10 @@ async function getItem(id) {
   const subdomain = hostname.split('.')[0];
 
   let back_legacy_panel_url;
-  if (config.env == 'dev'){
-    back_legacy_panel_url= config.back_legacy_panel_url_dev
-  }else{
-    back_legacy_panel_url= config.back_legacy_panel_url_prod
+  if (config.env == 'dev') {
+    back_legacy_panel_url = config.back_legacy_panel_url_dev
+  } else {
+    back_legacy_panel_url = config.back_legacy_panel_url_prod
   }
   try {
     const response = await fetch(`${back_legacy_panel_url}/products/${id}`,
@@ -175,14 +175,21 @@ async function getItemsByTerciaryCategory(subSubCategory) {
 }
 
 async function createBuyOrder(orderData) {
-  const result = await fetch(`${config.API_BASE_URL}/orders/payment`,
+  let back_legacy_panel_url;
+  if (config.env == 'dev') {
+    back_legacy_panel_url = config.back_legacy_panel_url_dev
+  } else {
+    back_legacy_panel_url = config.back_legacy_panel_url_prod
+  }
+
+  const result = await fetch(`${back_legacy_panel_url}/orders/payment`,
     {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(orderData)
     })
   const json = await result.json()
-  console.log(json);
+  return json
 }
 
 async function getCategorias() {
@@ -214,10 +221,10 @@ async function getProductsBySubdomain() {
   const subdomain = hostname.split('.')[0];
 
   let back_legacy_panel_url;
-  if (config.env == 'dev'){
-    back_legacy_panel_url= config.back_legacy_panel_url_dev
-  }else{
-    back_legacy_panel_url= config.back_legacy_panel_url_prod
+  if (config.env == 'dev') {
+    back_legacy_panel_url = config.back_legacy_panel_url_dev
+  } else {
+    back_legacy_panel_url = config.back_legacy_panel_url_prod
   }
   try {
     // si no conecta con el backend lanza el error failed to fetch
@@ -258,10 +265,10 @@ async function getCategoriasBySubdomain() {
   const subdomain = hostname.split('.')[0];
 
   let back_legacy_panel_url;
-  if (config.env == 'dev'){
-    back_legacy_panel_url= config.back_legacy_panel_url_dev
-  }else{
-    back_legacy_panel_url= config.back_legacy_panel_url_prod
+  if (config.env == 'dev') {
+    back_legacy_panel_url = config.back_legacy_panel_url_dev
+  } else {
+    back_legacy_panel_url = config.back_legacy_panel_url_prod
   }
   const response = await fetch(`${back_legacy_panel_url}/categories`,
     {
@@ -285,10 +292,10 @@ async function getConfigBySubdomain() {
   const subdomain = hostname.split('.')[0];
 
   let back_legacy_panel_url;
-  if (config.env == 'dev'){
-    back_legacy_panel_url= config.back_legacy_panel_url_dev
-  }else{
-    back_legacy_panel_url= config.back_legacy_panel_url_prod
+  if (config.env == 'dev') {
+    back_legacy_panel_url = config.back_legacy_panel_url_dev
+  } else {
+    back_legacy_panel_url = config.back_legacy_panel_url_prod
   }
   try {
     // si no conecta con el backend lanza el error failed to fetch

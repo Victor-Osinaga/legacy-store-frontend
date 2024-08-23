@@ -1,7 +1,9 @@
 .checkout {
+  /* color: white; */
   min-height: 100vh;
-  padding: 40px;
-  background-color: var(--bgMain);
+  /* padding: 40px; */
+  /* background-color: #212529; */
+  /* background-color: #161618; */
 }
 
 .svg_plus {
@@ -9,8 +11,17 @@
   height: 20px;
 }
 
+.formContainerCheckout{
+  /* color: white;
+  background-color: #1C1C1E; */
+  /* background-color: #1b1f22; */
+  /* background-color: #1b1f22; */
+}
+
+.mainTitleCheckout{
+  letter-spacing: .5px;
+}
+
 @media screen and (max-width: 767px) {
-  .checkoutFormContainer {
-    width: 80%;
-  }
+  
 }

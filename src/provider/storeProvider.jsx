@@ -1,7 +1,7 @@
 import { createContext } from 'react';
 import { useContext, useState, useEffect } from 'react';
 import config from '../../config.js';
-import { getProductsBySubdomain, getConfigBySubdomain } from '../fetch/fetch.js';
+import { getProductsBySubdomain, getConfigBySubdomain, createBuyOrder } from '../fetch/fetch.js';
 
 const StoreContext = createContext();
 const useStoreContext = () => useContext(StoreContext);
@@ -26,7 +26,12 @@ export function StoreContextProvider({ children }) {
         };
 
         const hostname = window.location.hostname;
-        const subdomain = hostname.split('.')[0];
+        const subdomainAndDomain = hostname.split('.')[0];
+        const subdomain = hostname.split('-')[0];
+        console.log("host", hostname);
+        console.log("subdomainAndDomain", subdomainAndDomain);
+        console.log("subdomainAndDomain", subdomainAndDomain);
+        
         document.title = capitalizeFirstLetter(subdomain)
 
         getProductsBySubdomainContext()
@@ -51,6 +56,31 @@ export function StoreContextProvider({ children }) {
         } else {
             console.log("no logueado");
         }
+    }
+
+    const getSucursales = () => {
+        return [
+            {
+                id: "123123",
+                categoria: "Provincia",
+                type: "sucursal",
+                nombre: "Santa cruz",
+                localidad: "Pto san julian" ,
+                codigoPostal: "9900",
+                calleNombre: "av san martin",
+                calleNumero: "999"
+            },
+            {
+                id: "112321321",
+                categoria: "Provincia",
+                type: "sucursal",
+                nombre: "Buenos aires",
+                localidad: "capital" ,
+                codigoPostal: "5555",
+                calleNombre: "av bicentenario",
+                calleNumero: "1590"
+            }
+        ]
     }
 
     const getProvincias = () => {
@@ -212,17 +242,6 @@ export function StoreContextProvider({ children }) {
         } else {
             setCart(newCart);
         }
-    }
-
-    const createBuyOrder = async (orderData) => {
-        const result = await fetch(`${config.API_BASE_URL}/orders/payment`,
-            {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(orderData)
-            })
-        const json = await result.json()
-        return json
     }
 
     const removeFromCart = (idColor) => {
@@ -444,7 +463,8 @@ export function StoreContextProvider({ children }) {
             getItemContext,
             getConfigBySubdomainContext,
             configStore,
-            loadingConfig
+            loadingConfig,
+            getSucursales,
         }}
         >
             {children}

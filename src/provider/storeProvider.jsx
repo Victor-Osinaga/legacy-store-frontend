@@ -2,6 +2,7 @@ import { createContext } from 'react';
 import { useContext, useState, useEffect } from 'react';
 import config from '../../config.js';
 import { getProductsBySubdomain, getConfigBySubdomain, createBuyOrder } from '../fetch/fetch.js';
+import toast from 'react-hot-toast';
 
 const StoreContext = createContext();
 const useStoreContext = () => useContext(StoreContext);
@@ -18,6 +19,7 @@ export function StoreContextProvider({ children }) {
     const [token, settoken] = useState()
     const [products, setProducts] = useState(null)
     const [configStore, setConfigStore] = useState(null)
+    const [toastId, setToastId] = useState(null);
 
     useEffect(() => {
 
@@ -58,156 +60,6 @@ export function StoreContextProvider({ children }) {
         }
     }
 
-    const getSucursales = () => {
-        return [
-            {
-                id: "123123",
-                categoria: "Provincia",
-                type: "sucursal",
-                nombre: "Santa cruz",
-                localidad: "Pto san julian" ,
-                codigoPostal: "9900",
-                calleNombre: "av san martin",
-                calleNumero: "999"
-            },
-            {
-                id: "112321321",
-                categoria: "Provincia",
-                type: "sucursal",
-                nombre: "Buenos aires",
-                localidad: "capital" ,
-                codigoPostal: "5555",
-                calleNombre: "av bicentenario",
-                calleNumero: "1590"
-            }
-        ]
-    }
-
-    const getProvincias = () => {
-        return [
-            {
-                id: "1",
-                categoria: "Provincia",
-                nombre: "Santa Cruz"
-            },
-            {
-                id: "2",
-                categoria: "Provincia",
-                nombre: "San Luis"
-            },
-            {
-                id: "3",
-                categoria: "Provincia",
-                nombre: "San Juan"
-            },
-            {
-                id: "4",
-                categoria: "Provincia",
-                nombre: "Entre Ríos"
-            },
-            {
-                id: "5",
-                categoria: "Provincia",
-                nombre: "Misiones"
-            },
-            {
-                id: "6",
-                categoria: "Provincia",
-                nombre: "Río Negro"
-            },
-            {
-                id: "7",
-                categoria: "Provincia",
-                nombre: "Chubut"
-            },
-            {
-                id: "8",
-                categoria: "Provincia",
-                nombre: "Córdoba"
-            },
-            {
-                id: "9",
-                categoria: "Provincia",
-                nombre: "Mendoza"
-            },
-            {
-                id: "10",
-                categoria: "Provincia",
-                nombre: "La Rioja"
-            },
-            {
-                id: "11",
-                categoria: "Provincia",
-                nombre: "Catamarca"
-            },
-            {
-                id: "12",
-                categoria: "Provincia",
-                nombre: "La Pampa"
-            },
-            {
-                id: "13",
-                categoria: "Provincia",
-                nombre: "Santiago del Estero"
-            },
-            {
-                id: "14",
-                categoria: "Provincia",
-                nombre: "Corrientes"
-            },
-            {
-                id: "15",
-                categoria: "Provincia",
-                nombre: "Santa Fe"
-            },
-            {
-                id: "16",
-                categoria: "Provincia",
-                nombre: "Tucumán"
-            },
-            {
-                id: "17",
-                categoria: "Provincia",
-                nombre: "Neuquén"
-            },
-            {
-                id: "18",
-                categoria: "Provincia",
-                nombre: "Salta"
-            },
-            {
-                id: "19",
-                categoria: "Provincia",
-                nombre: "Chaco",
-            },
-            {
-                id: "20",
-                categoria: "Provincia",
-                nombre: "Formosa"
-            },
-            {
-                id: "21",
-                categoria: "Provincia",
-                nombre: "Jujuy",
-            },
-            {
-                id: "22",
-                categoria: "Ciudad Autónoma",
-                nombre: "Ciudad Autónoma de Buenos Aires"
-            },
-            {
-                id: "23",
-                categoria: "Provincia",
-                nombre: "Buenos Aires"
-            },
-            {
-                id: "24",
-                categoria: "Provincia",
-                nombre: "Tierra del Fuego"
-            }
-        ]
-    }
-
 
     const addToCart = (item, cant, data) => {
         let itemExists = false;
@@ -235,7 +87,8 @@ export function StoreContextProvider({ children }) {
                 image: data.image,
                 price: data.price,
                 name: data.name,
-                quantity: cant
+                quantity: cant,
+                categoires: item.categories
             };
             setCart([...newCart, newItem]);
             console.log("producto nuevo añadido al carrito: ", newItem);
@@ -351,9 +204,10 @@ export function StoreContextProvider({ children }) {
                     state_id: selectedOptionId
                 }
             },
-            metadata: {
-                email: inputEmail
-            }
+            // metadatos no son necesarios
+            // metadata: {
+            //     email: inputEmail
+            // }
         }
 
         console.log("carritooo", cart);
@@ -438,12 +292,64 @@ export function StoreContextProvider({ children }) {
         return prod
     }
 
+    // TOASTS
+
+    const toastStyles = {
+        minWidth: window.innerWidth < 1000 ? '80%' : '480px',
+        maxWidth: window.innerWidth < 1000 ? '80%' : '480px',
+        fontSize: '.8rem',
+    }
+
+
+    const toastLoading = (msg) => {
+        const id = toast.loading(
+            <div>
+                <p className="mb-0">{msg}</p>
+            </div>,
+            {
+                id: toastId,
+                style: toastStyles
+            }
+        );
+        setToastId(id);
+        return id;
+    };
+
+    const toastSuccess = (msg, toastId) => {
+        toast.success(
+            <div>
+                <p className="mb-0">{msg}</p>
+            </div>,
+            {
+                id: toastId,
+            }
+        );
+        setToastId(null); // Clear the toastId after success
+    };
+
+    const toastError = (msg, toastId) => {
+        toast.error(
+            msg,
+            {
+                id: toastId,
+            }
+        );
+        setToastId(null); // Clear the toastId after error
+    };
+
+    const dismissToast = () => {
+        // if (toastId) {
+        // toast.dismiss(toastId);
+        toast.dismiss();
+        setToastId(null);
+        // }
+    };
+
     return (
         <Provider value={{
             loading,
             calculateTotalStock,
             cantInCart,
-            getProvincias,
             calcPriceCart,
             cleanCart,
             getItemFromCart,
@@ -464,7 +370,10 @@ export function StoreContextProvider({ children }) {
             getConfigBySubdomainContext,
             configStore,
             loadingConfig,
-            getSucursales,
+            toastLoading,
+            toastSuccess,
+            toastError,
+            dismissToast
         }}
         >
             {children}

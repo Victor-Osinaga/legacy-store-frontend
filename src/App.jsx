@@ -24,12 +24,14 @@ import EditarEliminarCategoria from './components/EditarEliminarCategoria/Editar
 import EditarCategoria from './components/EditarCategoria/EditarCategoria';
 import Faqs from './components/Faqs/Faqs';
 import RedirectToHome from './components/RedirectToHome/RedirectToHome';
+import { Toaster } from 'react-hot-toast';
 
 
 function App() {
   return (
     <>
       <StoreContextProvider>
+        <Toaster position='top-right' reverseOrder={true} />
         <BrowserRouter>
           <RedirectToHome />
           <NavBar />

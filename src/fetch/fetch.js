@@ -325,6 +325,111 @@ async function getConfigBySubdomain() {
   }
 }
 
+async function getShipmentsLocalStore() {
+  // const hostname = window.location.hostname;
+  // const subdomain = hostname.split('.')[0];
+
+  let back_legacy_panel_url;
+  if (config.env == 'dev') {
+    back_legacy_panel_url = config.back_legacy_panel_url_dev
+  } else {
+    back_legacy_panel_url = config.back_legacy_panel_url_prod
+  }
+
+  try {
+    // si no conecta con el backend lanza el error failed to fetch
+    const response = await fetch(`${back_legacy_panel_url}/shipment-local`,
+      {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+        // body: JSON.stringify({ subdomain: subdomain }),
+      })
+    const result = await response.json();
+    // console.log("RESPONSE : getShipmentsLocalStore", response);
+    // console.log("RESULT : getShipmentsLocalStore", result);
+
+    if (!response.ok) {
+      throw { msg: result.data }
+    }
+
+    return result.data;
+  } catch (error) {
+    if (error.message == 'Failed to fetch') {
+      throw { msg: 'Error al conectar con el servidor' }
+    }
+    throw error
+  }
+}
+
+async function getShipmentsDeliveryStore() {
+  // const hostname = window.location.hostname;
+  // const subdomain = hostname.split('.')[0];
+
+  let back_legacy_panel_url;
+  if (config.env == 'dev') {
+    back_legacy_panel_url = config.back_legacy_panel_url_dev
+  } else {
+    back_legacy_panel_url = config.back_legacy_panel_url_prod
+  }
+
+  try {
+    // si no conecta con el backend lanza el error failed to fetch
+    const response = await fetch(`${back_legacy_panel_url}/shipment-delivery`,
+      {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+        // body: JSON.stringify({ subdomain: subdomain }),
+      })
+    const result = await response.json();
+    // console.log("RESPONSE : getShipmentsDeliveryStore", response);
+    // console.log("RESULT : getShipmentsDeliveryStore", result);
+
+    if (!response.ok) {
+      throw { msg: result.data }
+    }
+
+    return result.data;
+  } catch (error) {
+    if (error.message == 'Failed to fetch') {
+      throw { msg: 'Error al conectar con el servidor' }
+    }
+    throw error
+  }
+}
+
+async function createPaymentStore(data) {
+  let back_legacy_panel_url;
+  if (config.env == 'dev') {
+    back_legacy_panel_url = config.back_legacy_panel_url_dev
+  } else {
+    back_legacy_panel_url = config.back_legacy_panel_url_prod
+  }
+
+  try {
+    // si no conecta con el backend lanza el error failed to fetch
+    const response = await fetch(`${back_legacy_panel_url}/orders/create-payment`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      })
+    const result = await response.json();
+    console.log("RESPONSE : createPaymentStore", response);
+    console.log("RESULT : createPaymentStore", result);
+
+    if (!response.ok) {
+      throw { msg: result.data }
+    }
+
+    return result.data;
+  } catch (error) {
+    if (error.message == 'Failed to fetch') {
+      throw { msg: 'Error al conectar con el servidor' }
+    }
+    throw error
+  }
+}
+
 export {
   getItems,
   getItem,
@@ -341,5 +446,8 @@ export {
   updateCategoryById,
   getProductsBySubdomain,
   getCategoriasBySubdomain,
-  getConfigBySubdomain
+  getConfigBySubdomain,
+  getShipmentsLocalStore,
+  getShipmentsDeliveryStore,
+  createPaymentStore
 }

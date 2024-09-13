@@ -10,7 +10,7 @@ function Item({ producto }) {
 
   useEffect(() => {
     console.log("loadingConfigloadingConfig", loadingConfig);
-    
+
   }, [loadingConfig])
   return (
     <div className='itemContainer'>
@@ -24,8 +24,13 @@ function Item({ producto }) {
       {loadingConfig ? (
         <span>cargando xd</span>
       ) : (
-        <Link className='btn__vermas' to={`/producto/${producto.id}`} style={{backgroundColor: `${configStore.primaryColorStore}`}} >Ver mas{console.log("config desde component", configStore)
-        }</Link>
+        <Link
+          className='btn__vermas'
+          to={`/producto/${producto.id}`}
+          style={{ backgroundColor: `${configStore.primaryColorStore}` }}
+        >
+          Ver mas
+        </Link>
       )}
       <a className='consulta' target={'_blank'} href={`https://wa.me/5492966578860?text=Buenas, quiero información acerca del siguiente producto: ${producto.name.toUpperCase()} - precio: $${producto.price} - id: ${producto.id}`} >Consultanos <img className='item__logoWp' src={logoWp} alt="logo whatsapp" /></a>
     </div>

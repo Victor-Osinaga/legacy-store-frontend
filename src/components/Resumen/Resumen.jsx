@@ -263,7 +263,7 @@ function Resumen() {
                 </div> */}
                 <div className="btnPagar rounded mb-2 text-white">
                     <Link
-                        to={location.state.datos.init_point} target='_blank'
+                        to={location.state.datos.init_point}
                         className='m-0 fw-semibold'>
                         PAGAR
                     </Link>

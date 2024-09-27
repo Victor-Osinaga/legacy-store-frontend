@@ -1,61 +1,105 @@
+import { useForm } from 'react-hook-form';
 import config from '../../../config.js';
+import useStoreContext from '../../provider/storeProvider.jsx';
 import './FormStatusOrder.css'
-import toast, { Toaster } from 'react-hot-toast';
+import { getOrderStatusById } from '../../fetch/fetch.js';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 export default function FormStatusOrder() {
-    const getStatusOrderById = async (e) => {
-        e.preventDefault()
-        const orderId = document.getElementById('orderId').value
-
-        if (orderId.length > 5) {
-            const res = await fetch(`${config.API_BASE_URL}/orders/${orderId}`)
-            console.log(res);
-            if (res.status) {
-                const json = await res.json()
-                const div = document.getElementById('statusOrder')
-
-                if (json.data == "pendiente") {
-                    console.log("JSON STATUS", json.data);
-                    div.textContent = ''
-                    const p = document.createElement('p')
-                    p.innerHTML = `El estado de su pedido es: <strong class='text-danger'>${json.data},</strong> por enviar.`
-                    div.appendChild(p)
-                }else if(json.data == "enviado"){
-                    console.log("JSON STATUS", json.data);
-                    div.textContent = ''
-                    const p = document.createElement('p')
-                    p.innerHTML = `El estado de su pedido es: <strong class='text-success'>${json.data}</strong>.`
-                    div.appendChild(p)
-                }
-            }
-        } else {
-            const toastId = toast.error(
-                <div><strong>Porfavor, ingrese un ID de pedido válido</strong>...</div>,
-                {
-                    style: {
-                        position: 'relative',
-                        minWidth: '480px',
-                        zIndex: '1000000'
-                    }
-                }
-            );
+    const { toastLoading, toastSuccess, toastError, dismissToast } = useStoreContext()
+    const {orderId} = useParams()
+    const { register, handleSubmit, formState: { errors }, watch, reset, getValues, setValue } = useForm({
+        defaultValues: {
+            orderId: orderId
         }
+    })
+    const [orderStatus, setOrderStatus] = useState(null)
 
+    useEffect(() => {
+        return () => {
+            dismissToast()
+        }
+    }, [])
 
+    const customSubmit = async (data) => {
+        console.log("data : FormStatusOrder ", data);
+        const toastId = toastLoading("Obteniendo estado de orden")
+        try {
+            const orderStatus = await getOrderStatusById(data.orderId)
+            setOrderStatus(orderStatus)
+            return toastSuccess(<>Orden encontrada: <strong>'{orderStatus.id}'</strong></>, toastId)
+        } catch (error) {
+            toastError(
+                <div className='text-center'>
+                    <span>{error.msg}</span>
+                </div>,
+                toastId
+            )
+        }
     }
     return (
         <>
-            <Toaster position="top-right" reverseOrder={true} />
-            <section className='formStatusOrderContainer py-5 px-3 d-flex align-items-center'>
-                <form onSubmit={getStatusOrderById} className='bg-white d-flex flex-column align-items-center w-100 mx-auto p-5'>
-                    <div className='d-flex flex-column w-75'>
-                        <label htmlFor="orderId" className='mb-3'>Ingrese el ID de su pedido</label>
-                        <input type="text" id="orderId" className='customSelect mb-3' required />
-                    </div>
+            <section className='formStatusOrderContainer d-flex align-items-center '>
+                <form onSubmit={handleSubmit(customSubmit)} className='formOrderStatus rounded mx-auto px-4 py-4 gap-3 d-flex flex-column justify-content-center'>
+                    <h4 className='text-center fw-bold'>Estado de la orden</h4>
                     <div className=''>
-                        <button type='submit' className='mb-3 btnGoCheckout'>VER ESTADO</button>
+                        <label htmlFor="orderId" className='mb-2'>Ingrese el ID de la Orden</label>
+                        <input
+                            type="text"
+                            id="orderId"
+                            className='form-control custom-placeholder fontSM-Custom'
+                            placeholder='1f2ad707-420a-40f0-94d5-cff75181d65b'
+                            {...register("orderId", {
+                                required: {
+                                    value: true,
+                                    message: "Ingresa un ID de orden"
+                                },
+                                validate: (value) => {
+                                    if (value.length < 10) {
+                                        return "Ingresa un ID de orden válido"
+                                    }
+                                    if(value == orderStatus?.id){
+                                        return "El ID es el mismo"
+                                    }
+                                }
+                            })}
+                        />
+                        {errors.orderId && <span className='mt-1 fontXS-Custom text-danger'>{errors.orderId.message} <span className='fw-semibold'>*</span></span>}
                     </div>
-                    <div className='statusOrder' id='statusOrder' style={{ height: '40px' }}></div>
+                    <div className='btnCheckout rounded text-white'>
+                        <button type='submit' className=''>VER ESTADO</button>
+                    </div>
+
+                    {orderStatus ? (
+                        <>
+                            <hr />
+                            <div className='fontSM-Custom' id=''>
+                                <h5 className='fw-bold'>Resultado:</h5>
+                                <p>Estado de la orden: <span className='fw-bold text-capitalize text-decoration-underline'>{orderStatus.order_status}</span></p>
+                                <p>
+                                    <span>Descripción: </span>
+                                    {orderStatus.order_status == "pendiente" && (
+                                        "Tu compra esta en espera de ser procesada"
+                                    )}
+                                    {orderStatus.order_status == "procesado" && (
+                                        "Tu compra fue procesada y esta siendo preparada para el envio/retiro"
+                                    )}
+                                    {orderStatus.order_status == "listo" && (
+                                        "Tu compra esta lista para enviarla/retirarla"
+                                    )}
+                                    {orderStatus.order_status == "enviado/retirado" && (
+                                        "Tu compra ya fue enviada/retirada"
+                                    )}
+                                </p>
+                            </div>
+                        </>
+                    ) : (
+                        <>
+
+                        </>
+                    )}
+
                 </form>
 
             </section>

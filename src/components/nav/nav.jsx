@@ -107,7 +107,9 @@ function NavBar() {
                   <Link to='/'>INICIO</Link>
                 )}
               </li>
-              {token ? (navVisible ? (
+
+              {/* para acceder al panel admin OBSOLETO */}
+              {/* {token ? (navVisible ? (
                 <li className='nav_mainCategory'>
                   <Link to='/admin/panel' onClick={toggleNav}>PANEL</Link>
                 </li>
@@ -116,7 +118,7 @@ function NavBar() {
                   <Link to='/admin/panel'>PANEL</Link>
                 </li>
               )
-              ) : null}
+              ) : null} */}
               {categorias?.length > 0 ? (
                 categorias.map((cat, index) => (
                   <li onMouseEnter={() => handleMouseEnter(cat.id)}
@@ -167,7 +169,8 @@ function NavBar() {
               <input type="search" id="nav__input" placeholder="Buscar..." autoComplete="off" />
             </form>
 
-            {token
+            {/* cambia el icono si inicio sesion o no OBSOLETO */}
+            {/* {token
               ?
               <Link onClick={logout} to='/' className='nav__iconLogoutContainer'>
                 <BsPersonX className='nav__iconLogout' style={{ color: "red" }}></BsPersonX>
@@ -176,7 +179,7 @@ function NavBar() {
               <Link to='/login' className='nav__iconLoginContainer'>
                 <BsPerson className='nav__iconLogin'></BsPerson>
               </Link>
-            }
+            } */}
 
             <Link to="/cart" className='nav__cartIconContainer'>
               <BsBag className='nav_iconCart'></BsBag>

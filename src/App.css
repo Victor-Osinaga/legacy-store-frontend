@@ -18,6 +18,11 @@
   --colorSecondary: rgb(218, 155, 62);
   --iconSize: 24px;
 
+  /* CUSTOM GRAY */
+  --bgGrayDark: #23252F;
+  --bgGrayMedium: #2B2D38;
+  --bgGrayLight: #555b5d; /* test */
+
   /* CUSTOM BLUE */
   --bgBlueDark: #073f51; /* test */
   --bgBlueMedium: #084c61;

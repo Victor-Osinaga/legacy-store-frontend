@@ -3,23 +3,17 @@
   /* agregado */
   /* background-color: rgba(0, 0, 0, 0.816); */
   /* background-color: rgb(255, 255, 255); */
-  background-color: #eceff1;
+  /* background-color: #eceff1; */
   /* background: rgb(23,23,23); */
 /* background: radial-gradient(circle, rgba(23,23,23,1) 50%, rgba(31,31,31,1) 100%, rgba(37,37,37,1) 100%); */
-
-  /* agregado */
-}
-
-.itemListContainer__title {
-  font-size: 2rem;
 }
 
 
 
 .glitch {
   /* background: rgb(212, 212, 212); */
-  color: black;
-  font-size: 30px;
+  /* color: black; */
+  font-size: 1.5rem;
   position: relative;
   min-width: 400px;
   margin: 0 auto;
@@ -114,10 +108,11 @@
 .glitch:after {
   content: attr(data-text);
   position: absolute;
-  left: 4px;
-  text-shadow: -1px 0 red;
+  left: 3px;
+  text-shadow: -2px 0 red;
   top: 0;
-  color: black;
+  width: 100%;
+  /* color: white; */
   /* background: rgb(212, 212, 212); */
   overflow: hidden;
   clip: rect(0, 900px, 0, 0);
@@ -213,10 +208,11 @@
 .glitch:before {
   content: attr(data-text);
   position: absolute;
-  left: -3px;
-  text-shadow: 1px 0 blue;
+  left: -2px;
+  text-shadow: 2px 0 blue;
   top: 0;
-  color: black;
+  width: 100%;
+  /* color: white; */
   /* background: rgb(212, 212, 212); */
   overflow: hidden;
   clip: rect(0, 900px, 0, 0);

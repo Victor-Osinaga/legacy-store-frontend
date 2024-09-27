@@ -1,5 +1,5 @@
 .itemContainer {
-  padding: 10px 1px;
+  padding: 10px 3px;
   height: 450px;
   width: 280px;
   display: flex;
@@ -7,18 +7,21 @@
   align-items: center;
   flex-direction: column;
   gap: 5px;
-  background: white;
-  outline: 1px solid #cccccc;
+  /* background: white; */
+  /* outline: 1px solid #cccccc; */
   transition: outline .5s ease;
   background-color: white;
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
   overflow: hidden;
   position: relative;
+  box-shadow: inset 0 0 0 1px hsla(0,0%,100%,.08), 0px 0px 5px 0px hsla(0,0%,100%,.08);
+  transition: all .3s ease-in-out;
 }
 
 .itemContainer:hover {
-  outline: 1px solid #767677;
+  /* outline: 1px solid #767677; */
+  box-shadow: inset 0 0 0 3px hsla(0,0%,100%,.08), 0px 0px 5px 5px hsla(0,0%,100%,.08);
 }
 
 .itemTitulo{
@@ -28,8 +31,12 @@
 
 .itemImgContainer {
   width: 100%;
-  height: 100%;
+  /* height: 100%; */
+  height: 250px;
   overflow: hidden;
+  padding: 1px;
+  /* box-shadow: inset 0 0 0 10px hsla(0,0%,100%,.08); */
+  box-shadow: 0px 0px 15px 2px rgba(0,0,0,0.34) inset;
 }
 
 .itemImg {
@@ -38,10 +45,8 @@
   object-fit: cover;
 }
 
-.itemPrecio{
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: green;
+.item-price{
+  /* text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.292); */
 }
 
 .btn__vermas {
@@ -53,7 +58,7 @@
   align-items: center;
   justify-content: center;
   /* font-weight: bold; */
-  font-size: 1rem;
+  /* font-size: 1rem; */
   /* background: #732D4D; */
   /* background: var(--colorSecondary); */
   /* padding: 5px 10px; */
@@ -67,16 +72,13 @@
   color: black;
 }
 
-.consulta{
-  font-size: .8rem;
-}
 .consulta:hover{
   text-decoration: underline;
 }
 
 .item__logoWp{
-  width: 18px;
-  height: 18px;
+  width: 12px;
+  height: 12px;
   /* background-color: red; */
 }
 
@@ -85,11 +87,6 @@
   .itemContainer {
     height: 350px;
     width: 200px;
-  }
-
-  .itemImgContainer {
-    /* height: 200px; */
-    width: 60%;
   }
 }
 
@@ -100,14 +97,15 @@
   }
 
   .btn__vermas {
-    font-size: 14px;
+    /* font-size: 10px; */
+
     margin-top: 0px;
     border-radius: 3px;
     border: none;
     /* background: #732D4D; */
     background: var(--colorSecondary);
     /* padding: 5px 10px; */
-    color: white;
+    color: black;
   }
 }
 

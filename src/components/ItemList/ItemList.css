@@ -2,8 +2,9 @@
   /* display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr; */
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-around;
   align-items: center;
+  /* align-content: flex-start; */
   gap: 10px;
   flex-wrap: wrap;
   max-width: 90vw;
@@ -11,25 +12,15 @@
   padding: 0px 0px 20px;
 }
 
-.titleItemList {
-  grid-column: span 4;
-}
-
 
 @media screen and (max-width: 767px) {
   .itemList {
     grid-template-columns: 1fr 1fr;
   }
-  .titleItemList {
-  grid-column: span 2;
-}
 }
 
 @media screen and (max-width: 480px) {
   .itemList {
     grid-template-columns: 1fr;
-  }
-  .titleItemList {
-    grid-column: span 1;
   }
 }

@@ -19,8 +19,7 @@ function Checkout() {
             postalCode: "4400",
             streetName: "los Andes",
             streetNumber: "10",
-            stateName: "Salta",
-            stateId: "",
+            shipmentId: "",
             cityName: "salta capital",
         }
     })
@@ -102,58 +101,6 @@ function Checkout() {
         return emailRegex.test(inputValue);
     };
 
-    // const prevent = async (event) => {
-    //     event.preventDefault()
-    //     const toastId = toast.loading(
-    //         <div> <strong>Comprobando</strong>...</div>,
-    //         {
-    //             style: {
-    //                 position: 'relative',
-    //                 minWidth: '480px',
-    //                 zIndex: '1000000'
-    //             }
-    //         }
-    //     );
-    //     const inputs = event.target.querySelectorAll('input');
-    //     let allInputsValid = true;
-
-    //     // Recorrer los inputs y verificar sus clases
-    //     inputs.forEach((input) => {
-    //         if (!input.classList.contains('is-valid')) {
-    //             // Si un input no tiene la clase "is-valid", establecer allInputsValid en false
-    //             allInputsValid = false;
-    //         }
-    //     });
-
-    //     if (allInputsValid) {
-    //         const result = await handleBuy();
-    //         if (result.status === 'ok') {
-    //             toast.success(
-    //                 <div><strong>Redireccionando...</strong></div>,
-    //                 {
-    //                     id: toastId
-    //                 }
-    //             );
-    //             // setTimeout(() => {
-    //             navigate('/resumen', {
-    //                 state: {
-    //                     datos: { link: result.data.init_point, resumen: result.buyOrder, shipmentCost: result.data.costShipment, externalReference: result.data.externalReference },
-    //                 },
-    //             });
-    //             // }, 1000);
-    //             // navigate('/resumen', { state: { datos: { link: result.data, resumen: result.buyOrder } } })
-    //         }
-    //     } else {
-    //         // Si al menos un input no tiene la clase "is-valid", mostrar un mensaje de error o tomar alguna otra acción
-    //         toast.error(
-    //             <div><strong>Porfavor complete todos los campos correctamente...</strong>...</div>,
-    //             {
-    //                 id: toastId
-    //             }
-    //         );
-    //     }
-    // }
-
     const onSubmit = async (data) => {
         console.log("data", data);
         const toastId = toastLoading("Creando orden de pago...")
@@ -183,14 +130,16 @@ function Checkout() {
                     },
                     shipment: {
                         shipmentType: data.shipmentType,
-                        shipmentLocalId: data.stateId
+                        shipmentId: data.shipmentId
                     }
                 }
+
+                console.log("dataPayment", dataPayment);
 
                 const payment = await createPaymentStore(dataPayment)
                 console.log("PAYMENT", payment);
 
-                
+
                 setTimeout(() => {
                     toastSuccess(
                         <>Redireccionando...</>,
@@ -200,7 +149,61 @@ function Checkout() {
                     navigate('/resumen', {
                         state: {
                             // datos: { link: payment.init_point, resumen: dataPayment, shipments: payment.shipments, externalReference: payment.externalReference },
-                            datos: {...payment, resumen: dataPayment},
+                            datos: { ...payment, resumen: dataPayment },
+                        },
+                    });
+                }, 1000);
+            } else if (data.shipmentType == "shipment_delivery") {
+                const dataPayment = {
+                    products: cart.map(prod => ({
+                        name: prod.name,
+                        image: prod.image,
+                        selectedSizeName: prod.selectedSizeName,
+                        selectedColorName: prod.selectedColorName,
+                        price: prod.price,
+
+                        id: prod.id,
+                        selectedSizeId: prod.selectedSizeId,
+                        selectedColorId: prod.selectedColorId,
+                        quantity: prod.quantity
+                    })),
+                    payer: {
+                        name: data.name,
+                        surname: data.surname,
+                        email: data.email,
+                        areaCode: data.areaCode,
+                        numberPhone: data.numberPhone
+
+                    },
+                    shipment: {
+                        shipmentType: data.shipmentType,
+                        shipmentId: data.shipmentId,
+                        receiverAddress: {
+                            zipCode: data.postalCode,
+                            cityName: data.cityName,
+                            streetName: data.streetName,
+                            streetNumber: data.streetNumber,
+                        }
+                    }
+                }
+
+                console.log("dataPayment", dataPayment);
+
+
+                const payment = await createPaymentStore(dataPayment)
+                console.log("PAYMENT", payment);
+
+
+                setTimeout(() => {
+                    toastSuccess(
+                        <>Redireccionando...</>,
+                        toastId
+                    )
+
+                    navigate('/resumen', {
+                        state: {
+                            // datos: { link: payment.init_point, resumen: dataPayment, shipments: payment.shipments, externalReference: payment.externalReference },
+                            datos: { ...payment, resumen: dataPayment },
                         },
                     });
                 }, 1000);
@@ -228,15 +231,22 @@ function Checkout() {
                                 <div className="">
                                     <h3 className='fs-5 mainTitleCheckout '>FORMULARIO DE CONTACTO Y ENVIO</h3>
                                 </div>
-                                <div className='rounded py-1'>
+                                {/* <div className='rounded py-1'>
                                     <div className='d-flex bg-success px-4 py-1 justify-content-between align-items-center'>
-                                        <button type='submit' id='submitNewClient' className='btnPagar bg-success border border-0 text-white d-flex h-100 w-100 justify-content-center align-items-center'>
+                                        <button type='submit' className='btnPagar bg-success border border-0 text-white d-flex h-100 w-100 justify-content-center align-items-center'>
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="svg_plus text-white me-2">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path>
                                             </svg>
                                             RESUMEN
                                         </button>
                                     </div>
+                                </div> */}
+                                <div className="btnResumen rounded mb-2 text-white">
+                                    <button
+                                        type="submit"
+                                        className='m-0 fw-semibold'>
+                                        RESUMEN
+                                    </button>
                                 </div>
                             </div>
                             <div className='formContainerCheckout bgSecondary rounded mt-4 border shadow-lg'>
@@ -349,7 +359,7 @@ function Checkout() {
                                             {/* CHECK RADIOS SHIPMENTS TYPES */}
                                             <div className="col-12 col-md-12 row mb-3">
                                                 {/* CHECK RADIO TYPE SHIPMENT LOCAL */}
-                                                <div className="col-6">
+                                                <div className="col-6 text-md-start text-center">
                                                     <input
                                                         class="form-check-input"
                                                         type="radio"
@@ -363,16 +373,16 @@ function Checkout() {
                                                             }
                                                         })}
                                                         onClick={() => {
-                                                            setValue("stateId", "")
+                                                            setValue("shipmentId", "")
                                                         }}
                                                     />
-                                                    <label class="form-check-label ms-1" for="flexRadioDefault2">
+                                                    <label class="form-check-label ms-1 fw-bold checkoutLabelOption" for="flexRadioDefault2">
                                                         Retiro en sucursal
                                                     </label>
                                                 </div>
 
                                                 {/* CHECK RADIO TYPE SHIPMENT DELIVERY */}
-                                                <div className="col-6">
+                                                <div className="col-6 text-md-start text-center">
                                                     <input
                                                         class="form-check-input"
                                                         type="radio"
@@ -386,25 +396,25 @@ function Checkout() {
                                                             }
                                                         })}
                                                         onClick={() => {
-                                                            setValue("stateId", "")
+                                                            setValue("shipmentId", "")
                                                         }}
                                                     />
-                                                    <label class="form-check-label ms-1" for="flexRadioDefault1">
+                                                    <label class="form-check-label ms-1 fw-bold checkoutLabelOption" for="flexRadioDefault1">
                                                         Envio a domicilio
                                                     </label>
                                                 </div>
-                                                {errors.shipmentType && <span className="mt-1 fontXS-Custom text-danger text-center">{errors.shipmentType.message} <span className='fw-semibold'>*</span></span>}
+                                                {errors.shipmentType && <span className="mt-1 fontXS-Custom text-danger text-md-start text-center">{errors.shipmentType.message} <span className='fw-semibold'>*</span></span>}
                                             </div>
 
                                             {/* SHIPMENT LOCAL INPUTS VISIBLE */}
                                             {watch('shipmentType') == "shipment_local" && <>
                                                 <div className='col-12 col-md-12 mb-3'>
-                                                    <label htmlFor="stateId" className="form-label fw-semibold w-100 d-flex mb-1">Elige una sucursal</label>
+                                                    <label htmlFor="shipmentId" className="form-label fw-semibold w-100 d-flex mb-1">Elige una sucursal</label>
                                                     <select
                                                         type="select"
                                                         className="form-select fontSM-Custom"
-                                                        id="stateId"
-                                                        {...register('stateId', {
+                                                        id="shipmentId"
+                                                        {...register('shipmentId', {
                                                             required: {
                                                                 value: true,
                                                                 message: "Elige una sucursal"
@@ -418,15 +428,15 @@ function Checkout() {
                                                             </option>
                                                         ))}
                                                     </select>
-                                                    {errors.stateId && <span className="mt-1 fontXS-Custom text-danger">{errors.stateId.message} <span className='fw-semibold'>*</span></span>}
+                                                    {errors.shipmentId && <span className="mt-1 fontXS-Custom text-danger">{errors.shipmentId.message} <span className='fw-semibold'>*</span></span>}
                                                 </div>
                                                 <div className="col-12 col-md-12 mb-3">
                                                     <label htmlFor="cityName" className="form-label fw-semibold w-100 d-flex mb-1">Información de retiro</label>
-                                                    {watch('stateId') && shipmentsLocal.find(s => s.id === getValues('stateId')) && (
+                                                    {watch('shipmentId') && shipmentsLocal.find(s => s.id === getValues('shipmentId')) && (
                                                         <div className='col-12 col-md-12 mb-3'>
 
                                                             {shipmentsLocal.map(s => {
-                                                                if (s.id == getValues("stateId")) {
+                                                                if (s.id == getValues("shipmentId")) {
                                                                     return <div>
                                                                         <p>Retira en: {s.province}, {s.locality} - {s.postalCode}</p>
                                                                         <p>Dirección: {s.streetName}, {s.streetNumber}</p>
@@ -447,12 +457,12 @@ function Checkout() {
                                             {/* SHIPMENT DELIVERY INPUTS VISIBLE*/}
                                             {watch('shipmentType') == "shipment_delivery" && <>
                                                 <div className='col-12 col-md-12 mb-3'>
-                                                    <label htmlFor="stateId" className="form-label fw-semibold w-100 d-flex mb-1">Elige una provincia</label>
+                                                    <label htmlFor="shipmentId" className="form-label fw-semibold w-100 d-flex mb-1">Elige una provincia</label>
                                                     <select
                                                         type="select"
                                                         className="form-select fontSM-Custom"
-                                                        id="stateId"
-                                                        {...register('stateId', {
+                                                        id="shipmentId"
+                                                        {...register('shipmentId', {
                                                             required: {
                                                                 value: true,
                                                                 message: "Elige una provincia"
@@ -466,100 +476,136 @@ function Checkout() {
                                                             </option>
                                                         ))}
                                                     </select>
-                                                    {errors.stateId && <span className="mt-1 fontXS-Custom text-danger">{errors.stateId.message} <span className='fw-semibold'>*</span></span>}
+                                                    {errors.shipmentId && <span className="mt-1 fontXS-Custom text-danger">{errors.shipmentId.message} <span className='fw-semibold'>*</span></span>}
                                                 </div>
 
-                                                {/* LOCALITY */}
-                                                <div className='col-12 col-md-6 mb-3'>
-                                                    <label htmlFor="locality" className="form-label fw-semibold w-100 d-flex mb-1">Localidad</label>
-                                                    <input
-                                                        type="text"
-                                                        className="form-control fontSM-Custom"
-                                                        id="locality"
-                                                        {...register('locality', {
-                                                            required: {
-                                                                value: true,
-                                                                message: "Debes ingresar una localidad"
-                                                            },
-                                                            validate: function (v) {
-                                                                if (v.length < 3 || v.length > 40) {
-                                                                    return "La localidad debe tener entre 3 y 40 caracteres"
-                                                                }
-                                                            }
-                                                        })}
+                                                <div className="col-12 col-md-12 mb-3">
+                                                    <label htmlFor="cityName" className="form-label fw-semibold w-100 d-flex mb-1">Información de envio</label>
+                                                    {watch('shipmentId') && shipmentsDelivery.find(s => s.id === getValues('shipmentId')) && (
+                                                        <>
+                                                            {/* cityName */}
+                                                            <div className='col-12 col-md-6 mb-3'>
+                                                                <label htmlFor="cityName" className="form-label fw-semibold w-100 d-flex mb-1">Localidad</label>
+                                                                <input
+                                                                    type="text"
+                                                                    className="form-control fontSM-Custom"
+                                                                    id="cityName"
+                                                                    {...register('cityName', {
+                                                                        required: {
+                                                                            value: true,
+                                                                            message: "Debes ingresar una localidad"
+                                                                        },
+                                                                        validate: function (v) {
+                                                                            if (v.length < 3 || v.length > 40) {
+                                                                                return "La localidad debe tener entre 3 y 40 caracteres"
+                                                                            }
+                                                                        }
+                                                                    })}
 
-                                                    />
-                                                    {errors.locality && <span className="mt-1 fontXS-Custom text-danger">{errors.locality.message} <span className='fw-semibold'>*</span></span>}
+                                                                />
+                                                                {errors.cityName && <span className="mt-1 fontXS-Custom text-danger">{errors.cityName.message} <span className='fw-semibold'>*</span></span>}
+                                                            </div>
+
+                                                            {/* POSTAL CODE */}
+                                                            <div className='col-12 col-md-6 mb-3'>
+                                                                <label htmlFor="postalCode" className="form-label fw-semibold w-100 d-flex mb-1">Código postal</label>
+                                                                <input
+                                                                    type="text"
+                                                                    className="form-control fontSM-Custom"
+                                                                    id="postalCode"
+                                                                    {...register('postalCode', {
+                                                                        required: {
+                                                                            value: true,
+                                                                            message: "Debes ingresar un 'código postal'"
+                                                                        },
+                                                                        validate: function (v) {
+                                                                            if (v.length < 2 || v.length > 10) {
+                                                                                return "El 'código postal' debe tener entre 2 y 10 caracteres"
+                                                                            }
+                                                                        }
+                                                                    })}
+                                                                />
+                                                                {errors.postalCode && <span className="mt-1 fontXS-Custom text-danger">{errors.postalCode.message} <span className='fw-semibold'>*</span></span>}
+
+                                                            </div>
+
+                                                            {/* STREET NAME */}
+                                                            <div className='col-12 col-md-6 mb-3'>
+                                                                <label htmlFor="streetName" className="form-label fw-semibold w-100 d-flex mb-1">Nombre de calle</label>
+                                                                <input
+                                                                    type="text"
+                                                                    className="form-control fontSM-Custom"
+                                                                    id="streetName"
+                                                                    {...register('streetName', {
+                                                                        required: {
+                                                                            value: true,
+                                                                            message: "Debes ingresar el nombre de la 'calle'"
+                                                                        },
+                                                                        validate: function (v) {
+                                                                            if (v.length < 2 || v.length > 10) {
+                                                                                return "El nombre de la 'calle' debe tener entre 2 y 10 caracteres"
+                                                                            }
+                                                                        }
+                                                                    })}
+                                                                />
+                                                                {errors.streetName && <span className="mt-1 fontXS-Custom text-danger">{errors.streetName.message} <span className='fw-semibold'>*</span></span>}
+
+                                                            </div>
+
+                                                            {/* STREET NUMBER */}
+                                                            <div className='col-12 col-md-6 mb-3'>
+                                                                <label htmlFor="streetNumber" className="form-label fw-semibold w-100 d-flex mb-1">Número de dpto/casa</label>
+                                                                <input
+                                                                    type="number"
+                                                                    className="form-control fontSM-Custom"
+                                                                    id="streetNumber"
+                                                                    {...register('streetNumber', {
+                                                                        required: {
+                                                                            value: true,
+                                                                            message: "Debes ingresar el 'número'"
+                                                                        },
+                                                                        validate: function (v) {
+                                                                            // Intentar convertir la cadena a número
+                                                                            const numberValue = Number(v);
+
+                                                                            // Validar si la conversión resultó en un número válido
+                                                                            if (isNaN(numberValue)) {
+                                                                                return "El valor debe ser un número";
+                                                                            }
+
+                                                                            // Validar si es un número entero
+                                                                            if (!Number.isInteger(numberValue)) {
+                                                                                return "El valor debe ser un número entero";
+                                                                            }
+
+                                                                            // Validar que no sea negativo ni 0
+                                                                            if (numberValue <= 0) {
+                                                                                return "El valor debe ser mayor que 0";
+                                                                            }
+
+                                                                            // Verificar la longitud de la cadena original
+                                                                            if (v.length < 1 || v.length > 10) {
+                                                                                return "El 'número' debe tener entre 1 y 10 caracteres";
+                                                                            }
+
+                                                                            // Si pasa todas las validaciones
+                                                                            return true;
+                                                                        }
+                                                                    })}
+                                                                />
+                                                                {errors.streetNumber && <span className="mt-1 fontXS-Custom text-danger">{errors.streetNumber.message} <span className='fw-semibold'>*</span></span>}
+                                                            </div>
+                                                        </>
+                                                    )
+                                                        || (
+                                                            <div>
+                                                                <p>Por favor selecciona una provincia, si no ves la provincia a la que deseas que enviemos tus productos es posible que el dueño de la tienda todavia no realize envios hacia esa provincia.</p>
+                                                            </div>
+                                                        )
+                                                    }
                                                 </div>
 
-                                                {/* POSTAL CODE */}
-                                                <div className='col-12 col-md-6 mb-3'>
-                                                    <label htmlFor="postalCode" className="form-label fw-semibold w-100 d-flex mb-1">Código postal</label>
-                                                    <input
-                                                        type="text"
-                                                        className="form-control fontSM-Custom"
-                                                        id="postalCode"
-                                                        {...register('postalCode', {
-                                                            required: {
-                                                                value: true,
-                                                                message: "Debes ingresar un 'código postal'"
-                                                            },
-                                                            validate: function (v) {
-                                                                if (v.length < 2 || v.length > 10) {
-                                                                    return "El 'código postal' debe tener entre 2 y 10 caracteres"
-                                                                }
-                                                            }
-                                                        })}
-                                                    />
-                                                    {errors.postalCode && <span className="mt-1 fontXS-Custom text-danger">{errors.postalCode.message} <span className='fw-semibold'>*</span></span>}
 
-                                                </div>
-
-                                                {/* STREET NAME */}
-                                                <div className='col-12 col-md-6 mb-3'>
-                                                    <label htmlFor="streetName" className="form-label fw-semibold w-100 d-flex mb-1">Nombre de calle</label>
-                                                    <input
-                                                        type="text"
-                                                        className="form-control fontSM-Custom"
-                                                        id="streetName"
-                                                        {...register('streetName', {
-                                                            required: {
-                                                                value: true,
-                                                                message: "Debes ingresar el nombre de la 'calle'"
-                                                            },
-                                                            validate: function (v) {
-                                                                if (v.length < 2 || v.length > 10) {
-                                                                    return "El nombre de la 'calle' debe tener entre 2 y 10 caracteres"
-                                                                }
-                                                            }
-                                                        })}
-                                                    />
-                                                    {errors.streetName && <span className="mt-1 fontXS-Custom text-danger">{errors.streetName.message} <span className='fw-semibold'>*</span></span>}
-
-                                                </div>
-
-                                                {/* STREET NUMBER */}
-                                                <div className='col-12 col-md-6 mb-3'>
-                                                    <label htmlFor="streetNumber" className="form-label fw-semibold w-100 d-flex mb-1">Número de dpto/casa</label>
-                                                    <input
-                                                        type="text"
-                                                        className="form-control fontSM-Custom"
-                                                        id="streetNumber"
-                                                        {...register('streetNumber', {
-                                                            required: {
-                                                                value: true,
-                                                                message: "Debes ingresar el 'número'"
-                                                            },
-                                                            validate: function (v) {
-                                                                if (v.length < 2 || v.length > 10) {
-                                                                    return "El 'número' debe tener entre 1 y 10 caracteres"
-                                                                }
-                                                            }
-                                                        })}
-                                                    />
-                                                    {errors.streetNumber && <span className="mt-1 fontXS-Custom text-danger">{errors.streetNumber.message} <span className='fw-semibold'>*</span></span>}
-
-                                                </div>
                                             </>}
                                         </div>
                                         <hr className='text-secondary' />

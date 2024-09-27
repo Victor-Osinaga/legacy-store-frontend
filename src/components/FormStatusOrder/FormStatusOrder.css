@@ -1,4 +1,20 @@
 .formStatusOrderContainer{
     min-height: calc(100vh - var(--navHeight));
-    background-color: var(--bgMain);
+    background-color: var(--bgGrayDark);
+    /* border: 1px solid red; */
 }
+
+.formOrderStatus{
+    background-color: var(--bgGrayMedium);
+    box-shadow: inset 0 0 0 1px hsla(0,0%,100%,.08);
+    color: white;
+    width: 50%;
+    min-height: 300px;
+    
+}
+
+@media (max-width: 768px) {
+    .formOrderStatus {
+        width: 80%;
+    }
+  }

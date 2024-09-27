@@ -9,6 +9,40 @@
   background-color: var(--bgMain);
 }
 
+.btnCheckout{
+  background-color: var(--bgBlueMedium);
+  border: none;
+  width: 100%;
+  margin: 0 auto;
+  letter-spacing: 1px;
+  box-shadow: inset 0 0 0 2px hsla(0,0%,100%,.08);
+  transition: all .3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  height: 56px;
+  padding: 6px 12px;
+}
+
+.btnCheckout button {
+  color: white;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  background: transparent;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  font-weight: 600;
+}
+
+.btnCheckout:hover {
+  cursor: pointer;
+  background-color: var(--bgBlueLight);
+  box-shadow: inset 0 0 0 3px hsla(0,0%,100%,.08);
+}
+
 .itemCartContainer {
   display: flex;
   justify-content: center;

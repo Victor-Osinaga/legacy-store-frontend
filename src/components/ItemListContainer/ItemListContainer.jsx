@@ -5,11 +5,11 @@ import './ItemListContainer.css';
 import Footer from "../footer/footer";
 import Bienvenida from "../Bienvenida/Bienvenida";
 import useStoreContext from "../../provider/storeProvider.jsx";
-
+import getTextColor from "../../utils/getTextColor.js";
 
 
 function ItemListContainer({ titulo }) {
-    const { products, getItemsByPrimaryCategoryContext, getItemsBySecondaryCategoryContext, getItemsByTerciaryCategoryContext } = useStoreContext()
+    const { products, getItemsByPrimaryCategoryContext, getItemsBySecondaryCategoryContext, getItemsByTerciaryCategoryContext, configStore, loadingConfig } = useStoreContext()
     const [productos, setProductos] = useState(products);
 
     const { name, categoryid, subcategoryname, subcategoryid, subsubcategoryname, subsubcategoryid } = useParams();
@@ -18,7 +18,7 @@ function ItemListContainer({ titulo }) {
     useEffect(() => {
         if (!categoryid && !subcategoryid && !subsubcategoryid) {
             // setTimeout(() => {
-                setProductos(products)
+            setProductos(products)
             // }, 3000);
         } else if (categoryid && !subcategoryid && !subsubcategoryid) {
             // getItemsByPrimaryCategory(categoryid).then(respuestaPromise => {
@@ -39,23 +39,38 @@ function ItemListContainer({ titulo }) {
             const products = getItemsByTerciaryCategoryContext(subsubcategoryid)
             setProductos(products)
         }
-    }, [products, name, categoryid, subcategoryid, subsubcategoryid, subcategoryname, subsubcategoryname]);
+    }, [loadingConfig, products, name, categoryid, subcategoryid, subsubcategoryid, subcategoryname, subsubcategoryname]);
+
 
     let content; // Variable para almacenar el contenido JSX
 
     if (categoryid && !subcategoryid && !subsubcategoryid) {
         content = (
             <>
-                <span className="glitch" data-text={titulo.toUpperCase()}>{titulo.toUpperCase()}</span>
-                <span className="glitch" data-text={name.toUpperCase()}>
-                    {name.toUpperCase()}
+                <span
+                    className="glitch mx-auto text-uppercase" 
+                    data-text={`${titulo.toUpperCase()} ${name.toUpperCase()}`}
+                    style={{ color: getTextColor(configStore.colors.tertiaryColorStore) }}
+                >
+                    {titulo.toUpperCase()} {name.toUpperCase()}
                 </span>
+                {/* <span
+                    className="glitch"
+                    data-text={name.toUpperCase()}
+                    style={{ color: getTextColor(configStore.colors.tertiaryColorStore) }}
+                >
+                    {}
+                </span> */}
             </>
         );
     } else if (subcategoryid && !categoryid && !subsubcategoryid) {
         content = (
             <>
-                <span className="" data-text={`${titulo.toUpperCase()} ${name.toUpperCase()} > ${subcategoryname?.toUpperCase()}`}>
+                <span
+                    className="glitch mx-auto text-uppercase"
+                    data-text={`${titulo.toUpperCase()} ${name.toUpperCase()} > ${subcategoryname?.toUpperCase()}`}
+                    style={{ color: getTextColor(configStore.colors.tertiaryColorStore) }}
+                >
                     {titulo.toUpperCase()} {`${name.toUpperCase()} > ${subcategoryname?.toUpperCase()}`}
                 </span>
             </>
@@ -63,57 +78,147 @@ function ItemListContainer({ titulo }) {
     } else if (subsubcategoryid && !categoryid && !subcategoryid) {
         content = (
             <>
-                <span className="" data-text={`${titulo.toUpperCase()} ${name.toUpperCase()} > ${subcategoryname?.toUpperCase()} > ${subsubcategoryname?.toUpperCase()}`}>
+                <span
+                    className="glitch mx-auto text-uppercase"
+                    data-text={`${titulo.toUpperCase()} ${name.toUpperCase()} > ${subcategoryname?.toUpperCase()} > ${subsubcategoryname?.toUpperCase()}`}
+                    style={{ color: getTextColor(configStore.colors.tertiaryColorStore) }}
+                >
                     {titulo.toUpperCase()} {`${name.toUpperCase()} > ${subcategoryname?.toUpperCase()} > ${subsubcategoryname?.toUpperCase()}`}
                 </span>
             </>
         );
     }
 
-    if (!categoryid && !subcategoryid && !subsubcategoryid) {
-        return (
-            <>
-                {/* <Bienvenida /> */}
-                <div className="ItemListContainer">
-                    <span className="glitch" data-text={titulo.toUpperCase()}>{titulo.toUpperCase()}</span>
-                    {console.log("productos", productos)}
-                    {
-                        !productos ? (
-                            <div className="d-flex align-items-center justify-content-center h-100 ">
-                                <p>Cargando ...</p>
-                            </div>
-                        ) : productos.length < 1 ? (
-                            <div className="d-flex align-items-center justify-content-center h-100 ">
-                                <p>Estamos agregando productos ...</p>
-                            </div>
-                        ) : (
-                            <ItemList
-                                productos={productos}
-                            />
-                        )
-                    }
 
-                </div>
-                <Footer />
-            </>
-        )
-    } else {
-        return (
+
+    function renderContent() {
+        if (!loadingConfig) {
+            if (!categoryid && !subcategoryid && !subsubcategoryid) {
+                return (
+                    <>
+                        {/* <Bienvenida /> */}
+                        <div className="ItemListContainer py-2" style={{ backgroundColor: `${configStore.colors.tertiaryColorStore}` }}>
+                            <div className="text-center mb-3">
+                                <span
+                                    className="glitch mx-auto text-uppercase"
+                                    style={{ color: getTextColor(configStore.colors.tertiaryColorStore) }}
+                                    data-text={titulo.toUpperCase()}
+                                >
+                                    {titulo}
+                                </span>
+                            </div>
+                            {console.log("productos", productos)}
+                            {
+                                !productos ? (
+                                    <div className="d-flex align-items-center justify-content-center h-100 ">
+                                        <p>Cargando ...</p>
+                                    </div>
+                                ) : productos.length < 1 ? (
+                                    <div className="d-flex align-items-center justify-content-center h-100 ">
+                                        <p>Estamos agregando productos ...</p>
+                                    </div>
+                                ) : (
+                                    <ItemList
+                                        productos={productos}
+                                    />
+                                )
+                            }
+
+                        </div>
+                        <Footer />
+                    </>
+                )
+            } else {
+                return (
+                    <>
+                        <div className="ItemListContainer py-2" style={{ backgroundColor: `${configStore.colors.tertiaryColorStore}` }}>
+                            <div className="text-center mb-3">
+                                {content}
+                            </div>
+
+                            {productos.length > 0 ? (
+                                <ItemList
+                                    productos={productos}
+                                />
+                            ) : (
+                                <div>Pronto agregaremos más productos a esta categoria ...</div>
+                            )}
+                        </div>
+                        <Footer />
+                    </>
+                )
+            }
+        } else {
             <>
-                <div className="ItemListContainer">
-                    {content}
-                    {productos.length > 0 ? (
-                        <ItemList
-                            productos={productos}
-                        />
-                    ) : (
-                        <div>Pronto agregaremos más productos a esta categoria ...</div>
-                    )}
-                </div>
-                <Footer />
+                <section className='spinnerContainer'>
+                    <div className="spinner-grow" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                    </div>
+                </section>
             </>
-        )
+        }
     }
+
+    return <>{renderContent()}</>;
+
+    // if (!categoryid && !subcategoryid && !subsubcategoryid) {
+    //     return (
+    //         <>
+    //             {/* <Bienvenida /> */}
+    //             {loadingConfig ? (
+    //                 <>
+    //                     <section className='spinnerContainer'>
+    //                         <div className="spinner-grow" role="status">
+    //                             <span className="visually-hidden">Loading...</span>
+    //                         </div>
+    //                     </section>
+    //                 </>
+    //             ) : (
+    //                 <>
+    //                     <div className="ItemListContainer" style={{ backgroundColor: `${configStore.colors.tertiaryColorStore}` }}>
+    //                         <div className="text-center">
+    //                             <span className="glitch mx-auto" style={{ color: getTextColor(configStore.colors.tertiaryColorStore) }} data-text={titulo.toUpperCase()}>{titulo.toUpperCase()}</span>
+    //                         </div>
+    //                         {console.log("productos", productos)}
+    //                         {
+    //                             !productos ? (
+    //                                 <div className="d-flex align-items-center justify-content-center h-100 ">
+    //                                     <p>Cargando ...</p>
+    //                                 </div>
+    //                             ) : productos.length < 1 ? (
+    //                                 <div className="d-flex align-items-center justify-content-center h-100 ">
+    //                                     <p>Estamos agregando productos ...</p>
+    //                                 </div>
+    //                             ) : (
+    //                                 <ItemList
+    //                                     productos={productos}
+    //                                 />
+    //                             )
+    //                         }
+
+    //                     </div>
+    //                     <Footer />
+    //                 </>
+    //             )}
+    //         </>
+    //     )
+    // } else {
+    //     return (
+    //         <>
+    //             <div className="ItemListContainer">
+    //                 {content}
+    //                 {productos.length > 0 ? (
+    //                     <ItemList
+    //                         productos={productos}
+    //                     />
+    //                 ) : (
+    //                     <div>Pronto agregaremos más productos a esta categoria ...</div>
+    //                 )}
+    //             </div>
+    //             <Footer />
+    //         </>
+    //     )
+    // }
 }
 
 export default ItemListContainer;

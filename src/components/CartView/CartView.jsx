@@ -3,9 +3,10 @@ import useStoreContext from "../../provider/storeProvider";
 import { Link } from 'react-router-dom';
 import DeleteIcon from "../Icons/DeleteIcon/DeleteIcon";
 import './CartView.css'
+import getTextColor from "../../utils/getTextColor.js";
 
 function CartView() {
-    const { cart, removeFromCart, cleanCart, calcPriceCart } = useStoreContext();
+    const { cart, removeFromCart, cleanCart, calcPriceCart, loadingConfig, configStore } = useStoreContext();
     console.log("carrito: ", cart);
 
     const buttonStyle = {
@@ -26,14 +27,14 @@ function CartView() {
             //     </div>
             // </section>
             <section style={{
-                backgroundColor: '#23252F',
-                color: 'white',
+                backgroundColor: `${configStore.colors.tertiaryColorStore}`,
+                color: `${getTextColor(configStore.colors.tertiaryColorStore)}`,
                 minHeight: 'calc(100vh - var(--navHeight))',
                 padding: '3rem 0',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
-                flexDirection: 'column'
+                flexDirection: 'column',
             }} >
                 {/* <div> */}
                 <h4>No hay items en el carrito</h4>
@@ -206,10 +207,11 @@ function CartView() {
 
             // VARIANTE 3
             <div style={{
-                backgroundColor: '#23252F',
+                // backgroundColor: '#23252F',
                 color: 'white',
                 minHeight: 'calc(100vh - var(--navHeight))',
-                padding: '3rem 0'
+                padding: '3rem 0',
+                backgroundColor: `${configStore.colors.tertiaryColorStore}`,
             }}>
                 <div style={{
                     maxWidth: '1200px',
@@ -225,15 +227,16 @@ function CartView() {
                         {/* <div style={{ display: 'grid', gap: '1.5rem' }}> */}
                         {cart.map((item) => (
                             <div
+                                className="cartItem"
                                 key={item.id}
                                 style={{
                                     display: 'grid',
                                     gridTemplateColumns: '100px 1fr 100px',
                                     alignItems: 'center',
                                     gap: '1rem',
-                                    backgroundColor: '#2B2D38',
+                                    backgroundColor: `${configStore.colors.secondaryColorStore}`,
                                     borderRadius: '0.5rem',
-                                    padding: '1rem'
+                                    padding: '1rem',
                                 }}
                             >
 
@@ -250,15 +253,25 @@ function CartView() {
                                 />
                                 <div>
                                     {/* <h3 style={{ fontWeight: '600' }}>{item.name} <h6><span>(${item.price} c/u)</span></h6> </h3> */}
-                                    <h3 style={{ fontWeight: '600' }}>{item.name}</h3>
-                                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start', gap: '0rem' }}>
+                                    <h5 style={{ fontWeight: '600' }}>{item.name}</h5>
+                                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start', gap: '0rem', fontSize: ".75rem" }}>
                                         {/* <span>Cantidad: {item.quantity}</span>
                                             <span>Talla: {item.selectedSizeName}</span>
                                             <span>Color: {item.selectedColorName}</span> */}
                                         <p className="m-0">Cantidad: {item.quantity}</p>
                                         <p className="m-0">Talla: {item.selectedSizeName}</p>
-                                        <div>
+                                        <div className="d-flex gap-2 justify-content-center align-items-center">
                                             <p className="m-0">Color: {item.selectedColorName}</p>
+                                            <span 
+                                            className="rounded"
+                                            style={{
+                                                width: "10px", 
+                                                height: "10px", 
+                                                backgroundColor: `${item.selectedColorValueHexa}`, 
+                                                display: "flex",
+                                                // border: "1px solid white"
+                                            }}
+                                            ></span>
                                         </div>
                                     </div>
                                 </div>
@@ -308,7 +321,7 @@ function CartView() {
                                     Vaciar Carrito
                                 </button>
                                 <Link to='/checkout'
-                                className="btnCheckout btn rounded text-white"
+                                    className="btnCheckout btn rounded text-white"
                                     style={{
                                         flex: 1,
 

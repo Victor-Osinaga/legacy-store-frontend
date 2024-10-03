@@ -2,10 +2,11 @@ import React from 'react';
 import './Resumen.css';
 import { Link, useLocation } from 'react-router-dom';
 import useStoreContext from '../../provider/storeProvider';
+import getTextColor from '../../utils/getTextColor.js';
 
 function Resumen() {
     const location = useLocation();
-    const { cart, removeFromCart, cleanCart, calcPriceCart, calcPriceFinal } = useStoreContext();
+    const { cart, removeFromCart, cleanCart, calcPriceCart, calcPriceFinal, loadingConfig, configStore } = useStoreContext();
 
     if (!location.state || !location.state.datos) {
         // Si el objeto "location.state" o "location.state.datos" no existe o es null/undefined, mostrar un mensaje de error o redirigir a otra página
@@ -14,8 +15,8 @@ function Resumen() {
     // console.log("resumen", location.state.datos.resumen.products)
     return (
         <section style={{
-            backgroundColor: '#23252F',
-            color: 'white',
+            backgroundColor: `${configStore.colors.tertiaryColorStore}`,
+            color: `${getTextColor(configStore.colors.tertiaryColorStore)}`,
             minHeight: 'calc(100vh - var(--navHeight))',
             padding: '3rem 0'
         }}>
@@ -36,7 +37,8 @@ function Resumen() {
                     style={{
                         alignItems: 'center',
                         gap: '1rem',
-                        backgroundColor: '#2B2D38',
+                        backgroundColor: `${configStore.colors.secondaryColorStore}`,
+                        color: `${getTextColor(configStore.colors.secondaryColorStore)}`,
                         borderRadius: '0.5rem',
                         padding: '1rem 2rem'
                     }}
@@ -110,7 +112,8 @@ function Resumen() {
                     style={{
                         alignItems: 'center',
                         gap: '1rem',
-                        backgroundColor: '#2B2D38',
+                        backgroundColor: `${configStore.colors.secondaryColorStore}`,
+                        color: `${getTextColor(configStore.colors.secondaryColorStore)}`,
                         borderRadius: '0.5rem',
                         padding: '1rem 2rem'
                     }}
@@ -124,14 +127,14 @@ function Resumen() {
                     >
                         Datos de envio/retiro
                     </h4>
-                    <div className='row' data-bs-theme='dark'>
+                    <div className='row'>
                         <div className='col-6 mb-3'>
                             <label className="form-label fw-semibold w-100 d-flex mb-1 fontSM-Custom">Nombre</label>
                             <input
                                 type="text"
                                 className='form-control fontSM-Custom custom-placeholder'
                                 style={{
-                                    background: '#23252F',
+                                    background: '',
                                 }}
                                 disabled
                                 value={location.state.datos.payer.name}
@@ -143,7 +146,7 @@ function Resumen() {
                                 type="text"
                                 className='form-control fontSM-Custom custom-placeholder'
                                 style={{
-                                    background: '#23252F',
+                                    background: '',
                                 }}
                                 disabled
                                 value={location.state.datos.payer.surname}
@@ -155,7 +158,7 @@ function Resumen() {
                                 type="text"
                                 className='form-control fontSM-Custom custom-placeholder'
                                 style={{
-                                    background: '#23252F',
+                                    background: '',
                                 }}
                                 disabled
                                 value={location.state.datos.payer.email}
@@ -167,7 +170,7 @@ function Resumen() {
                                 type="text"
                                 className='form-control fontSM-Custom custom-placeholder'
                                 style={{
-                                    background: '#23252F',
+                                    background: '',
                                 }}
                                 disabled
                                 value={location.state.datos.payer.area_code}
@@ -179,7 +182,7 @@ function Resumen() {
                                 type="text"
                                 className='form-control fontSM-Custom custom-placeholder'
                                 style={{
-                                    background: '#23252F',
+                                    background: '',
                                 }}
                                 disabled
                                 value={location.state.datos.payer.number_phone}
@@ -191,7 +194,7 @@ function Resumen() {
                                 type="text"
                                 className='form-control fontSM-Custom custom-placeholder'
                                 style={{
-                                    background: '#23252F',
+                                    background: '',
                                 }}
                                 disabled
                                 value={location.state.datos.shipments.street_name}
@@ -203,7 +206,7 @@ function Resumen() {
                                 type="text"
                                 className='form-control fontSM-Custom custom-placeholder'
                                 style={{
-                                    background: '#23252F',
+                                    background: '',
                                 }}
                                 disabled
                                 value={location.state.datos.shipments.street_number}
@@ -215,7 +218,7 @@ function Resumen() {
                                 type="text"
                                 className='form-control fontSM-Custom custom-placeholder'
                                 style={{
-                                    background: '#23252F',
+                                    background: '',
                                 }}
                                 disabled
                                 value={location.state.datos.shipments.zip_code}
@@ -227,7 +230,7 @@ function Resumen() {
                                 type="text"
                                 className='form-control fontSM-Custom custom-placeholder'
                                 style={{
-                                    background: '#23252F',
+                                    background: '',
                                 }}
                                 disabled
                                 value={location.state.datos.shipments.state_name}
@@ -241,7 +244,7 @@ function Resumen() {
                                 type="text"
                                 className='form-control fontSM-Custom custom-placeholder'
                                 style={{
-                                    background: '#23252F',
+                                    background: '',
                                 }}
                                 disabled
                                 value={location.state.datos.shipments.city_name}

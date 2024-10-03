@@ -1,27 +1,28 @@
 .contador {
-  border: 1px solid #cccccc;
-  transition: border .5s ease;
-  background-color: #ebebeb;
-  /* background-color: white; */
+  transition: box-shadow .3s ease-in-out;
+  /* background-color: #ebebeb; */
+  box-shadow: inset 0 0 0 2px hsla(0, 0%, 100%, .08), 0px 0px 35px 15px rgba(0, 0, 0, 0.28);
 }
 
 .contador:focus-within {
-  border: 1px solid #767677;
+  /* border: 1px solid #767677; */
+  box-shadow: inset 0 0 0 3px hsla(0,0%,100%,.08), 0px 0px 35px 15px rgba(0, 0, 0, 0.28);
 }
 
-.customSelect{
+.customSelect {
   background-color: #eceff1;
   border: 1px solid transparent;
   padding: 1px 5px;
   transition: border .5s ease;
 }
 
-.customSelect:focus-visible{
+.customSelect:focus-visible {
   outline: none;
 }
 
 .customSelect:focus-within {
   border: 1px solid #767677;
+  /* box-shadow: inset 0 0 0 3px hsla(0,0%,100%,.08) */
 }
 
 .contadorControl {
@@ -31,8 +32,9 @@
   height: 40px;
   /* outline: 1px solid red; */
 }
-.btnAddCart{
-  
+
+.btnAddCart {
+
   min-width: 300px;
 }
 
@@ -40,13 +42,11 @@
   border: 1px solid #767677;
 }
 
-.contadorControl > button {
+.contadorControl>button {
   /* font-size: 1.5rem; */
   background-color: transparent;
   border: none;
   width: 100%;
 }
 
-@media screen and (max-width: 767px) {
- 
-}
+@media screen and (max-width: 767px) {}

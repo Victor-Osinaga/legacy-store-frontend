@@ -82,6 +82,7 @@ export function StoreContextProvider({ children }) {
                 id: item.id,
                 selectedSizeId: data.selectedSizeId,
                 selectedSizeName: data.selectedSizeName,
+                selectedColorValueHexa: data.selectedColorValueHexa,
                 selectedColorId: data.selectedColorId,
                 selectedColorName: data.selectedColorName,
                 image: data.image,

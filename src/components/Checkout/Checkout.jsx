@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useForm, useFieldArray, Controller } from 'react-hook-form'
 import { getShipmentsLocalStore, getShipmentsDeliveryStore, createPaymentStore } from "../../fetch/fetch.js";
 import { validateAreaCodeCheckout, validateEmailCheckout, validateNameCheckout, validateNumberCheckout, validateSurnameCheckout } from "../../validators/validators.js";
+import getTextColor from "../../utils/getTextColor.js";
 
 function Checkout() {
     const { register, handleSubmit, watch, setValue, getValues, formState: { errors }, } = useForm({
@@ -23,7 +24,7 @@ function Checkout() {
             cityName: "salta capital",
         }
     })
-    const { cart, toastLoading, toastSuccess, toastError, dismissToast } = useStoreContext();
+    const { cart, toastLoading, toastSuccess, toastError, dismissToast, loadingConfig, configStore } = useStoreContext();
 
     const [shipmentsLocal, setShipmentsLocal] = useState([])
     const [shipmentsDelivery, setShipmentsDelivery] = useState([])
@@ -113,6 +114,7 @@ function Checkout() {
                         image: prod.image,
                         selectedSizeName: prod.selectedSizeName,
                         selectedColorName: prod.selectedColorName,
+                        selectedColorValueHexa: prod.selectedColorValueHexa,
                         price: prod.price,
 
                         id: prod.id,
@@ -223,13 +225,19 @@ function Checkout() {
     return (
         <>
             <Toaster position="top-right" reverseOrder={true} />
-            <section className='checkout p-3 p-md-4 bgContainer'>
+            <section className='checkout p-3 p-md-4 bgContainer'
+                style={{
+                    backgroundColor: `${configStore.colors.tertiaryColorStore}`
+                }}
+            >
                 {!loading ? (
                     <div>
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <div className='d-flex align-items-center flex-column w-100'>
-                                <div className="">
-                                    <h3 className='fs-5 mainTitleCheckout '>FORMULARIO DE CONTACTO Y ENVIO</h3>
+                                <div style={{
+                                    color: `${getTextColor(configStore.colors.tertiaryColorStore)}`
+                                }}>
+                                    <h3 className='fs-5 mainTitleCheckout fw-bold'>FORMULARIO DE CONTACTO Y ENVIO</h3>
                                 </div>
                                 {/* <div className='rounded py-1'>
                                     <div className='d-flex bg-success px-4 py-1 justify-content-between align-items-center'>
@@ -249,7 +257,12 @@ function Checkout() {
                                     </button>
                                 </div>
                             </div>
-                            <div className='formContainerCheckout bgSecondary rounded mt-4 border shadow-lg'>
+                            <div className='formContainerCheckout bgSecondary rounded mt-4 '
+
+                                style={{
+                                    backgroundColor: `${configStore.colors.secondaryColorStore}`,
+                                    color:`${getTextColor(configStore.colors.secondaryColorStore)}`
+                                }}>
                                 <div className='px-2 py-4 px-md-4 py-md-5 container-fluid'>
                                     <div className='row mb-1'>
                                         <h5 className='col-12 col-md-2 mb-4 text-center text-md-start formTitles'>Información de Contacto</h5>
@@ -350,7 +363,7 @@ function Checkout() {
                                                 {errors.email && <span className="mt-1 fontXS-Custom text-danger">{errors.email.message} <span className='fw-semibold'>*</span></span>}
                                             </div>
                                         </div>
-                                        <hr className='text-secondary' />
+                                        <hr className='text-secondary w-75 mx-auto' />
                                     </div>
                                     <div className='row mb-1'>
                                         <h5 className='col-12 col-md-2 mb-4 text-center text-md-start formTitles'>Opciones de envio</h5>
@@ -608,7 +621,7 @@ function Checkout() {
 
                                             </>}
                                         </div>
-                                        <hr className='text-secondary' />
+                                        {/* <hr className='text-secondary w-75 mx-auto' /> */}
                                     </div>
                                 </div>
                             </div>

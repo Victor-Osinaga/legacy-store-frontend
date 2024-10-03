@@ -16,10 +16,10 @@ export default function Faqs() {
                 <div className="mb-4">
                     <h5><strong>¿Ya compré, cómo realizo un seguimiento de mi pedido?</strong></h5>
                     <p>Podrás realizar el seguimiento con tu ID de compra brindado antes de realizar el pago de la misma, accediendo a <Link to={'/orden/estado'} className="linkFaqs">seguimiento de pedido</Link>, dónde podrás ingresar tu ID de compra y ver su estado.</p>
-                    <ul>
+                    {/* <ul>
                         <li><strong className="link-underline-secondary">Estado pendiente:</strong> significa que tu compra esta siendo preparada para el envio a la dirección que nos proporcionaste en el formulario de envio/contacto antes de realizar tu compra.</li>
                         <li><strong>Estado enviado:</strong> significa que tu compra ya fue empacada y esta en proceso de envío en nuestro distribuidor de paquetes.</li>
-                    </ul>
+                    </ul> */}
                 </div>
                 <div className="mb-4">
                     <h5><strong>¿Quiénes somos?</strong></h5>

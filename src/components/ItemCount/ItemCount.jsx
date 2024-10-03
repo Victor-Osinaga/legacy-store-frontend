@@ -3,10 +3,11 @@ import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { useForm, useFieldArray } from "react-hook-form"
 import useStoreContext from '../../provider/storeProvider';
+import getTextColor from '../../utils/getTextColor';
 
 
 function ItemCount({ onAdd, producto }) {
-    const { addToCart, cart } = useStoreContext()
+    const { addToCart, cart, loadingConfig, configStore } = useStoreContext()
     const [count, setCount] = useState(0);
     const [availableStock, setAvailableStock] = useState(null);
 
@@ -14,6 +15,7 @@ function ItemCount({ onAdd, producto }) {
         defaultValues: {
             selectedSize: "",
             selectedSizeName: "",
+            selectedColorValueHexa: "",
             selectedColor: null,
             selectedColorName: "",
             image: producto.image,
@@ -103,12 +105,21 @@ function ItemCount({ onAdd, producto }) {
     // console.log("errors", errors);
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
-            <div className='contador d-flex flex-column justify-content-center align-items-center py-3 gap-3 shadow-lg'>
+        <form onSubmit={handleSubmit(onSubmit)} >
+            <div
+                className='contador d-flex flex-column justify-content-center align-items-center py-3 gap-3 '
+                style={{
+                    backgroundColor: `${configStore.colors.secondaryColorStore}`
+                }}
+            >
 
                 {/* SIZE */}
                 <div className='d-flex w-100 justify-content-center align-items-center flex-column'>
-                    <label htmlFor="size">Tamaños</label>
+                    <label
+                        htmlFor="size"
+                        style={{ color: `${getTextColor(configStore.colors.secondaryColorStore)}` }}
+                    >Tamaños
+                    </label>
                     <div className='d-flex gap-2'>
                         {producto.sizes.map((size) => {
                             if (size.id == getValues('selectedSizeId')) {
@@ -127,6 +138,7 @@ function ItemCount({ onAdd, producto }) {
                                                 setValue('selectedSizeName', size.name)
                                                 setValue('selectedColorId', "")
                                                 setValue('selectedColorName', "")
+                                                setValue('selectedColorValueHexa', "")
                                             }}
                                         >
                                             {size.name}
@@ -148,6 +160,7 @@ function ItemCount({ onAdd, producto }) {
                                                 setValue('selectedSizeName', size.name)
                                                 setValue('selectedColorId', "")
                                                 setValue('selectedColorName', "")
+                                                setValue('selectedColorValueHexa', "")
                                             }}
                                         >
                                             {size.name}
@@ -162,7 +175,12 @@ function ItemCount({ onAdd, producto }) {
 
                 {/* COLOR */}
                 <div className='d-flex w-100 justify-content-center align-items-center flex-column'>
-                    <label htmlFor="color">Colores</label>
+                    <label
+                        htmlFor="color"
+                        style={{ color: `${getTextColor(configStore.colors.secondaryColorStore)}` }}
+                    >
+                        Colores
+                    </label>
                     {watch('selectedSizeId') ? (
                         <div className='d-flex gap-2'>
                             {producto.sizes
@@ -180,6 +198,7 @@ function ItemCount({ onAdd, producto }) {
                                                         setCount(1)
                                                         setValue('selectedColorId', color.id)
                                                         setValue('selectedColorName', color.name)
+                                                        setValue('selectedColorValueHexa', color.value)
                                                     }}
 
                                                 >
@@ -199,6 +218,7 @@ function ItemCount({ onAdd, producto }) {
                                                         setCount(1)
                                                         setValue('selectedColorId', color.id)
                                                         setValue('selectedColorName', color.name)
+                                                        setValue('selectedColorValueHexa', color.value)
                                                     }}
                                                 >
                                                     {/* {color.name} */}

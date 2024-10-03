@@ -86,7 +86,7 @@ li {
 }
 
 a {
-  color: var(--colorMain);
+  /* color: var(--colorMain); */
   text-decoration: none;
 }
 

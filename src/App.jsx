@@ -108,8 +108,8 @@ function App() {
             <Route path='/cliente/preguntas/frecuentes' element={<Faqs />} />
           </Routes>
         </BrowserRouter>
+        <WpBtn />
       </StoreContextProvider>
-      <WpBtn />
     </>
   )
 }

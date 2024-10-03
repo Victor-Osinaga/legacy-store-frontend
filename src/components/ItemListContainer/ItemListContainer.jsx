@@ -141,7 +141,16 @@ function ItemListContainer({ titulo }) {
                                     productos={productos}
                                 />
                             ) : (
-                                <div>Pronto agregaremos más productos a esta categoria ...</div>
+                                <div
+                                className=" text-center"
+                                style={{
+                                    color: `${getTextColor(configStore.colors.tertiaryColorStore)}`
+                                }}
+                                >
+                                    <p className="p-0">
+                                    Pronto agregaremos más productos a esta categoria ...
+                                    </p>
+                                </div>
                             )}
                         </div>
                         <Footer />
@@ -155,6 +164,7 @@ function ItemListContainer({ titulo }) {
                         <span className="visually-hidden">Loading...</span>
                     </div>
                 </section>
+                <Footer />
             </>
         }
     }

@@ -1,12 +1,12 @@
 .orderSuccessContainer {
     min-height: calc(100vh - var(--navHeight));
-    background-color: var(--bgGrayDark);
+    /* background-color: var(--bgGrayDark); */
 }
 
 .orderSuccess {
     background-color: var(--bgGrayMedium);
     box-shadow: inset 0 0 0 1px hsla(0, 0%, 100%, .08);
-    color: white;
+    /* color: white; */
     width: 80%;
     min-height: calc((100vh - var(--navHeight)) - 20vh);
 }

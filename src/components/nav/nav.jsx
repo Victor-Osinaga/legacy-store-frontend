@@ -7,9 +7,10 @@ import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import useStoreContext from '../../provider/storeProvider';
 import { getCategorias, getCategoriasBySubdomain } from '../../fetch/fetch';
+import getTextColor from '../../utils/getTextColor.js';
 
 function NavBar() {
-  const { token, logout, cantInCart } = useStoreContext();
+  const { token, logout, cantInCart, loadingConfig, configStore } = useStoreContext();
   const [navVisible, setNavVisible] = useState(false);
   const [loading, setLoading] = useState(true)
   const [categorias, setCategorias] = useState(false);
@@ -60,20 +61,69 @@ function NavBar() {
   };
 
 
+  // ARREGLAR LOADING DE CONFIG CON EL LOADING DEL FETCH DE ESTE COMPONENTE
   return (
-    <nav id="nav">
+    <nav
+      id="nav"
+      style={{
+        backgroundColor: `${configStore?.colors?.secondaryColorStore || 'transparent'}`,
+        color: `${configStore?.colors ? getTextColor(configStore.colors.secondaryColorStore) : 'black'}`,
+      }}
+    >
       {/* <Categorias /> */}
       <div className='nav__avisosContainer'>
         <div className='nav__aviso'>ULTIMAS TENDENCIAS</div>
         <div className='nav__aviso'>ENVIOS A TODO EL PAIS</div>
       </div>
 
-      <div className='nav__mainContainer'>
+      <div
+        className='nav__mainContainer'
+
+        style={{
+          color: `${configStore?.colors ? getTextColor(configStore.colors.secondaryColorStore) : 'black'}`,
+        }}
+      >
         <ul className='nav__mainAyudasContainer'>
-          <li><Link to={'/cliente/preguntas/frecuentes'}>ayuda</Link></li>
-          <li><Link to={'/cliente/preguntas/frecuentes'}>cambios y devoluciones</Link></li>
-          <li><Link to={'/orden/estado'}>seguimiento de pedidos</Link></li>
-          <li><Link to='/nosotros'>nosotros</Link></li>
+          <li>
+            <Link
+              to={'/cliente/preguntas/frecuentes'}
+              style={{
+                color: `${configStore?.colors ? getTextColor(configStore.colors.secondaryColorStore) : 'black'}`,
+              }}
+            >
+              ayuda
+            </Link>
+          </li>
+          <li>
+            <Link
+              to={'/cliente/preguntas/frecuentes'}
+              style={{
+                color: `${configStore?.colors ? getTextColor(configStore.colors.secondaryColorStore) : 'black'}`,
+              }}
+            >
+              cambios y devoluciones
+            </Link>
+          </li>
+          <li>
+            <Link
+              to={'/orden/estado'}
+              style={{
+                color: `${configStore?.colors ? getTextColor(configStore.colors.secondaryColorStore) : 'black'}`,
+              }}
+            >
+              seguimiento de pedidos
+            </Link>
+          </li>
+          <li>
+            <Link
+              to='/nosotros'
+              style={{
+                color: `${configStore?.colors ? getTextColor(configStore.colors.secondaryColorStore) : 'black'}`,
+              }}
+            >
+              nosotros
+            </Link>
+          </li>
         </ul>
 
         <div className='nav__mainLinksContainer'>
@@ -88,12 +138,18 @@ function NavBar() {
             <img id='nav__LogoSvg' src={logo} alt='logo jarry indumentaria' />
           </Link>
 
-          {loading ? (
+          {loading || !configStore ? (
             <div className="spinner-grow text-secondary m-auto d-md-block d-none" role="status">
               <span className="visually-hidden m-auto">Loading...</span>
             </div>
           ) : (
-            <ul className={navVisible ? "nav__mainCategoriasContainer expanded" : "nav__mainCategoriasContainer"}>
+            <ul
+              className={navVisible ? "nav__mainCategoriasContainer expanded" : "nav__mainCategoriasContainer"}
+              style={{
+                backgroundColor: `${configStore?.colors?.secondaryColorStore || 'transparent'}`,
+                color: `${configStore?.colors ? getTextColor(configStore.colors.secondaryColorStore) : 'black'}`,
+              }}
+            >
               <div id='nav__MenuSvgContainerClose' className='nav__MenuSvgContainerClose'
                 onClick={toggleNav}>
                 <div className='nav__burguerIconCloseContainer'>
@@ -102,9 +158,24 @@ function NavBar() {
               </div>
               <li className='nav_mainCategory'>
                 {navVisible ? (
-                  <Link to='/' onClick={toggleNav}>INICIO</Link>
+                  <Link
+                    to='/'
+                    onClick={toggleNav}
+                    style={{
+                      color: `${configStore?.colors ? getTextColor(configStore.colors.secondaryColorStore) : 'black'}`,
+                    }}
+                  >
+                    INICIO
+                  </Link>
                 ) : (
-                  <Link to='/'>INICIO</Link>
+                  <Link
+                    to='/'
+                    style={{
+                      color: `${configStore?.colors ? getTextColor(configStore.colors.secondaryColorStore) : 'black'}`,
+                    }}
+                  >
+                    INICIO
+                  </Link>
                 )}
               </li>
 
@@ -121,34 +192,97 @@ function NavBar() {
               ) : null} */}
               {categorias?.length > 0 ? (
                 categorias.map((cat, index) => (
-                  <li onMouseEnter={() => handleMouseEnter(cat.id)}
+                  <li
+                    onMouseEnter={() => handleMouseEnter(cat.id)}
                     onMouseLeave={() => handleMouseLeave(cat.id)}
                     id={index}
                     key={cat.id}
-                    className='nav_mainCategory'>
+                    className='nav_mainCategory'
+                  >
                     {navVisible ? (
-                      <Link onClick={toggleNav} to={`/category/${cat.name.toLowerCase()}/${cat.id}`}>{cat.name.toUpperCase()}</Link>
+                      <Link
+                        onClick={toggleNav}
+                        to={`/category/${cat.name.toLowerCase()}/${cat.id}`}
+                        style={{
+                          // backgroundColor: `${configStore?.colors?.secondaryColorStore || 'transparent'}`,
+                          color: `${configStore?.colors ? getTextColor(configStore.colors.secondaryColorStore) : 'black'}`,
+                        }}
+                      >
+                        {cat.name.toUpperCase()}
+                      </Link>
                     ) : (
-                      <Link onClick={() => { ocultar(cat.id) }} to={`/category/${cat.name.toLowerCase()}/${cat.id}`}>{cat.name.toUpperCase()}</Link>
+                      <Link
+                        onClick={() => { ocultar(cat.id) }} to={`/category/${cat.name.toLowerCase()}/${cat.id}`}
+                        style={{
+                          // backgroundColor: `${configStore?.colors?.secondaryColorStore || 'transparent'}`,
+                          color: `${configStore?.colors ? getTextColor(configStore.colors.secondaryColorStore) : 'black'}`,
+                        }}
+                      >
+                        {cat.name.toUpperCase()}
+                      </Link>
                     )}
 
-                    <ul id={cat.id} className='nav_mainSub' onMouseEnter={() => handleMouseEnter(cat.id)}
-                      onMouseLeave={() => handleMouseLeave(cat.id)}>
+                    <ul
+                      id={cat.id}
+                      className='nav_mainSub text-center'
+                      onMouseEnter={() => handleMouseEnter(cat.id)}
+                      onMouseLeave={() => handleMouseLeave(cat.id)}
+
+                      style={{
+                        backgroundColor: `${configStore?.colors?.secondaryColorStore || 'transparent'}`,
+                        // color: `${configStore?.colors ? getTextColor(configStore.colors.secondaryColorStore) : 'black'}`,
+                      }}
+                    >
                       {cat.subCategories.map((sub) => (
                         <li id={sub.id} key={sub.id}>
                           {navVisible ? (
-                            <Link onClick={toggleNav} to={`/category/${cat.name.toLowerCase()}/${sub.name.toLowerCase()}/${sub.id}`}>{sub.name.toUpperCase()}</Link>
+                            <Link
+                              onClick={toggleNav} to={`/category/${cat.name.toLowerCase()}/${sub.name.toLowerCase()}/${sub.id}`}
+
+                              style={{
+                                // backgroundColor: `${configStore?.colors?.secondaryColorStore || 'transparent'}`,
+                                color: `${configStore?.colors ? getTextColor(configStore.colors.secondaryColorStore) : 'black'}`,
+                              }}
+                            >
+                              {sub.name.toUpperCase()}
+                            </Link>
                           ) : (
-                            <Link onClick={() => ocultar(cat.id)} to={`/category/${cat.name.toLowerCase()}/${sub.name.toLowerCase()}/${sub.id}`}>{sub.name.toUpperCase()}</Link>
+                            <Link
+                              style={{
+                                // backgroundColor: `${configStore?.colors?.secondaryColorStore || 'transparent'}`,
+                                color: `${configStore?.colors ? getTextColor(configStore.colors.secondaryColorStore) : 'black'}`,
+                              }} onClick={() => ocultar(cat.id)} to={`/category/${cat.name.toLowerCase()}/${sub.name.toLowerCase()}/${sub.id}`}
+                            >
+                              {sub.name.toUpperCase()}
+                            </Link>
                           )}
 
                           <div className='nav_categFromSubcategory'>
                             {sub.categories.map((uniq) => (
                               <div key={uniq.id}>
                                 {navVisible ? (
-                                  <Link onClick={toggleNav} to={`/category/${cat.name.toLowerCase()}/${sub.name.toLowerCase()}/${uniq.name.toLowerCase().replace(" ", "")}/${uniq.id}`} key={uniq.id}>{uniq.name}</Link>
+                                  <Link
+                                    onClick={toggleNav}
+                                    to={`/category/${cat.name.toLowerCase()}/${sub.name.toLowerCase()}/${uniq.name.toLowerCase().replace(" ", "")}/${uniq.id}`}
+                                    key={uniq.id}
+                                    style={{
+                                      // backgroundColor: `${configStore?.colors?.secondaryColorStore || 'transparent'}`,
+                                      color: `${configStore?.colors ? getTextColor(configStore.colors.secondaryColorStore) : 'black'}`,
+                                    }}
+                                  >
+                                    {uniq.name}
+                                  </Link>
                                 ) : (
-                                  <Link onClick={() => ocultar(cat.id)} to={`/category/${cat.name.toLowerCase()}/${sub.name.toLowerCase()}/${uniq.name.toLowerCase().replace(" ", "")}/${uniq.id}`} key={uniq.id}>{uniq.name}</Link>
+                                  <Link
+                                    onClick={() => ocultar(cat.id)} to={`/category/${cat.name.toLowerCase()}/${sub.name.toLowerCase()}/${uniq.name.toLowerCase().replace(" ", "")}/${uniq.id}`}
+                                    key={uniq.id}
+                                    style={{
+                                      // backgroundColor: `${configStore?.colors?.secondaryColorStore || 'transparent'}`,
+                                      color: `${configStore?.colors ? getTextColor(configStore.colors.secondaryColorStore) : 'black'}`,
+                                    }}
+                                  >
+                                    {uniq.name}
+                                  </Link>
                                 )}
                               </div>
                             ))}
@@ -164,10 +298,10 @@ function NavBar() {
 
 
           <div className='nav_auxiliaryContainer'>
-            <form className="nav__mainFormContainer">
+            {/* <form className="nav__mainFormContainer">
               <FaSistrix className='nav__mainFormIcon' />
               <input type="search" id="nav__input" placeholder="Buscar..." autoComplete="off" />
-            </form>
+            </form> */}
 
             {/* cambia el icono si inicio sesion o no OBSOLETO */}
             {/* {token
@@ -181,8 +315,15 @@ function NavBar() {
               </Link>
             } */}
 
-            <Link to="/cart" className='nav__cartIconContainer'>
-              <BsBag className='nav_iconCart'></BsBag>
+            <Link to="/cart" className='nav__cartIconContainer'
+              style={{
+                // backgroundColor: `${configStore?.colors?.secondaryColorStore || 'transparent'}`,
+                color: `${configStore?.colors ? getTextColor(configStore.colors.secondaryColorStore) : 'black'}`,
+              }}
+            >
+              <BsBag
+                className='nav_iconCart'
+              />
               <span>{cantInCart()}</span>
             </Link>
 

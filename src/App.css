@@ -21,10 +21,12 @@
   /* CUSTOM GRAY */
   --bgGrayDark: #23252F;
   --bgGrayMedium: #2B2D38;
-  --bgGrayLight: #555b5d; /* test */
+  --bgGrayLight: #555b5d;
+  /* test */
 
   /* CUSTOM BLUE */
-  --bgBlueDark: #073f51; /* test */
+  --bgBlueDark: #073f51;
+  /* test */
   --bgBlueMedium: #084c61;
   --bgBlueLight: #095b73;
 
@@ -33,6 +35,7 @@
   /* FONT SIZES */
   --customFontSizeXs: .75rem;
   --customFontSizeSm: .875rem;
+  --customFontSizeXl: 1.25rem;
 }
 
 html {
@@ -48,6 +51,10 @@ input[type=number]::-webkit-outer-spin-button {
   margin: 0;
 }
 
+.fontXL-Custom {
+  font-size: var(--customFontSizeXl);
+}
+
 .fontSM-Custom {
   font-size: var(--customFontSizeSm);
 }
@@ -59,6 +66,7 @@ input[type=number]::-webkit-outer-spin-button {
 .bgContainer {
   background-color: var(--bgMain);
 }
+
 .bgSecondary {
   background-color: var(--bgSecondary);
 }
@@ -74,6 +82,7 @@ ul {
   margin-bottom: 0;
   padding-left: 0;
 }
+
 /* arreglo bootstrap */
 
 body {
@@ -107,5 +116,17 @@ a:hover {
 @media (max-width: 767px) {
   :root {
     --navHeight: 112px;
+  }
+}
+
+@media (min-width: 768px) {
+  .fontXL-Custom-md {
+    font-size: var(--customFontSizeXl);
+  }
+  .fontXS-Custom-md {
+    font-size: var(--customFontSizeXs);
+  }
+  .fontSM-Custom-md {
+    font-size: var(--customFontSizeSm);
   }
 }

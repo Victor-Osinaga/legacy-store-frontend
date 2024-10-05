@@ -28,7 +28,7 @@ function Item({ producto }) {
       <div className='itemImgContainer'>
         <img className='itemImg' src={producto.image} type='image/jpeg' alt={producto.titulo} />
       </div>
-      <span className='item-price text-success fw-bold fs-5'>${toNumberArgStandard(producto.price)}</span>
+      <span className='item-price text-success fw-bold fontXL-Custom-md'>${toNumberArgStandard(producto.price)}</span>
 
       {loadingConfig ? (
         <div className=''>
@@ -38,7 +38,7 @@ function Item({ producto }) {
         </div>
       ) : (
         <Link
-          className='btn__vermas fw-bold fontSM-Custom'
+          className='btn__vermas fw-bold fontXS-Custom fontSM-Custom-md'
           to={`/producto/${producto.id}`}
           style={{
             backgroundColor: `${configStore.colors.primaryColorStore}`,
@@ -51,7 +51,7 @@ function Item({ producto }) {
       <a
         className='consulta'
         target={'_blank'}
-        href={`https://wa.me/5492966578860?text=Buenas, quiero información acerca del siguiente producto: ${producto.name.toUpperCase()} - precio: $${producto.price} - id: ${producto.id}`}
+        href={`https://wa.me/${configStore.footerConfig.social.whatsapp}?text=Buenas, quiero información acerca del siguiente producto: ${producto.name.toUpperCase()} - precio: $${producto.price} - id: ${producto.id}`}
         style={{
           color: `${getTextColor(configStore.colors.tertiaryColorStore)}`
         }}

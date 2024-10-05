@@ -94,7 +94,7 @@ function NavBar() {
               ayuda
             </Link>
           </li>
-          <li>
+          {/* <li>
             <Link
               to={'/cliente/preguntas/frecuentes'}
               style={{
@@ -103,7 +103,7 @@ function NavBar() {
             >
               cambios y devoluciones
             </Link>
-          </li>
+          </li> */}
           <li>
             <Link
               to={'/orden/estado'}

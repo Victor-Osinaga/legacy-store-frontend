@@ -75,11 +75,16 @@
   height: 32px;
 }
 
-nav__mainAyudasContainer a {
+.nav__mainAyudasContainer a {
   color: inherit;
+  text-decoration: underline;
+  display: inline-block; /* Cambia el display para que el transform funcione */
+  transform: scale(1); /* Aplica el efecto de escala */
+  transition: all 0.3s ease-in-out; /* Añade una transición suave */
 }
 
-.nav__mainAyudasContainer li a:hover {
+.nav__mainAyudasContainer a:hover {
+  transform: scale(1.03); /* Aplica el efecto de escala */
   text-decoration: underline;
 }
 

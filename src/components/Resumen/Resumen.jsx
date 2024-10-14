@@ -49,6 +49,9 @@ function Resumen() {
         {/* <div style={{ display: 'grid', gap: '2rem' }}> */}
         {/* <div style={{ display: 'grid', gap: '1.5rem' }}> */}
         <div
+          data-shadow-color={getTextColor(
+            configStore.colors.tertiaryColorStore
+          )}
           style={{
             alignItems: "center",
             gap: "1rem",
@@ -141,6 +144,9 @@ function Resumen() {
           </div>
         </div>
         <div
+          data-shadow-color={getTextColor(
+            configStore.colors.tertiaryColorStore
+          )}
           style={{
             alignItems: "center",
             gap: "1rem",

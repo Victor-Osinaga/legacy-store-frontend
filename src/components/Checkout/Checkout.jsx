@@ -267,14 +267,21 @@ function Checkout() {
     <>
       <Toaster position="top-right" reverseOrder={true} />
       <section
-        className="checkout p-3 p-md-4 bgContainer"
+        className="checkout py-3 bgContainer"
         style={{
           backgroundColor: `${configStore.colors.tertiaryColorStore}`,
         }}
       >
         {!loading ? (
           <div>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              style={{
+                maxWidth: "1200px",
+                margin: "0 auto",
+                padding: "0 1rem",
+              }}
+            >
               <div className="d-flex align-items-center flex-column w-100">
                 <div
                   style={{
@@ -283,7 +290,7 @@ function Checkout() {
                     )}`,
                   }}
                 >
-                  <h3 className="fs-5 mainTitleCheckout fw-bold">
+                  <h3 className="fs-5 mainTitleCheckout fw-bold text-center">
                     FORMULARIO DE CONTACTO Y ENVIO
                   </h3>
                 </div>
@@ -297,14 +304,12 @@ function Checkout() {
                                         </button>
                                     </div>
                                 </div> */}
-                <div className="btnResumen rounded mb-2 text-white">
-                  <button type="submit" className="m-0 fw-semibold">
-                    RESUMEN
-                  </button>
-                </div>
               </div>
               <div
-                className="formContainerCheckout bgSecondary rounded mt-4 "
+                className="formContainerCheckout bgSecondary rounded mt-4 mb-4 "
+                data-shadow-color={getTextColor(
+                  configStore.colors.tertiaryColorStore
+                )}
                 style={{
                   backgroundColor: `${configStore.colors.secondaryColorStore}`,
                   color: `${getTextColor(
@@ -828,6 +833,11 @@ function Checkout() {
                     {/* <hr className='text-secondary w-75 mx-auto' /> */}
                   </div>
                 </div>
+              </div>
+              <div className="btnResumen rounded mb-2 text-white">
+                <button type="submit" className="m-0 fw-semibold">
+                  RESUMEN
+                </button>
               </div>
             </form>
           </div>

@@ -9,24 +9,69 @@
   gap: 5px;
   /* background: white; */
   /* outline: 1px solid #cccccc; */
-  transition: outline .5s ease;
+  transition: outline 0.5s ease;
   background-color: white;
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
   overflow: hidden;
   position: relative;
-  box-shadow: inset 0 0 0 1px hsla(0,0%,100%,.08), 0px 0px 5px 0px hsla(0,0%,100%,.08);
-  transition: all .3s ease-in-out;
+
+  /* box-shadow: inset 0 0 0 1px hsla(0, 0%, 100%, 0.08),
+    0px 0px 5px 0px hsla(0, 0%, 100%, 0.08); */
+
+  /* SOMBRA OSCURA POR DEFECTO EN SECCIONES */
+  /* box-shadow: inset 0 0 0 2px hsla(0, 0%, 100%, 0.08),
+    0px 0px 15px 5px rgba(0, 0, 0, 0.28); */
+
+  transition: all 0.3s ease-in-out;
 }
 
 .itemContainer:hover {
-  /* outline: 1px solid #767677; */
-  box-shadow: inset 0 0 0 3px hsla(0,0%,100%,.08), 0px 0px 5px 5px hsla(0,0%,100%,.08);
+  /* box-shadow: inset 0 0 0 3px hsla(0, 0%, 100%, 0.08),
+    0px 0px 5px 5px hsla(0, 0%, 100%, 0.08); */
+
+  /* SOMBRA OSCURA POR DEFECTO EN SECCIONES */
+  /* box-shadow: inset 0 0 0 5px hsla(0, 0%, 100%, 0.08),
+    0px 0px 20px 10px rgba(0, 0, 0, 0.28); */
 }
 
-.itemTitulo{
+/* DEFINE EL COLOR DE LA SOMBRA SEGUND EL GETTEXTCOLOR QUE TOMA EL COLOR DE FONDO (TERTIARY) */
+[data-shadow-color="#FFFFFF"] {
+  box-shadow: inset 0 0 0 1px hsla(0, 0%, 100%, 0.08),
+    0px 0px 25px 5px hsla(0, 0%, 100%, 0.25);
+}
+
+[data-shadow-color="#000000"] {
+  box-shadow: inset 0 0 0 1px hsla(0, 0%, 0%, 0.08),
+    0px 0px 25px 5px hsla(0, 0%, 0%, 0.5);
+}
+
+/* APLICA SUS DIFERENTES HOVERS */
+[data-shadow-color="#FFFFFF"]:hover {
+  scale: 1.01;
+  box-shadow: inset 0 0 0 3px hsla(0, 0%, 100%, 0.08),
+    0px 0px 10px 5px hsla(0, 0%, 100%, 0.25);
+}
+
+[data-shadow-color="#000000"]:hover {
+  scale: 1.01;
+  box-shadow: inset 0 0 0 3px hsla(0, 0%, 0%, 0.08),
+    0px 0px 10px 5px hsla(0, 0%, 0%, 0.5);
+}
+
+.cartItem {
+  box-shadow: inset 0 0 0 2px hsla(0, 0%, 100%, 0.08),
+    0px 0px 15px 5px rgba(0, 0, 0, 0.28);
+  transition: all 0.3s ease-in-out;
+}
+.cartItem:hover {
+  box-shadow: inset 0 0 0 5px hsla(0, 0%, 100%, 0.08),
+    0px 0px 20px 10px rgba(0, 0, 0, 0.28);
+}
+
+.itemTitulo {
   font-weight: 600;
-  font-size: 1rem;
+  /* font-size: 1rem; */
 }
 
 .itemImgContainer {
@@ -36,7 +81,7 @@
   overflow: hidden;
   padding: 1px;
   /* box-shadow: inset 0 0 0 10px hsla(0,0%,100%,.08); */
-  box-shadow: 0px 0px 15px 2px rgba(0,0,0,0.34) inset;
+  /* box-shadow: 0px 0px 15px 2px rgba(0,0,0,0.34) inset; */
 }
 
 .itemImg {
@@ -45,7 +90,7 @@
   object-fit: cover;
 }
 
-.item-price{
+.item-price {
   /* text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.292); */
 }
 
@@ -63,27 +108,26 @@
   /* background: var(--colorSecondary); */
   /* padding: 5px 10px; */
   color: white;
-  transition: color .5s ease;
+  transition: all 0.3s ease-in-out;
   height: 50px;
 }
 
 .btn__vermas:hover {
+  box-shadow: inset 0 0 0 3px hsla(0, 0%, 100%, 0.08);
   cursor: pointer;
-  color: black;
 }
 
-.consulta:hover{
+.consulta:hover {
   text-decoration: underline;
 }
 
-.item__logoWp{
+.item__logoWp {
   width: 12px;
   height: 12px;
   /* background-color: red; */
 }
 
 @media screen and (max-width: 767px) {
-
   .itemContainer {
     height: 350px;
     width: 200px;

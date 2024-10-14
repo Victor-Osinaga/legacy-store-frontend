@@ -1,6 +1,6 @@
 @font-face {
-  font-family: 'Poppins';
-  src: url('/src/fonts/Poppins/Poppins-Regular.ttf') format('truetype');
+  font-family: "Poppins";
+  src: url("/src/fonts/Poppins/Poppins-Regular.ttf") format("truetype");
 }
 
 @font-face {
@@ -19,8 +19,8 @@
   --iconSize: 24px;
 
   /* CUSTOM GRAY */
-  --bgGrayDark: #23252F;
-  --bgGrayMedium: #2B2D38;
+  --bgGrayDark: #23252f;
+  --bgGrayMedium: #2b2d38;
   --bgGrayLight: #555b5d;
   /* test */
 
@@ -33,8 +33,8 @@
   --textGray300Custom: rgb(161, 161, 161);
 
   /* FONT SIZES */
-  --customFontSizeXs: .75rem;
-  --customFontSizeSm: .875rem;
+  --customFontSizeXs: 0.75rem;
+  --customFontSizeSm: 0.875rem;
   --customFontSizeXl: 1.25rem;
 }
 
@@ -45,8 +45,8 @@ html {
 }
 
 /* Quita los botones del input type NUMBER */
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
@@ -61,6 +61,10 @@ input[type=number]::-webkit-outer-spin-button {
 
 .fontXS-Custom {
   font-size: var(--customFontSizeXs);
+}
+
+.font1Rem-Custom {
+  font-size: 1rem;
 }
 
 .bgContainer {
@@ -86,7 +90,7 @@ ul {
 /* arreglo bootstrap */
 
 body {
-  font-family: 'Poppins', 'Montserrat', sans-serif;
+  font-family: "Poppins", "Montserrat", sans-serif;
   /* overflow: hidden; */
 }
 
@@ -128,5 +132,9 @@ a:hover {
   }
   .fontSM-Custom-md {
     font-size: var(--customFontSizeSm);
+  }
+
+  .font1Rem-Custom-md {
+    font-size: 1rem;
   }
 }

@@ -5,13 +5,12 @@
   justify-content: space-around;
   align-items: center;
   /* align-content: flex-start; */
-  gap: 10px;
+  gap: 30px 10px;
   flex-wrap: wrap;
   max-width: 90vw;
   margin: 0 auto;
   padding: 0px 0px 20px;
 }
-
 
 @media screen and (max-width: 767px) {
   .itemList {

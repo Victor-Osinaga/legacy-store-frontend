@@ -1,20 +1,26 @@
-.formStatusOrderContainer{
-    min-height: calc(100vh - var(--navHeight));
-    background-color: var(--bgGrayDark);
-    /* border: 1px solid red; */
+.formStatusOrderContainer {
+  min-height: calc(100vh - var(--navHeight));
+  background-color: var(--bgGrayDark);
+  /* border: 1px solid red; */
 }
 
-.formOrderStatus{
-    background-color: var(--bgGrayMedium);
-    box-shadow: inset 0 0 0 1px hsla(0,0%,100%,.08);
-    color: white;
-    width: 50%;
-    min-height: 300px;
-    
+.formOrderStatus {
+  background-color: var(--bgGrayMedium);
+  /* box-shadow: inset 0 0 0 1px hsla(0,0%,100%,.08); */
+  color: white;
+  width: 50%;
+  min-height: 300px;
+  box-shadow: inset 0 0 0 2px hsla(0, 0%, 100%, 0.08),
+    0px 0px 15px 5px rgba(0, 0, 0, 0.28);
+  transition: all 0.3s ease-in-out;
+}
+.formOrderStatus:hover {
+  box-shadow: inset 0 0 0 5px hsla(0, 0%, 100%, 0.08),
+    0px 0px 20px 10px rgba(0, 0, 0, 0.28);
 }
 
 @media (max-width: 768px) {
-    .formOrderStatus {
-        width: 80%;
-    }
+  .formOrderStatus {
+    width: 80%;
   }
+}

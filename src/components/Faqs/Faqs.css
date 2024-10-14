@@ -1,21 +1,17 @@
-.Faqs{
-    font-size: 1rem;
-    background-color: var(--bgMain);
-}
-
-.linkFaqs{
-    color: var(--colorSecondary);
-    text-decoration: underline;
+.Faqs {
+  font-size: 1rem;
+  min-height: calc(100vh - var(--navHeight));
+  /* background-color: var(--bgMain); */
 }
 
 @media screen and (max-width: 767px) {
-    .Faqs{
-        font-size: .9rem;
-    }
+  .Faqs {
+    font-size: 0.9rem;
+  }
 }
 
 @media (max-width: 421px) {
-    .Faqs{
-        font-size: .8rem;
-    }
+  .Faqs {
+    font-size: 0.8rem;
+  }
 }

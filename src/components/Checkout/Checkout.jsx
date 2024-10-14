@@ -468,7 +468,14 @@ function Checkout() {
                         )}
                       </div>
                     </div>
-                    <hr className="text-secondary w-75 mx-auto" />
+                    <hr
+                      className="w-75 mx-auto"
+                      style={{
+                        color: `${getTextColor(
+                          configStore.colors.secondaryColorStore
+                        )}`,
+                      }}
+                    />
                   </div>
                   <div className="row mb-1">
                     <h5 className="col-12 col-md-2 mb-4 text-center text-md-start formTitles">

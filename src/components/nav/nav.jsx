@@ -435,7 +435,15 @@ function NavBar() {
               }}
             >
               <BsBag className="nav_iconCart" />
-              <span>{cantInCart()}</span>
+              <span
+                style={{
+                  color: `${getTextColor(
+                    configStore.colors.secondaryColorStore
+                  )}`,
+                }}
+              >
+                {cantInCart()}
+              </span>
             </Link>
           </div>
         </div>

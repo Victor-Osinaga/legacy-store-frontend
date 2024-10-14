@@ -24,7 +24,14 @@ function ItemDetail({ producto }) {
     return <h4>Cargando...</h4>;
   } else {
     return (
-      <div className="container-fluid p-3">
+      <div
+        className="container-fluid p-3"
+        style={{
+          maxWidth: "1200px",
+          margin: "0 auto",
+          padding: "0 1rem",
+        }}
+      >
         <h3
           style={{
             color: `${getTextColor(configStore?.colors?.tertiaryColorStore)}`,

@@ -60,7 +60,6 @@ function Item({ producto }) {
         </Link>
       )}
       <a
-        className="consulta"
         target={"_blank"}
         href={`https://wa.me/${
           configStore.footerConfig.social.whatsapp
@@ -73,7 +72,7 @@ function Item({ producto }) {
       >
         <span className="gap-1 d-flex d-flex justify-content-center align-items-center">
           <span
-            className="fontXS-Custom"
+            className="fontXS-Custom consulta"
             style={{
               color: `${getTextColor(configStore.colors.secondaryColorStore)}`,
             }}

@@ -29,7 +29,7 @@ function ItemDetail({ producto }) {
           style={{
             color: `${getTextColor(configStore?.colors?.tertiaryColorStore)}`,
           }}
-          className="detailTitle col-12 text-center glitch"
+          className="detailTitle text-center glitchDetail"
           data-text="Detalle del producto"
         >
           Detalle del producto

@@ -233,7 +233,7 @@ function Footer() {
                 </a>
               </p>
             </div>
-            <p className="d-flex align-items-center justify-content-center">
+            <p className="text-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"

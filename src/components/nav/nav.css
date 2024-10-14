@@ -541,7 +541,7 @@ nav__mainAyudasContainer a {
 
   .nav__mainAyudasContainer {
     font-size: 0.7rem;
-    gap: 1px;
+    gap: 5px;
     justify-content: center;
   }
 

@@ -195,7 +195,8 @@
   height: 100%;
 }
 
-.nav_mainCategory {
+/* VARIANTE 1 HACE QUE NO SIGA EN HOVER CUANDO SE ABRE EL SUBMENU */
+/* .nav_mainCategory {
   height: 100%;
 }
 
@@ -208,12 +209,38 @@
   justify-content: center;
   padding: 0 5px;
   border-bottom: 1px solid transparent;
+  transition: all 0.3s ease;
+  border-radius: 10px;
 }
 
 .nav_mainCategory > a:hover {
-  border-bottom: 1px solid black;
+  background-color: rgba(0, 0, 0, 0.374);
+} */
+
+/* VARIANTE 2 HACE QUE SIGA EN HOVER CUANDO SE ABRE EL SUBMENU */
+.nav_mainCategory {
+  font-size: 0.9rem;
+  font-weight: 600;
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px;
+  border-bottom: 1px solid transparent;
+  transition: all 0.3s ease;
+  border-radius: 10px;
 }
 
+.nav_mainCategory > a {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.nav_mainCategory:hover {
+  background-color: rgba(0, 0, 0, 0.203);
+}
+/* __________________________________________________________________ */
 .nav_mainSub {
   border-top: 1px solid #eceff1;
   border-bottom: 1px solid #eceff1;

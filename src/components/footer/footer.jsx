@@ -1,18 +1,20 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "./footer.css";
-import { ImFacebook2 } from "react-icons/im";
-import { AiFillInstagram } from "react-icons/ai";
-import { FaWhatsappSquare, FaTwitterSquare } from "react-icons/fa";
-import { GrMail } from "react-icons/gr";
-import { SiGooglemaps } from "react-icons/si";
-// import footerGif from '../../images/footer.gif';
-import videoBg from "../../assets/bienvenida-bg.mp4";
+import videoBg from "../../assets/footer-calidad-alta.mp4";
 import useStoreContext from "../../provider/storeProvider";
-import getTextColor from "../../utils/getTextColor.js";
+import getTextColor, { getTitleColor } from "../../utils/getTextColor.js";
 
 function Footer() {
   const { configStore, loadingConfig } = useStoreContext();
-  const [config, setConfig] = useState(null);
+  const [configColors, setConfigColors] = useState({
+    backgroundFooter: `${configStore.footerConfig.colors.primaryColorFooter}`,
+    textColor: `${getTextColor(
+      configStore.footerConfig.colors.primaryColorFooter
+    )}`,
+    titleColor: `${getTitleColor(
+      configStore.footerConfig.colors.primaryColorFooter
+    )}`,
+  });
 
   useEffect(() => {}, [loadingConfig]);
   return (
@@ -35,20 +37,15 @@ function Footer() {
           <section
             id="footer"
             style={{
-              backgroundColor: `${configStore.footerConfig.colors.primaryColorFooter}`,
-              color: `${getTextColor(
-                configStore.footerConfig.colors.primaryColorFooter
-              )}`,
+              backgroundColor: `${configColors.backgroundFooter}`,
+              color: `${configColors.textColor}`,
             }}
           >
             {/* <video className="videoBg" autoPlay loop muted playsInline>
-                        <source src={videoBg} type="video/mp4" />
-                    </video> */}
+              <source src={videoBg} type="video/mp4" />
+            </video> */}
             <div className="footer_container">
-              <h3
-                className="footer_tltle text-center"
-                // style={{ color: "var(--bgBlueLight)" }}
-              >
+              <h3 className="footer_tltle text-center">
                 Contactanos ante cualquier duda
               </h3>
               <p className="footer_subtitle text-center">
@@ -56,13 +53,18 @@ function Footer() {
               </p>
               <div className="footer_social">
                 <ul className="social_ul">
-                  <h4 className="list_title">CONTACTO</h4>
+                  <h4
+                    className="list_title"
+                    style={{
+                      color: `${configColors.titleColor}`,
+                    }}
+                  >
+                    CONTACTO
+                  </h4>
                   <li>
                     <a
                       style={{
-                        color: `${getTextColor(
-                          configStore.footerConfig.colors.primaryColorFooter
-                        )}`,
+                        color: `${configColors.textColor}`,
                       }}
                       className="socialA"
                       href={`mailto:${configStore.footerConfig.social.gmail}`}
@@ -91,8 +93,20 @@ function Footer() {
                   </li>
                 </ul>
                 <ul className="social_ul">
-                  <h4 className="list_title">NUESTRO LOCAL</h4>
-                  <li className="socialA">
+                  <h4
+                    className="list_title"
+                    style={{
+                      color: `${configColors.titleColor}`,
+                    }}
+                  >
+                    NUESTRO LOCAL
+                  </h4>
+                  <li
+                    className="socialA"
+                    style={{
+                      color: `${configColors.textColor}`,
+                    }}
+                  >
                     {/* <SiGooglemaps className="iconLink" /> */}
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -114,14 +128,23 @@ function Footer() {
                   </li>
                 </ul>
                 <ul className="social_ul">
-                  <h4 className="list_title">SOCIAL</h4>
+                  <h4
+                    className="list_title"
+                    style={{
+                      color: `${configColors.titleColor}`,
+                    }}
+                  >
+                    SOCIAL
+                  </h4>
                   {/* <li><a style={{color: `${getTextColor(configStore.footerConfig.colors.primaryColorFooter)}`}} className='socialA' target={'_blank'} href='https://www.facebook.com/profile.php?id=100089206952987&mibextid=ZbWKwL' rel="noreferrer"><ImFacebook2 className='iconLink' />Facebook</a></li> */}
-                  <li>
+                  <li
+                    style={{
+                      color: `${configColors.textColor}`,
+                    }}
+                  >
                     <a
                       style={{
-                        color: `${getTextColor(
-                          configStore.footerConfig.colors.primaryColorFooter
-                        )}`,
+                        color: "inherit",
                       }}
                       className="socialA"
                       target={"_blank"}
@@ -150,9 +173,7 @@ function Footer() {
                   <li>
                     <a
                       style={{
-                        color: `${getTextColor(
-                          configStore.footerConfig.colors.primaryColorFooter
-                        )}`,
+                        color: "inherit",
                       }}
                       className="socialA"
                       target={"_blank"}
@@ -184,9 +205,7 @@ function Footer() {
                   <li>
                     <a
                       style={{
-                        color: `${getTextColor(
-                          configStore.footerConfig.colors.primaryColorFooter
-                        )}`,
+                        color: "inherit",
                       }}
                       className="socialA"
                       target={"_blank"}
@@ -220,9 +239,7 @@ function Footer() {
                 -{" "}
                 <a
                   style={{
-                    color: `${getTextColor(
-                      configStore.footerConfig.colors.primaryColorFooter
-                    )}`,
+                    color: `${configColors.textColor}`,
                   }}
                   className="footer_wp text-decoration-underline"
                   href={`https://wa.me/${configStore.footerConfig.social.whatsapp}?text=Buenas, quiero contactarme con ustedes para realizar una compra en su página web. ¿Podrían indicarme los pasos a seguir para concretar la transacción?`}
@@ -254,9 +271,7 @@ function Footer() {
               <a
                 className="text-decoration-underline ms-1 fw-bold"
                 style={{
-                  color: `${getTextColor(
-                    configStore.footerConfig.colors.primaryColorFooter
-                  )}`,
+                  color: `${configColors.textColor}`,
                 }}
                 target={"_blank"}
                 href="https://victor-osinaga.github.io/Portfolio/"

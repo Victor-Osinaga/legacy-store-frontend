@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ItemCount from "../ItemCount/ItemCount";
 import { useState } from "react";
 import "./ItemDetail.css";
@@ -10,6 +10,10 @@ function ItemDetail({ producto }) {
   const { calculateTotalStock, addToCart, loadingConfig, configStore } =
     useStoreContext();
   const [isInCart, setIsInCart] = useState(false);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   function onAdd(count, selectedColor, selectedSize) {
     setIsInCart(true);

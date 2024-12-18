@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import useStoreContext from "../../provider/storeProvider";
 import "./Checkout.css";
-import toast, { Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { useForm, useFieldArray, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import {
   getShipmentsLocalStore,
   getShipmentsDeliveryStore,
@@ -265,7 +265,7 @@ function Checkout() {
 
   return (
     <>
-      <Toaster position="top-right" reverseOrder={true} />
+      {/* <Toaster position="top-right" reverseOrder={true} /> */}
       <section
         className="checkout py-3 bgContainer"
         style={{

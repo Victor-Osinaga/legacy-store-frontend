@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 import "./Item.css";
 import { Link } from "react-router-dom";
 import logoWp from "../../assets/wp-logo.png";
 import useStoreContext from "../../provider/storeProvider";
 import getTextColor from "../../utils/getTextColor";
 import toNumberArgStandard from "../../utils/toNumberArgStandard.js";
+import PropTypes from "prop-types";
 
 function Item({ producto }) {
-  const { token, loadingConfig, configStore } = useStoreContext();
+  const { loadingConfig, configStore } = useStoreContext();
 
   useEffect(() => {
     console.log("loadingConfigloadingConfig", loadingConfig);
@@ -34,7 +35,7 @@ function Item({ producto }) {
           className="itemImg"
           src={producto.image}
           type="image/jpeg"
-          alt={producto.titulo}
+          alt={producto.name}
         />
       </div>
       <span className="item-price text-success fw-bold fontXL-Custom-md">
@@ -60,7 +61,8 @@ function Item({ producto }) {
         </Link>
       )}
       <a
-        target={"_blank"}
+        target="_blank"
+        rel="noreferrer"
         href={`https://wa.me/${
           configStore.footerConfig.social.whatsapp
         }?text=Buenas, quiero información acerca del siguiente producto: ${producto.name.toUpperCase()} - precio: $${
@@ -86,5 +88,14 @@ function Item({ producto }) {
   );
 }
 // style={{backgroundColor: `${configStore.colors.primaryColorStore}`}}
+
+Item.propTypes = {
+  producto: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+  }).isRequired,
+};
 
 export default Item;

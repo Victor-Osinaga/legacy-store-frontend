@@ -96,7 +96,7 @@ function NavBar() {
         <ul className="nav__mainAyudasContainer">
           <li>
             <Link
-              to={"/cliente/preguntas/frecuentes"}
+              to={"/faqs"}
               style={{
                 color: `${
                   configStore?.colors
@@ -110,7 +110,7 @@ function NavBar() {
           </li>
           {/* <li>
             <Link
-              to={'/cliente/preguntas/frecuentes'}
+              to={'/faqs'}
               style={{
                 color: `${configStore?.colors ? getTextColor(configStore.colors.secondaryColorStore) : 'black'}`,
               }}

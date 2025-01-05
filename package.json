@@ -30,5 +30,8 @@
     "vite": "^4.4.5"
   },
   "author": "Victor Osinaga",
-  "license": "ISC"
+  "license": "ISC",
+  "engines": {
+    "node": "22.12.0"
+  }
 }

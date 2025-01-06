@@ -26,4 +26,3 @@ dist-ssr
 ngrok.exe
 .env
 notas.txt
-vercel.json

@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import useStoreContext from "../../provider/storeProvider";
 import { getCategorias, getCategoriasBySubdomain } from "../../fetch/fetch";
 import getTextColor from "../../utils/getTextColor.js";
+import { orderCategories } from "../../utils/orderCategories.js";
 
 function NavBar() {
   const { token, logout, cantInCart, loadingConfig, configStore } =
@@ -50,7 +51,7 @@ function NavBar() {
     getCategoriasBySubdomain()
       .then((res) => {
         console.log(res);
-        setCategorias(res);
+        setCategorias(orderCategories(res));
       })
       .finally(() => setLoading(false));
   };
@@ -302,7 +303,7 @@ function NavBar() {
                           // color: `${configStore?.colors ? getTextColor(configStore.colors.secondaryColorStore) : 'black'}`,
                         }}
                       >
-                        {cat.subCategories.map((sub) => (
+                        {cat.children.map((sub) => (
                           <li id={sub.id} key={sub.id}>
                             {navVisible ? (
                               <Link
@@ -345,7 +346,7 @@ function NavBar() {
                             )}
 
                             <div className="nav_categFromSubcategory">
-                              {sub.categories.map((uniq) => (
+                              {sub.children.map((uniq) => (
                                 <div key={uniq.id}>
                                   {navVisible ? (
                                     <Link

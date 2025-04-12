@@ -207,6 +207,7 @@ function Checkout() {
             image: prod.image,
             selectedSizeName: prod.selectedSizeName,
             selectedColorName: prod.selectedColorName,
+            selectedColorValueHexa: prod.selectedColorValueHexa,
             price: prod.price,
 
             id: prod.id,
